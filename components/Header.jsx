@@ -28,14 +28,14 @@ export default function Header() {
             </div>
             <div class="text-sm flex items-center ">
                 <i class='bx bx-phone-call pr-2' ></i>
-                <span>+212 621111111</span>
+                <span>+212 658987515</span>
             </div>
         </div>
         {/* END topbar */}
 
         {/* Header */}  
         <div class="flex items-center justify-between py-5 px-10 bg-white">
-            <img src="/logo-1.png" class="w-64" />
+            <img src="/logo-1.png" class=" w-48 md:w-64" />
             <i class='bx bx-menu flex lg:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
             <div class="text-sm space-x-7 items-center hidden lg:flex"> 
                 <div class="flex flex-col items-center group relative">

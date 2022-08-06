@@ -18,6 +18,11 @@ module.exports = {
         'brown':'#FAF3E3',
         'Dgreen':'#006941'
       },
+      backgroundImage:{
+        'ban-2':'url("/ban-2.jpg")',
+        'ban-3':'url("/ban-3.jpg")',
+        'ban-4':'url("/ban-4.jpg")',
+      }
     },
   },
   plugins: [],
