@@ -101,11 +101,23 @@ export default function Sidebar() {
                     <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">A PROPOS</span>
                     <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">CONTACTEZ NOUS</span>
                 </div>
-                <div class="text-xl flex items-center justify-center space-x-7 absolute bottom-2 w-full">
-                    <i class='bx bx-search cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={searchModal}></i>
-                    <i class='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
-                    <i class='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
-                    <i class='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={cartModal}></i>
+                <div class="text-xl grid grid-cols-2 gap-4 text-center py-10 px-5">
+                    <div onClick={searchModal} class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i class='bx bx-search cursor-pointer'></i>
+                        <span class="text-xs">Chercher</span>
+                    </div>
+                    <div onClick={ModalAuth}  class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i class='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                        <span class="text-xs">login</span>
+                    </div>
+                    <div class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i class='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                        <span class="text-xs">Favories</span>
+                    </div>
+                    <div onClick={cartModal} class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i class='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                        <span class="text-xs">Cart</span>
+                    </div>
                 </div>
             </div>
     </aside>
