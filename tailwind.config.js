@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors:{
+        'main':'#80bc50',
+      },
       fontFamily:{
         'poppins':['Poppins', 'sans-serif'],
       },
@@ -19,10 +22,12 @@ module.exports = {
         'Dgreen':'#006941'
       },
       backgroundImage:{
+        'ban-1':'url("/ban-1.jpg")',
         'ban-2':'url("/ban-2.jpg")',
         'ban-3':'url("/ban-3.jpg")',
         'ban-4':'url("/ban-4.jpg")',
-      }
+      },
+      
     },
   },
   plugins: [],

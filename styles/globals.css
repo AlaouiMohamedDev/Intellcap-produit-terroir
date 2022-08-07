@@ -2,16 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 .fade {
     animation-name: fade;
     animation-duration: 1.5s;
   }
+.zoom-in{
+    animation-name: zoom-in;
+    animation-duration: 1.5s;
+}
+.fade-left{
+  animation-name: fade-left;
+  animation-duration: 1.5s;
+}
   .pl-30{
     padding-left: 7rem;
   }
   .h-sm{
     height:28rem;
   }
+ 
 
   @media only screen and (max-width: 600px) {
     .h-sm{
@@ -23,3 +34,14 @@
     from {opacity: .4} 
     to {opacity: 1}
   }
+  @keyframes zoom-in {
+    from {opacity: .4;scale:0} 
+    to {opacity: 1;scale:1}
+  }
+  @keyframes fade-left{
+    from {right:-430px} 
+    to {right:0}
+  }
+
+
+ 

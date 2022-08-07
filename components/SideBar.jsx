@@ -27,14 +27,30 @@ export default function Sidebar() {
         list.classList.toggle('flex')
     }
 
-    
+    const ModalAuth =()=>{
+        const modal= document.querySelector('.authmodal')
+        modal.classList.remove('hidden')
+        modal.classList.add('flex')
+    }
+
+    const cartModal =()=>{
+        const cart= document.querySelector('.cart')
+        cart.classList.remove('hidden')
+        cart.classList.add('flex')
+    }
+
+    const searchModal =()=>{
+        const search= document.querySelector('.search')
+        search.classList.remove('hidden')
+        search.classList.add('flex')
+    }
     
   return (
     <aside className="">
-            <div onClick={closeSidebar} className="sidebar1 hidden w-full h-screen fixed top-0 z-50 bg-gray-500 opacity-60  transform duration-100">
+            <div onClick={closeSidebar} className="sidebar1 hidden w-full h-screen fixed top-0 z-40 bg-gray-500 opacity-60  transform duration-100">
 
             </div>
-           <div className="sidebar2 flex flex-col w-2/3 h-screen top-0 fixed bg-white z-50  -left-full transform duration-500 ">
+           <div className="sidebar2 flex flex-col w-2/3 h-screen top-0 fixed bg-white z-40  -left-full transform duration-500 ">
                 <div className=" flex items-center justify-between px-2 py-5 text-sm">
                     <img src="/logo-1.png" alt="Codata logo" className="h-14 "/>
                     <i onClick={closeSidebar} class='bx bx-x  text-2xl font-bold rounded cursor-pointer'></i>
@@ -85,7 +101,12 @@ export default function Sidebar() {
                     <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">A PROPOS</span>
                     <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">CONTACTEZ NOUS</span>
                 </div>
-               
+                <div class="text-xl flex items-center justify-center space-x-7 absolute bottom-2 w-full">
+                    <i class='bx bx-search cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={searchModal}></i>
+                    <i class='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
+                    <i class='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                    <i class='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={cartModal}></i>
+                </div>
             </div>
     </aside>
   )

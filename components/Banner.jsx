@@ -67,7 +67,7 @@ export default function Banner() {
                     <h1 class="text-lg md:text-4xl text-black md:w-2/3">Découvrez notre sélection de nouveaux<br/> produits de terroir</h1>
                     <a class="text-md flex items-center cursor-pointer bg-main text-white py-2 px-5 rounded">
                         <i class='bx bxs-chevron-left'></i>
-                        <span class="text-sm">TOUTES LES NOUVEAUTÉS</span>
+                        <span class="text-xs md:text-sm">TOUTES LES NOUVEAUTÉS</span>
                     </a>
                 </div>
             </div>
@@ -82,10 +82,10 @@ export default function Banner() {
                 </div>
             </div>
             <div class="flex items-center absolute justify-center w-full -bottom-9">
-                <div class="flex items-center justify-center bg-main rounded-full w-20 h-20">
-                    <i class='text-3xl bx bx-chevron-left text-white ' onClick={()=>plusSlides(-1)}></i>
+                <div class="flex items-center justify-center bg-main rounded-full w-14 h-14 md:w-20 md:h-20">
+                    <i class='text-xl md:text-3xl bx bx-chevron-left text-white cursor-pointer' onClick={()=>plusSlides(-1)}></i>
                     <span class="h-full w-0.5 bg-white px-0 opacity-40"></span>
-                    <i class='text-3xl bx bx-chevron-right text-white ' onClick={()=>plusSlides(1)}></i>
+                    <i class='text-xl md:text-3xl bx bx-chevron-right text-white cursor-pointer' onClick={()=>plusSlides(1)}></i>
                 </div>
             </div>
         </div>

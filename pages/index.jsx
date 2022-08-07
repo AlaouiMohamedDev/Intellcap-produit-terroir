@@ -3,7 +3,9 @@ import Head from 'next/head'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
 import SideBar from '../components/SideBar'
-
+import AuthModal from '../components/AuthModal'
+import Cart from '../components/Cart'
+import SearchModal  from '../components/SearchModal'
 
 
 const Home=() => {
@@ -19,6 +21,9 @@ const Home=() => {
       <Header />
       <Banner />
       <SideBar />
+      <AuthModal />
+      <Cart />
+      <SearchModal />
     </div>
   )
 }
