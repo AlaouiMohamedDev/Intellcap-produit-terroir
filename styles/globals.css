@@ -16,6 +16,15 @@
   animation-name: fade-left;
   animation-duration: 1.5s;
 }
+.fade-down{
+  animation-name: fade-down;
+  animation-duration: .7s;
+}
+
+.fade-up{
+  animation-name: fade-up;
+  animation-duration: .7s;
+}
   .pl-30{
     padding-left: 7rem;
   }
@@ -43,5 +52,13 @@
     to {right:0}
   }
 
+  @keyframes fade-up{
+    from {opacity: .4;ddisplay:none;bottom:0px;} 
+    to {opacity: 1;display:grid;bottom:20px;}
+  }
+  @keyframes fade-down{
+    from {opacity: .4;display:none;top:0px;} 
+    to {opacity: 1;display:flex;top:20px;}
+  }
 
  

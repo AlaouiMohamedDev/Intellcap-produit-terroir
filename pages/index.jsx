@@ -6,7 +6,8 @@ import SideBar from '../components/SideBar'
 import AuthModal from '../components/AuthModal'
 import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
-
+import HomeCategory  from '../components/HomeCategory'
+import NewProduct from '../components/NewProduct'
 
 const Home=() => {
   return (
@@ -24,6 +25,8 @@ const Home=() => {
       <AuthModal />
       <Cart />
       <SearchModal />
+      <HomeCategory />
+      <NewProduct  />
     </div>
   )
 }
