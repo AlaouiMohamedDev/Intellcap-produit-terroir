@@ -25,7 +25,7 @@ export default function AuthModal() {
         modal.classList.remove('flex')
     }
   return (
-    <div class="fixed z-50 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
+    <div class="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
         <div class="relative flex items-center justify-center w-full h-full md:w-[850px] md:h-[510px] bg-white  zoom-in">
             <div class="flex px-7 md:w-1/2 flex-col items-center space-y-5">
                 <div className = "absolute left-0 p-4 top-0" >

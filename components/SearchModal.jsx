@@ -7,7 +7,7 @@ export default function SearchModal() {
         search.classList.remove('flex')
     }
   return (
-    <div class="fixed z-50 w-full h-screen top-0 hidden justify-end bg-gray-900/70  fade search">
+    <div class="fixed z-100 w-full h-screen top-0 hidden justify-end bg-gray-900/70  fade search">
         <div class="h-screen w-full md:w-[430px] bg-white flex flex-col  absolute fade-left">
            <div>
                 <div class="relative flex items-center justify-center border-b border-gray-300 space-x-2 py-4 mb-7 ">

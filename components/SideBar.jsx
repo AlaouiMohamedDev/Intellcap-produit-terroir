@@ -47,10 +47,10 @@ export default function Sidebar() {
     
   return (
     <aside className="">
-            <div onClick={closeSidebar} className="sidebar1 hidden w-full h-screen fixed top-0 z-40 bg-gray-500 opacity-60  transform duration-100">
+            <div onClick={closeSidebar} className="sidebar1 hidden w-full h-screen fixed top-0 z-100 bg-gray-500 opacity-60  transform duration-100">
 
             </div>
-           <div className="sidebar2 flex flex-col w-2/3 h-screen top-0 fixed bg-white z-40  -left-full transform duration-500 ">
+           <div className="sidebar2 flex flex-col w-2/3 h-screen top-0 fixed bg-white z-100  -left-full transform duration-500 ">
                 <div className=" flex items-center justify-between px-2 py-5 text-sm">
                     <img src="/logo-1.png" alt="Codata logo" className="h-14 "/>
                     <i onClick={closeSidebar} class='bx bx-x  text-2xl font-bold rounded cursor-pointer'></i>

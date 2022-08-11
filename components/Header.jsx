@@ -10,11 +10,15 @@ export default function Header() {
 
         window.addEventListener('scroll', () => {
             if ((window.scrollY || window.pageYOffset) > 10 ) {
+                header.classList.add('fixed')
+                header.classList.add('z-90')
                 header.classList.add('shadow');
                 header.classList.add('top-0');
                 header.classList.remove('py-5');
                 header.classList.add('py-3');
             }else{
+                header.classList.remove('fixed')
+                header.classList.remove('z-90')
                 header.classList.remove('shadow');
                 header.classList.remove('py-3');
                 header.classList.remove('top-0');
@@ -77,7 +81,7 @@ export default function Header() {
         {/* END topbar */}
 
         {/* Header */}  
-        <div class="header duration-300 z-100 fixed flex items-center justify-between py-5 px-10 bg-white w-full">
+        <div class="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-full">
             <img src="/logo-1.png" class=" w-48 md:w-64" />
             <i class='bx bx-menu flex lg:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
             <div class="text-sm space-x-7 items-center hidden lg:flex"> 
