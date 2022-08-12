@@ -1,6 +1,12 @@
 import React from 'react'
+import ProductModal from './ProductModal'
 
 export default function NewProduct() {
+    const ModalP = () => {
+        const ProductM = document.querySelector('.ProductM')
+        ProductM.classList.remove('hidden')
+        ProductM.classList.add('flex')
+    }
   return (
     <div class="py-24 flex flex-col items-center justify-center  md:px-16 xl:px-24 bg-white">
         <h1 class="text-2xl font-bold mb-4">Nouveau Produits</h1>
@@ -13,7 +19,7 @@ export default function NewProduct() {
                         <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -37,10 +43,10 @@ export default function NewProduct() {
                 <div class="w-[300px] h-[400px] bg-gray-300 relative overflow-hidden border-box">
                     <img src="/product/harissa.jpg" class="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                     <div class="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a  class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -67,7 +73,7 @@ export default function NewProduct() {
                         <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -94,7 +100,7 @@ export default function NewProduct() {
                         <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -122,7 +128,7 @@ export default function NewProduct() {
                         <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -149,7 +155,7 @@ export default function NewProduct() {
                         <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -176,7 +182,7 @@ export default function NewProduct() {
                         <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -203,7 +209,7 @@ export default function NewProduct() {
                         <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                             Ajoutez à la Cart
                         </a>
-                        <a class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                            Vue Rapide
                         </a>
                     </div>
@@ -224,6 +230,7 @@ export default function NewProduct() {
                 </div>
             </div>
         </div>
+        <ProductModal />
     </div>
   )
 }
