@@ -81,10 +81,10 @@ export default function Header() {
         {/* END topbar */}
 
         {/* Header */}  
-        <div class="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-full">
+        <div class="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen">
             <img src="/logo-1.png" class=" w-48 md:w-64" />
-            <i class='bx bx-menu flex lg:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
-            <div class="text-sm space-x-7 items-center hidden lg:flex"> 
+            <i class='bx bx-menu flex xl:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
+            <div class="text-sm space-x-7 items-center hidden xl:flex"> 
                 <div class="flex flex-col items-center group relative">
                     <a class="hover:text-main duration-500" href="">ACCEUIL</a>
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
@@ -143,7 +143,7 @@ export default function Header() {
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>   
             </div>
-            <div class="hidden text-xl md:flex items-center space-x-7">
+            <div class="hidden text-xl xl:flex items-center space-x-7">
                 <i class='bx bx-search cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={searchModal}></i>
                 <i class='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
                 <i class='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' ></i>

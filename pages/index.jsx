@@ -8,10 +8,13 @@ import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
 import HomeCategory  from '../components/HomeCategory'
 import NewProduct from '../components/NewProduct'
+import WhyChooseUs from '../components/WhyChooseUs'
+import FromOurBlog from '../components/FromOurBlog'
+import Footer from '../components/Footer'
 
 const Home=() => {
   return (
-    <div className="font-poppins">
+    <div className="font-poppins overflow-y-hidden">
       <Head>
         <title>IntellCap Produit 100% Marocaine</title>
         <link rel="icon" href="/favicon.ico" />
@@ -27,6 +30,9 @@ const Home=() => {
       <SearchModal />
       <HomeCategory />
       <NewProduct  />
+      <WhyChooseUs />
+      <FromOurBlog />
+      <Footer />
     </div>
   )
 }

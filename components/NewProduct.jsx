@@ -12,7 +12,7 @@ export default function NewProduct() {
         <h1 class="text-2xl font-bold mb-4">Nouveau Produits</h1>
         <h6 class="text-md text-gray-400">100% Marocaine</h6>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-14 md:gap-24 xl:gap-28 py-10">
-            <div class="flex flex-col space-y-5 group bg-white">
+            <div class="flex flex-col space-y-5 group ">
                 <div class="w-[300px] h-[400px] bg-gray-300 relative overflow-hidden border-box">
                     <img src="/product/miel.jpg" class="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                     <div class="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
