@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div class="grid grid-cols-1 md:grid-cols-4 md:place-items-center lg:place-items-stretch lg:grid-cols-5 gap-20 py-20 px-20 h-full lg:h-[350px] bg-gray-50">
+    <div class="grid grid-cols-1 md:grid-cols-4 md:place-items-center lg:place-items-stretch lg:grid-cols-5 gap-20 py-20 px-10 md:px-20 h-full lg:h-[350px] bg-gray-50">
         <div class="flex flex-col col-span-2 text-left justify-between  space-y-5 lg:space-y-0 h-full">
            <div class="flex flex-col space-y-3">
                 <img src="/logo-1.png" class="lg:w-1/3 w-full" />
