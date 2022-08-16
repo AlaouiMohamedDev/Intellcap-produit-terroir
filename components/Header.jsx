@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import AOS from 'aos'
+import { useRouter } from 'next/router';
 import 'aos/dist/aos.css'
 
 export default function Header() {
+
+    const router = useRouter();
 
     useEffect(() => {
         AOS.init();
@@ -90,7 +93,7 @@ export default function Header() {
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div class="flex flex-col items-center group relative">
-                    <a class="hover:text-main duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
+                    <a onClick = {() => router.push("/products")} class="hover:text-main duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
                         <span>CATÉGORIES DE PRODUITS</span>
                         <i class='text-xs bx bxs-down-arrow'></i>
                     </a>

@@ -33,7 +33,7 @@ export default function Footer() {
                 <i class='bx bxl-instagram-alt border  border-gray-400 rounded-full p-2 hover:bg-white hover:text-main hover:border-main hover:scale-110 hover:animate-pulse duration-200' ></i>
             </div>
             <div class="relative flex items-center border border-gray-400 rounded w-full md:w-1/2 lg:w-full">
-                <span class="hidden md:flex absolute justify-center text-center w-full -top-7 text-[10px] text-black/70">S'abonnez a notre newsletter</span>
+                <span class="flex absolute justify-center text-center w-full -top-7 text-[10px] text-black/70">S'abonnez a notre newsletter</span>
                 <input type="text" placeholder="Email" class="w-full placeholder:text-xs bg-transparent hover:bg-white border-0 py-2 px-3 focus:outline-main " />
                 <i class='bx bxs-send absolute right-2' ></i>
             </div>

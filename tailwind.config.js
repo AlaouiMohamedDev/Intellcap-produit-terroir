@@ -26,6 +26,7 @@ module.exports = {
         'Dgreen':'#006941'
       },
       backgroundImage:{
+        'products':'url("/productBg.jpg")',
         'ban-1':'url("/ban-1.jpg")',
         'ban-2':'url("/ban-2.jpg")',
         'ban-3':'url("/ban-3.jpg")',
