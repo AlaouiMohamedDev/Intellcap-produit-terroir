@@ -134,11 +134,11 @@ export default function Header() {
                     </div>
                 </div>
                 <div class="flex flex-col items-center group relative">
-                    <a class="hover:text-main duration-500" href="">COOPÉRATIVES</a>
+                    <a onClick = {() => router.push("/cooperatives")} class="hover:text-main duration-500">COOPÉRATIVES</a>
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div class="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/Text")}  class="hover:text-main duration-500" >A PROPOS</a>
+                    <a class="hover:text-main duration-500" >A PROPOS</a>
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div class="flex flex-col items-center group relative">
