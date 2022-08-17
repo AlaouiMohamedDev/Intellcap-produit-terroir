@@ -8,12 +8,12 @@ export default function Section1() {
         <div class="bg-black/50 absolute w-full h-full z-10">
 
         </div>
-        <div class="flex items-center text-xl z-100 space-x-2">
+        <div class="flex items-center text-xl z-20 space-x-2">
             <a onClick = {() => router.push("/")} class="cursor-pointer hover:text-main duration-200">Home</a>
             <i class='text-lg bx bxs-label'></i>
             <span class="">Produit</span>
         </div>
-        <h1 class="z-100 text-3xl font-bold">Produits</h1>
+        <h1 class="z-20 text-3xl font-bold">Produits</h1>
     </div>
   )
 }

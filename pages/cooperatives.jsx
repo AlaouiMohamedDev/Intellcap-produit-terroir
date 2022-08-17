@@ -3,6 +3,10 @@ import React from 'react'
 import Section1 from '../components/cooperatives/Section1'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import SearchModal from '../components/SearchModal';
+import Cart from '../components/Cart';
+import AuthModal from '../components/AuthModal'
+import Sidebar from '../components/Sidebar'
 import Section2 from '../components/cooperatives/Section2'
 
 export default function 
@@ -17,6 +21,10 @@ export default function
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
         </Head>
         <Header/>
+        <Sidebar />
+        <AuthModal />
+        <Cart />
+        <SearchModal />
         <Section1/>
         <Section2/>
         <Footer/>

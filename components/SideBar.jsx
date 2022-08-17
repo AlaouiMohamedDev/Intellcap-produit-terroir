@@ -46,7 +46,7 @@ export default function Sidebar() {
     }
     
   return (
-    <aside className="">
+    <aside className="select-none">
             <div onClick={closeSidebar} className="sidebar1 hidden w-full h-screen fixed top-0 z-100 bg-gray-500 opacity-60  transform duration-100">
 
             </div>
@@ -56,8 +56,8 @@ export default function Sidebar() {
                     <i onClick={closeSidebar} class='bx bx-x  text-2xl font-bold rounded cursor-pointer'></i>
                 </div>
                 <div className="flex flex-col px-5 text-gray-700  text-left font-semibold">
-                    <span class="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
-                    <div class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">
+                    <span onClick = {() => router.push("/")} class="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
+                    <div onClick = {() => router.push("/products")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">
                         <div onClick={toggleList} class=" flex items-center justify-between">
                             <span>CATÉGORIES DE PRODUITS</span>
                             <i class='pr-1 bx bxs-chevron-down'></i>
@@ -97,7 +97,7 @@ export default function Sidebar() {
                             </div>
                         </nav>
                     </div>
-                    <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">COOPÉRATIVES</span>
+                    <span onClick = {() => router.push("/cooperatives")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">COOPÉRATIVES</span>
                     <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">A PROPOS</span>
                     <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">CONTACTEZ NOUS</span>
                 </div>
