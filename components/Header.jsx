@@ -89,7 +89,7 @@ export default function Header() {
             <i class='bx bx-menu flex xl:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
             <div class="text-sm space-x-7 items-center hidden xl:flex"> 
                 <div class="flex flex-col items-center group relative">
-                    <a class="hover:text-main duration-500" href="">ACCEUIL</a>
+                    <a class="hover:text-main duration-500" >ACCEUIL</a>
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div class="flex flex-col items-center group relative">
@@ -138,7 +138,7 @@ export default function Header() {
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div class="flex flex-col items-center group relative">
-                    <a class="hover:text-main duration-500" href="">A PROPOS</a>
+                    <a onClick = {() => router.push("/Text")}  class="hover:text-main duration-500" >A PROPOS</a>
                     <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div class="flex flex-col items-center group relative">

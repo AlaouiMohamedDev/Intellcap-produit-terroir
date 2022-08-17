@@ -9,7 +9,7 @@ import Sidebar from '../components/Sidebar'
 import Section1 from '../components/products/Section1'
 import Section2 from '../components/products/Section2'
 
-export default function products() {
+export default function Products() {
   return (
     <div class="h-screen font-poppins">
         <Head>
@@ -24,10 +24,8 @@ export default function products() {
         <AuthModal />
         <Cart />
         <SearchModal />
-
         <Section1 />
         <Section2 />
-
         <Footer />
     </div>
   )

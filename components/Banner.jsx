@@ -26,7 +26,7 @@ export default function Banner() {
    useEffect(() =>{
         showSlides(slideIndex);
         AOS.init();
-      },[])
+      },[slideIndex])
 
     
     const  currentSlide = (n) => {
@@ -35,11 +35,19 @@ export default function Banner() {
 
     var i=0;
 
-   setInterval(() =>{
-    if(i==3){i==0;}
-    currentSlide(i)
-    i=i+1;
-   },6000);
+
+    setInterval(() =>{
+        if(i==3){i==0;}
+        try{
+            currentSlide(i)
+        }
+        catch{
+            
+        }
+        i=i+1;
+       },6000);
+
+
 
 
     const plusSlides = (n) => {
