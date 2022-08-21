@@ -32,6 +32,9 @@ module.exports = {
         'ban-3':'url("/ban-3.jpg")',
         'ban-4':'url("/ban-4.jpg")',
         'cooperative':'url("/coop.jpeg")',
+        'about':'url("/about.jpg")',
+        'wish':'url("/wish.jpg")',
+        'card':'url("/card.jpg")',
       },
       
     },

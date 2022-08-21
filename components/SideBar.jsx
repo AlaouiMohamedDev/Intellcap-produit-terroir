@@ -57,49 +57,49 @@ export default function Sidebar() {
                 </div>
                 <div className="flex flex-col px-5 text-gray-700  text-left font-semibold">
                     <span onClick = {() => router.push("/")} class="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
-                    <div onClick = {() => router.push("/products")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">
+                    <div class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">
                         <div onClick={toggleList} class=" flex items-center justify-between">
-                            <span>CATÉGORIES DE PRODUITS</span>
+                            <span >CATÉGORIES DE PRODUITS</span>
                             <i class='pr-1 bx bxs-chevron-down'></i>
                         </div>
                         <nav  class="hidden flex-col transition-all duration-500 text-xs text-left pl-10 py-5 space-y-3 list">
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="miel.png" alt="" class="w-5" />
                                 <a class="hover:text-main transition-all duration-500 cursor-pointer">Miels, Amlou et confitures</a>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="huile.png" alt="" class="w-5" />
                                 <a class="hover:text-main transition-all duration-500 cursor-pointer">Huiles alimentaires</a>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="rice.png" alt="" class="w-5" />
                                 <a class="hover:text-main transition-all duration-500 cursor-pointer">Semoules & farines</a>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="epice.png" alt="" class="w-5" />
                                 <a class="hover:text-main transition-all duration-500 cursor-pointer">épices & condiments</a>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="nuts.png" alt="" class="w-5" />
                                 <a class="hover:text-main transition-all duration-500 cursor-pointer">Fruits secs</a>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="tea-cup.png" alt="" class="w-5" />
                                 <a class="hover:text-main transition-all duration-500 cursor-pointer">Thés & Tisanes</a>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="serum.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">THydrolats & Tisanes</a>
+                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Thydrolats & Tisanes</a>
                             </div>
-                            <div class="flex items-center space-x-3">
+                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
                                 <img src="bien-etre.png" alt="" class="w-5" />
                                 <a class="hover:text-main transition-all duration-500 cursor-pointer">Bien être</a>
                             </div>
                         </nav>
                     </div>
                     <span onClick = {() => router.push("/cooperatives")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">COOPÉRATIVES</span>
-                    <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">A PROPOS</span>
-                    <span class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">CONTACTEZ NOUS</span>
+                    <span onClick = {() => router.push("/aboutUs")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">A PROPOS</span>
+                    <span onClick = {() => router.push("/contact")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">CONTACTEZ NOUS</span>
                 </div>
                 <div class="text-xl grid grid-cols-2 gap-4 text-center py-10 px-5">
                     <div onClick={searchModal} class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
@@ -110,7 +110,7 @@ export default function Sidebar() {
                         <i class='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
                         <span class="text-xs">login</span>
                     </div>
-                    <div class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                    <div onClick = {() => router.push("/wishList")} class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
                         <i class='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
                         <span class="text-xs">Favories</span>
                     </div>
