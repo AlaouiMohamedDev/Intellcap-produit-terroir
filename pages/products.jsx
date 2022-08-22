@@ -11,7 +11,7 @@ import Section2 from '../components/products/Section2'
 
 export default function Products() {
   return (
-    <div class="h-screen font-poppins">
+    <div className="h-screen font-poppins">
         <Head>
             <title>Intellcap-Product</title>
             <link rel="icon" href="/favicon.ico" />

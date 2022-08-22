@@ -53,70 +53,70 @@ export default function Sidebar() {
            <div className="sidebar2 flex flex-col w-2/3 h-screen top-0 fixed bg-white z-100  -left-full transform duration-500 ">
                 <div className=" flex items-center justify-between px-2 py-5 text-sm">
                     <img src="/logo-1.png" alt="Codata logo" className="h-14 "/>
-                    <i onClick={closeSidebar} class='bx bx-x  text-2xl font-bold rounded cursor-pointer'></i>
+                    <i onClick={closeSidebar} className='bx bx-x  text-2xl font-bold rounded cursor-pointer'></i>
                 </div>
                 <div className="flex flex-col px-5 text-gray-700  text-left font-semibold">
-                    <span onClick = {() => router.push("/")} class="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
-                    <div class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">
-                        <div onClick={toggleList} class=" flex items-center justify-between">
+                    <span onClick = {() => router.push("/")} className="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
+                    <div className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">
+                        <div onClick={toggleList} className=" flex items-center justify-between">
                             <span >CATÉGORIES DE PRODUITS</span>
-                            <i class='pr-1 bx bxs-chevron-down'></i>
+                            <i className='pr-1 bx bxs-chevron-down'></i>
                         </div>
-                        <nav  class="hidden flex-col transition-all duration-500 text-xs text-left pl-10 py-5 space-y-3 list">
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="miel.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Miels, Amlou et confitures</a>
+                        <nav  className="hidden flex-col transition-all duration-500 text-xs text-left pl-10 py-5 space-y-3 list">
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="miel.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Miels, Amlou et confitures</a>
                             </div>
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="huile.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Huiles alimentaires</a>
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="huile.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Huiles alimentaires</a>
                             </div>
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="rice.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Semoules & farines</a>
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="rice.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Semoules & farines</a>
                             </div>
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="epice.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">épices & condiments</a>
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="epice.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">épices & condiments</a>
                             </div>
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="nuts.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Fruits secs</a>
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="nuts.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Fruits secs</a>
                             </div>
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="tea-cup.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Thés & Tisanes</a>
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="tea-cup.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Thés & Tisanes</a>
                             </div>
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="serum.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Thydrolats & Tisanes</a>
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="serum.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Thydrolats & Tisanes</a>
                             </div>
-                            <div onClick = {() => router.push("/products")} class="flex items-center space-x-3">
-                                <img src="bien-etre.png" alt="" class="w-5" />
-                                <a class="hover:text-main transition-all duration-500 cursor-pointer">Bien être</a>
+                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
+                                <img src="bien-etre.png" alt="" className="w-5" />
+                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Bien être</a>
                             </div>
                         </nav>
                     </div>
-                    <span onClick = {() => router.push("/cooperatives")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">COOPÉRATIVES</span>
-                    <span onClick = {() => router.push("/aboutUs")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">A PROPOS</span>
-                    <span onClick = {() => router.push("/contact")} class="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">CONTACTEZ NOUS</span>
+                    <span onClick = {() => router.push("/cooperatives")} className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">COOPÉRATIVES</span>
+                    <span onClick = {() => router.push("/aboutUs")} className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">A PROPOS</span>
+                    <span onClick = {() => router.push("/contact")} className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">CONTACTEZ NOUS</span>
                 </div>
-                <div class="text-xl grid grid-cols-2 gap-4 text-center py-10 px-5">
-                    <div onClick={searchModal} class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
-                        <i class='bx bx-search cursor-pointer'></i>
-                        <span class="text-xs">Chercher</span>
+                <div className="text-xl grid grid-cols-2 gap-4 text-center py-10 px-5">
+                    <div onClick={searchModal} className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i className='bx bx-search cursor-pointer'></i>
+                        <span className="text-xs">Chercher</span>
                     </div>
-                    <div onClick={ModalAuth}  class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
-                        <i class='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
-                        <span class="text-xs">login</span>
+                    <div onClick={ModalAuth}  className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i className='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                        <span className="text-xs">login</span>
                     </div>
-                    <div onClick = {() => router.push("/wishList")} class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
-                        <i class='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
-                        <span class="text-xs">Favories</span>
+                    <div onClick = {() => router.push("/wishList")} className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i className='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                        <span className="text-xs">Favories</span>
                     </div>
-                    <div onClick={cartModal} class="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
-                        <i class='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
-                        <span class="text-xs">Cart</span>
+                    <div onClick={cartModal} className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <i className='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                        <span className="text-xs">Cart</span>
                     </div>
                 </div>
             </div>

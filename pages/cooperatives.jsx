@@ -12,7 +12,7 @@ import Section2 from '../components/cooperatives/Section2'
 export default function 
 () {
   return (
-    <div class="font-poppins h-screen">
+    <div className="font-poppins h-screen">
         <Head>
             <title>Intellcap-Coppératives</title>
             <link rel="icon" href="/favicon.ico" />

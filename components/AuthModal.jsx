@@ -25,14 +25,14 @@ export default function AuthModal() {
         modal.classList.remove('flex')
     }
   return (
-    <div class="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
-        <div class="relative flex items-center justify-center w-full h-full md:w-[850px] md:h-[510px] bg-white  zoom-in">
-            <div class="flex px-7 md:w-1/2 flex-col items-center space-y-5">
+    <div className="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
+        <div className="relative flex items-center justify-center w-full h-full md:w-[850px] md:h-[510px] bg-white  zoom-in">
+            <div className="flex px-7 md:w-1/2 flex-col items-center space-y-5">
                 <div className = "absolute left-0 p-4 top-0" >
                       <i className = "bx bx-x cursor-pointer text-2xl font-semibold hover:text-main" onClick={ModalAuth}/>
                 </div>
                 {/* Register Modal */}
-                <div class="w-full hidden flex-col space-y-4 register">
+                <div className="w-full hidden flex-col space-y-4 register">
                     <h2 className = "text-2xl text-center font-bold text-gray-900 ">
                         Crée votre compte
                     </h2>
@@ -55,7 +55,7 @@ export default function AuthModal() {
                     </div>
                 </div>
                 {/* Login Modal */}
-                <div class="w-full flex flex-col space-y-4 login">
+                <div className="w-full flex flex-col space-y-4 login">
                     <h2 className = "text-2xl text-center font-bold text-gray-900 ">
                         Se connectez à votre compte
                     </h2>
@@ -76,7 +76,7 @@ export default function AuthModal() {
                     </div>
                 </div>
             </div>
-            <img src="/ban-1.jpg" class="hidden md:flex w-1/2 bg-ban-1 object-cover h-full"/>
+            <img src="/ban-1.jpg" className="hidden md:flex w-1/2 bg-ban-1 object-cover h-full"/>
         </div>
     </div>
   )

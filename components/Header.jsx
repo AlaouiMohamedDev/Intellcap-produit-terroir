@@ -68,88 +68,88 @@ export default function Header() {
   return (
     <div>
           {/* topbar */}
-        <div class="bg-main text-white flex flex-col space-y-3 md:space-y-0 md:flex-row items-center justify-between py-3 px-10">
-            <h6 class="text-sm">PRODUCTION 100% MAROCAINE.</h6>
-            <div class="flex items-center space-x-3 text-lg">
-                <i class='bx bxl-instagram'></i>
-                <i class='bx bxl-android' ></i>
-                <i class='bx bxl-facebook' ></i>
+        <div className="bg-main text-white flex flex-col space-y-3 md:space-y-0 md:flex-row items-center justify-between py-3 px-10">
+            <h6 className="text-sm">PRODUCTION 100% MAROCAINE.</h6>
+            <div className="flex items-center space-x-3 text-lg">
+                <i className='bx bxl-instagram'></i>
+                <i className='bx bxl-android' ></i>
+                <i className='bx bxl-facebook' ></i>
             </div>
-            <div class="text-sm flex items-center ">
-                <i class='bx bx-phone-call pr-2' ></i>
+            <div className="text-sm flex items-center ">
+                <i className='bx bx-phone-call pr-2' ></i>
                 <span>+212 658987515</span>
             </div>
         </div>
         {/* END topbar */}
 
         {/* Header */}  
-        <div class="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen">
-            <img src="/logo-1.png" class=" w-48 md:w-64" />
-            <i class='bx bx-menu flex xl:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
-            <div class="text-sm space-x-7 items-center hidden xl:flex"> 
-                <div class="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/")} class="hover:text-main duration-500" >ACCEUIL</a>
-                    <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
+        <div className="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen">
+            <img src="/logo-1.png" className=" w-48 md:w-64" />
+            <i className='bx bx-menu flex xl:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
+            <div className="text-sm space-x-7 items-center hidden xl:flex"> 
+                <div className="flex flex-col items-center group relative">
+                    <a onClick = {() => router.push("/")} className="hover:text-main duration-500" >ACCEUIL</a>
+                    <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
-                <div class="flex flex-col items-center group relative">
-                    <a class="hover:text-main duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
+                <div className="flex flex-col items-center group relative">
+                    <a className="hover:text-main duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
                         <span>CATÉGORIES DE PRODUITS</span>
-                        <i class='text-xs bx bxs-down-arrow'></i>
+                        <i className='text-xs bx bxs-down-arrow'></i>
                     </a>
-                    <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
-                    <div onMouseLeave={CatLeave}  class="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-rows-4 grid-flow-col gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="miel.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">Miels, Amlou et confitures</span>
+                    <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
+                    <div onMouseLeave={CatLeave}  className="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-rows-4 grid-flow-col gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="miel.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">Miels, Amlou et confitures</span>
                         </div>
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="huile.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">Huiles alimentaires</span>
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="huile.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">Huiles alimentaires</span>
                         </div>
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="rice.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">Semoules & farines</span>
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="rice.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">Semoules & farines</span>
                         </div>
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="epice.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">épices & condiments</span>
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="epice.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">épices & condiments</span>
                         </div>
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="nuts.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">Fruits secs</span>
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="nuts.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">Fruits secs</span>
                         </div>
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="tea-cup.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">Thés & Tisanes</span>
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="tea-cup.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">Thés & Tisanes</span>
                         </div>
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="serum.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">THydrolats & Tisanes</span>
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="serum.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">THydrolats & Tisanes</span>
                         </div>
-                        <div onClick = {() => router.push("/products")} class="flex items-center space-x-3 ">
-                            <img src="bien-etre.png" alt="" class="w-8" />
-                            <span class="text-sm hover:text-main duration-500">Bien être</span>
+                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                            <img src="bien-etre.png" alt="" className="w-8" />
+                            <span className="text-sm hover:text-main duration-500">Bien être</span>
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/cooperatives")} class="hover:text-main duration-500">COOPÉRATIVES</a>
-                    <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
+                <div className="flex flex-col items-center group relative">
+                    <a onClick = {() => router.push("/cooperatives")} className="hover:text-main duration-500">COOPÉRATIVES</a>
+                    <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
-                <div class="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/aboutUs")} class="hover:text-main duration-500" >A PROPOS</a>
-                    <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
+                <div className="flex flex-col items-center group relative">
+                    <a onClick = {() => router.push("/aboutUs")} className="hover:text-main duration-500" >A PROPOS</a>
+                    <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
-                <div class="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/contact")} class="hover:text-main duration-500">CONTACTEZ NOUS</a>
-                    <span class="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
+                <div className="flex flex-col items-center group relative">
+                    <a onClick = {() => router.push("/contact")} className="hover:text-main duration-500">CONTACTEZ NOUS</a>
+                    <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>   
             </div>
-            <div class="hidden text-xl xl:flex items-center space-x-7">
-                <i class='bx bx-search cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={searchModal}></i>
-                <i class='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
-                <i onClick = {() => router.push("/wishList")} class='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' ></i>
-                <i class='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={cartModal}></i>
+            <div className="hidden text-xl xl:flex items-center space-x-7">
+                <i className='bx bx-search cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={searchModal}></i>
+                <i className='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
+                <i onClick = {() => router.push("/wishList")} className='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' ></i>
+                <i className='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={cartModal}></i>
             </div>
         </div>
     {/* END Header */}

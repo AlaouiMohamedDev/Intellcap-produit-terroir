@@ -15,7 +15,7 @@ export default function aboutUs() {
         ProductM.classList.add('flex')
     }
   return (
-    <div class="font-poppins h-screen">
+    <div className="font-poppins h-screen">
         <Head>
             <title>IntellCap Produit 100% Marocaine</title>
             <link rel="icon" href="/favicon.ico" />
