@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import SearchModal from '../components/SearchModal';
 import Cart from '../components/Cart';
 import AuthModal from '../components/AuthModal'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/SideBar'
 import Section1 from '../components/products/Section1'
 import Section2 from '../components/products/Section2'
 

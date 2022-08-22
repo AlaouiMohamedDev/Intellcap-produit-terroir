@@ -5,9 +5,9 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import SearchModal from '../components/SearchModal';
 import Cart from '../components/Cart';
-import AuthModal from '../components/AuthModal'
-import Sidebar from '../components/Sidebar'
-import Section2 from '../components/cooperatives/Section2'
+import AuthModal from '../components/AuthModal';
+import Sidebar from '../components/SideBar';
+import Section2 from '../components/cooperatives/Section2';
 
 export default function 
 () {
