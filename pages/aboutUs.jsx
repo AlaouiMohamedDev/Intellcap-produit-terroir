@@ -33,7 +33,7 @@ export default function aboutUs() {
             </div>
             <h1 className="z-20 text-3xl font-bold">A PROPOS</h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 py-10 px-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 py-10 px-10 md:px-20">
             <div className="flex flex-col space-y-5">
                 <h1 className="font-bold text-lg ">NOTRE MISSION</h1>
                 <p className="text-sm text-black/60">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi ex, nulla non debitis voluptate natus! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex impedit nisi, sed cumque pariatur aut.</p>
@@ -50,7 +50,7 @@ export default function aboutUs() {
                 <h1 className="font-bold text-lg ">NOTRE PHILOSOPHIE</h1>
                 <p className="text-sm text-black/60">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi ex, nulla non debitis voluptate natus! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex impedit nisi, sed cumque pariatur aut.</p>
             </div>
-            <div className="md:col-span-2 bg-main/40 space-x-2 py-8 px-10 my-8 text-black/60 flex">
+            <div className="md:col-span-2 bg-main/40 space-x-2 py-8 px-5 md:px-10 my-8 text-black/60 flex">
                 <i className='text-lg bx bxs-quote-alt-left'></i>
                 <p>I am text block. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Quis nostrum exercitationem ullam.</p>
             </div>

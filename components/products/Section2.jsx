@@ -12,11 +12,11 @@ export default function Section2() {
     <>
         <div className="bg-white py-10 px-5 md:px-10 lg:px-0 grid grid-cols-4">
             <div className="col-span-4 lg:col-span-3 w-full h-full lg:pl-5"> 
-                <div className="flex items-center justify-between text-sm text-black/60">
+                <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 justify-between text-sm text-black/60">
                     <span>(25) produits</span>
                     <div className="flex items-center space-x-2">
                         <span>Filter par :</span>
-                        <select className="w-[200px] border hover:border-main duration-200 rounded outline-none py-1 px-2">
+                        <select className="bg-white w-[200px] border hover:border-main duration-200 rounded outline-none py-1 px-2">
                             <option>Default</option>
                             <option>Prix</option>
                         </select>
