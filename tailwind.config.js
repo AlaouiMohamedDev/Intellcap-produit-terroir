@@ -35,8 +35,8 @@ module.exports = {
         'about':'url("/about.jpg")',
         'wish':'url("/wish.jpg")',
         'card':'url("/card.jpg")',
-      },
-      
+        'user':'url("/bgUser.jpg")',
+      },       
     },
   },
   plugins: [],

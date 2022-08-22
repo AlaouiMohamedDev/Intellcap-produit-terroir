@@ -6,8 +6,10 @@ import AuthModal from '../components/AuthModal'
 import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
+import { useRouter } from 'next/router';
 
 export default function aboutUs() {
+    const router = useRouter();
   return (
     <div class="font-poppins h-screen">
         <Head>
@@ -33,8 +35,8 @@ export default function aboutUs() {
             </div>
             <h1 class="z-20 text-3xl font-bold uppercase">Panier</h1>
         </div>
-        <div class="grid grid-cols-3 gap-5 px-24 py-10">
-            <div class="col-span-2 space-y-5 flex flex-col items-center w-full px-2 py-3">
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-10 px-10 md:px-16 lg:px-24 py-10 items-start">
+            <div class="lg:col-span-2 space-y-5 flex flex-col items-center w-full px-2 py-3">
                 <div class="flex items-center w-full space-x-5 border-t-2 py-3">
                     <img src="/product/miel.jpg" class="w-[150px] h-[150px] object-cover rounded" />
                     <div class="flex flex-col items-left w-full">
@@ -99,7 +101,30 @@ export default function aboutUs() {
                     </div>
                 </div>
             </div>
-        </div>
+            <section class="w-full text-sm">
+                <div class="flex flex-col w-full space-y-5">
+                    <div class="bg-gray-200/70 space-y-5 py-5 px-5 rounded">
+                        <div class="flex justify-between items-center">
+                            <p>Sous totale</p>
+                            <span>300 MAD</span>
+                        </div>
+                        <div class=" flex justify-between items-center">
+                            <p>Livraison</p>
+                            <span>50 MAD</span>
+                        </div>
+                        <div class="text-lg border-t border-black flex justify-between items-center pt-5">
+                            <p>Total</p>
+                            <span>350 MAD</span>
+                        </div>
+                    </div>
+                    <input type="submit" value="Confirmer Commande" class="cursor-pointer bg-main w-full text-white py-3" />
+                    <div onClick = {() => router.push("/products")} class="flex items-center space-x-1 cursor-pointer hover:border-b border-black w-max duration-150">
+                        <i class='bx bx-left-arrow-alt text-xl' ></i>
+                        <span>Ajouter autre produit</span>
+                    </div>
+                </div>
+            </section>
+        </section>
         <Footer /> 
     </div>
   )

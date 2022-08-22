@@ -1,6 +1,8 @@
 import React from 'react'
+import { useRouter } from 'next/router';
 
 export default function Cart() {
+    const router = useRouter();
 
     const cartModal =()=>{
         const cart= document.querySelector('.cart')
@@ -42,7 +44,7 @@ export default function Cart() {
                     <span>Total:</span>
                     <span>18.00 MAD</span>
                 </div>
-                <a class="bg-main flex items-center justify-center py-3 text-white mx-3 mb-3">
+                <a  onClick = {() => router.push("/card")} class="cursor-pointer bg-main flex items-center justify-center py-3 text-white mx-3 mb-3">
                     Consulter votre carte
                 </a>
                 <a class="flex text-black items-center justify-center py-3 border border-black/50 mx-3">
