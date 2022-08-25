@@ -12,7 +12,8 @@ module.exports = {
       },
       colors:{
         'main':'#80bc50',
-        'dashBlack':'#212529'
+        'dashBlack':'#212529',
+        'custGreen':'#0ab39c'
       },
       fontFamily:{
         'poppins':['Poppins', 'sans-serif'],

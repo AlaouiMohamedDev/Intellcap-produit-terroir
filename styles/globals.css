@@ -12,6 +12,7 @@
     animation-name: fade;
     animation-duration: 1s;
   }
+
 .zoom-in{
     animation-name: zoom-in;
     animation-duration: 1.5s;
@@ -47,6 +48,7 @@
     from {opacity: .4} 
     to {opacity: 1}
   }
+ 
   @keyframes zoom-in {
     from {opacity: .4;scale:0} 
     to {opacity: 1;scale:1}
@@ -64,5 +66,7 @@
     from {opacity: .4;display:none;top:0px;} 
     to {opacity: 1;display:flex;top:20px;}
   }
+
+
 
  
