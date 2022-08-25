@@ -7,6 +7,7 @@ import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
 import ProductModal from '../components/ProductModal'
+import UserBanner from '../components/user/UserBanner'
 
 export default function aboutUs() {
     const ModalP = () => {
@@ -28,17 +29,7 @@ export default function aboutUs() {
         <AuthModal />
         <Cart />
         <SearchModal />
-        <div class="bg-wish space-y-4 bg-cover bg-center w-full flex flex-col items-center justify-center text-white relative h-1/3">
-            <div class="bg-black/50 absolute w-full h-full z-10">
-
-            </div>
-            <div class="flex items-center text-xl z-20 space-x-2">
-                <a onClick = {() => router.push("/")} class="cursor-pointer hover:text-main duration-200">Home</a>
-                <i class='text-lg bx bxs-label'></i>
-                <span class="">Mes favoris</span>
-            </div>
-            <h1 class="z-20 text-3xl font-bold uppercase">Mes favoris</h1>
-        </div>
+        <UserBanner name="wish"/>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-10 px-10">
             <div class="flex flex-col space-y-5 group">
                 <div class="h-[300px] w-full   relative overflow-hidden border-box">

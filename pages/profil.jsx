@@ -24,7 +24,7 @@ export default function profil() {
     <AuthModal />
     <Cart />
     <SearchModal />
-    <UserBanner/>
+    <UserBanner name="edit"/>
     <EditProfil/>
     <Footer /> 
 </div>

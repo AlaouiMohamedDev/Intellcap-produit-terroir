@@ -12,6 +12,7 @@ module.exports = {
       },
       colors:{
         'main':'#80bc50',
+        'dashBlack':'#212529'
       },
       fontFamily:{
         'poppins':['Poppins', 'sans-serif'],
@@ -39,5 +40,7 @@ module.exports = {
       },       
     },
   },
-  plugins: [],
+  plugins: [
+  require('tailwind-scrollbar')
+  ]
 }

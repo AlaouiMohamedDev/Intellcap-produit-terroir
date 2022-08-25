@@ -3,10 +3,14 @@
 @tailwind utilities;
 
 
-
+@layer components{
+  .active{
+    @apply bg-main text-white;
+  }
+}
 .fade {
     animation-name: fade;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
   }
 .zoom-in{
     animation-name: zoom-in;
@@ -53,7 +57,7 @@
   }
 
   @keyframes fade-up{
-    from {opacity: .4;ddisplay:none;bottom:0px;} 
+    from {opacity: .4;display:none;bottom:0px;} 
     to {opacity: 1;display:grid;bottom:20px;}
   }
   @keyframes fade-down{

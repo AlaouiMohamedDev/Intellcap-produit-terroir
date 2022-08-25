@@ -7,6 +7,7 @@ import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
 import { useRouter } from 'next/router';
+import UserBanner from '../components/user/UserBanner'
 
 export default function aboutUs() {
     const router = useRouter();
@@ -24,17 +25,7 @@ export default function aboutUs() {
         <AuthModal />
         <Cart />
         <SearchModal />
-        <div className="bg-card bg-center space-y-4 bg-cover w-full flex flex-col items-center justify-center text-white relative h-1/3">
-            <div className="bg-black/50 absolute w-full h-full z-10">
-
-            </div>
-            <div className="flex items-center text-xl z-20 space-x-2">
-                <a onClick = {() => router.push("/")} className="cursor-pointer hover:text-main duration-200">Home</a>
-                <i className='text-lg bx bxs-label'></i>
-                <span className="">Panier</span>
-            </div>
-            <h1 className="z-20 text-3xl font-bold uppercase">Panier</h1>
-        </div>
+        <UserBanner name="card"/>
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-10 px-10 md:px-16 lg:px-24 py-10 items-start">
             <div className="lg:col-span-2 space-y-5 flex flex-col items-center w-full px-2 py-3">
                 <div className="flex flex-col md:flex-row items-center w-full space-y-5 md:space-y-0 md:space-x-5 border-t-2 py-3">
