@@ -86,7 +86,7 @@ export default function SideBar() {
 
   }
   return (
-    <div className="side h-screen fixed z-100 top-0  bg-dashBlack w-[250px] flex flex-col px-4 py-5 space-y-7 items-center text-gray-400 text-md">
+    <div className="side h-screen fixed z-50 top-0  bg-dashBlack w-[250px] flex flex-col px-4 py-5 space-y-7 items-center text-gray-400 text-md">
       <div className="side-container flex  justify-between items-center">
         <img src="/logo-sm.png" alt="" className="img-sm hidden w-10" />
         <img src="/logo-dash.png" alt="" className="img  w-[70%] md:w-[50%] lg:w-[70%]" />
