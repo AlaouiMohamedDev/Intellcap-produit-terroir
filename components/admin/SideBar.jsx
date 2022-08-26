@@ -105,27 +105,32 @@ export default function SideBar() {
             <span className="fade span">Utilisateurs</span>
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Utilisateurs</span>
           </div>
-          <div className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
+          <div onClick = {() => router.push("/admin/cooperative")} className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
             <i className='bx bxs-leaf'></i>
             <span className="fade span">Coopératives</span>
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Coopératives</span>
           </div>
-          <div className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
+          <div onClick = {() => router.push("/admin/product")} className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
             <i className='bx bxs-purchase-tag'></i>
             <span className="fade span">Produits</span>
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Produits</span>
           </div>
-          <div className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
+          <div onClick = {() => router.push("/admin/category")} className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
+            <i class='bx bxs-pie-chart-alt-2'></i>
+            <span className="fade span">Categories</span>
+            <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Produits</span>
+          </div>
+          <div onClick = {() => router.push("/admin/commande")} className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
             <i className='bx bxs-cart' ></i>
             <span className="fade span">Commandes</span>
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Commandes</span>
           </div>
-          <div className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
+          <div  onClick = {() => router.push("/admin/message")} className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
             <i className='bx bxs-comment-detail'></i>
             <span className="fade span">Messages</span>
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Messages</span>
           </div>
-          <div className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
+          <div  onClick = {() => router.push("/")} className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
             <i className='bx bx-world'></i>
             <span className="fade span">Itellcap-Terroir</span>
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Itellcap-Terroir</span>

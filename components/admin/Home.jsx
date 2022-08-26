@@ -1,9 +1,11 @@
 import React from 'react'
+import { useRouter } from 'next/router';
 
 export default function Home() {
+    const router = useRouter();
   return (
     <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
-        <div className="flex items-center justify-between  bg-dashBlack py-2 px-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between  bg-dashBlack py-2 px-3">
             <h1 className="uppercase font-bold">Dashboard</h1>
             <div className="flex items-center space-x-1 text-xs">
                 <span className="text-white">Dashboard</span>
@@ -16,12 +18,12 @@ export default function Home() {
                 <h3 className="text-md">Bonne journée, AdminName!</h3>
                 <span className="text-gray-600 text-xs">Voici ce qui se passe avec votre magasin aujourd'hui.</span>
             </div>
-            <div className="flex items-center space-x-3">
-                <div className="flex items-center text-xs bg-gray-700/40 rounded">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 items-center space-x-3">
+                <div className="flex  items-center text-xs bg-gray-700/40 rounded">
                     <span className='px-3'>Vendredi 14 Aout 2022</span>
                     <i className='bx bx-calendar text-[13px] text-white bg-blue-400/60 py-3 px-3'></i>
                 </div>
-                <div className="flex items-center text-xs rounded space-x-1 py-3 px-3 bg-custGreen/20 text-custGreen hover:text-white hover:bg-custGreen duration-100 cursor-pointer">
+                <div onClick = {() => router.push("/admin/product")} className="flex items-center text-xs rounded space-x-1 py-3 px-3 bg-custGreen/20 text-custGreen hover:text-white hover:bg-custGreen duration-100 cursor-pointer">
                     <i className='bx bx-plus-circle'></i>
                     <span>Ajouter un produit</span>
                 </div>
@@ -94,14 +96,14 @@ export default function Home() {
             </div>
         </div>
         <div className="grid gri-cols-1 lg:grid-cols-2 gap-5">
-            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md">
-                <div class="border-b border-gray-700">
-                    <div className="py-4 px-3 flex items-center justify-between text-sm">
+            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full">
+                <div class="border-b border-gray-700 flex w-full">
+                    <div className="py-4 px-3 flex items-center justify-between text-sm w-full">
                         <span>Produits les plus vendus</span>
                         <span>Total : <span className="text-gray-500">5</span></span>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700 md:w-full w-max ">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/product/paprika.jpg" className="w-12 h-12" />
                         <div className="flex flex-col space-y-2">
@@ -126,7 +128,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700 md:w-full w-max ">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/product/paprika.jpg" className="w-12 h-12" />
                         <div className="flex flex-col space-y-2">
@@ -151,7 +153,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700 md:w-full w-max ">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/product/paprika.jpg" className="w-12 h-12" />
                         <div className="flex flex-col space-y-2">
@@ -176,7 +178,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700 md:w-full w-max ">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/product/paprika.jpg" className="w-12 h-12" />
                         <div className="flex flex-col space-y-2">
@@ -201,7 +203,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700 md:w-full w-max ">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/product/paprika.jpg" className="w-12 h-12" />
                         <div className="flex flex-col space-y-2">
@@ -227,14 +229,14 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md">
-                <div class="border-b border-gray-700">
+            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full">
+                <div class="border-b border-gray-700 ">
                     <div className="py-4 px-3 flex items-center justify-between text-sm">
                         <span>Meilleures ventes</span>
                         <span>Total : <span className="text-gray-500">5</span></span>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700  md:w-full w-max">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/cooperative/coop-2.png" className="w-12 h-12 rounded-full object-cover" />
                         <div className="flex flex-col space-y-2">
@@ -258,7 +260,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700  md:w-full w-max">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/cooperative/coop-1.jpg" className="w-12 h-12 rounded-full object-cover" />
                         <div className="flex flex-col space-y-2">
@@ -282,7 +284,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700  md:w-full w-max">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/cooperative/coop-3.png" className="w-12 h-12 rounded-full object-cover" />
                         <div className="flex flex-col space-y-2">
@@ -306,7 +308,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700  md:w-full w-max">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/cooperative/coop-4.png" className="w-12 h-12 rounded-full object-cover" />
                         <div className="flex flex-col space-y-2">
@@ -330,7 +332,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="border-b border-gray-700">
+                <div className="border-b border-gray-700  md:w-full w-max">
                     <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
                         <img src="/cooperative/coop-1.jpg" className="w-12 h-12 rounded-full object-cover" />
                         <div className="flex flex-col space-y-2">
