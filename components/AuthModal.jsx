@@ -1,6 +1,48 @@
-import React from 'react'
+import React, { useState } from "react";
+import axios from 'axios'
+import swal from 'sweetalert2'
+
+axios.defaults.baseURL= "http://127.0.0.1:5000/";
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Accept'] = 'application/json';
+axios.defaults.withCredentials = true;
 
 export default function AuthModal() {
+
+    const [loginInput,setLogin] = useState({
+        userName:'',
+        password:'',
+        error_list:[],
+    });
+    const handleInput =(e) =>{
+        e.persist();
+        setLogin({...loginInput,[e.target.name]:e.target.value});
+    }
+    const loginSubmit=(e)=>
+    {
+        e.preventDefault();
+        const data ={
+            username:loginInput.userName,
+            password:loginInput.password,
+        }
+
+        axios.post('login',data).then(res => {
+            console.log(res)
+            
+            // if(res.data.status === 200){
+            //     localStorage.setItem('auth_token',res.data.token);
+            //     localStorage.setItem('auth_name',res.data.name);
+            //     swal("Success",res.data.message,"success");
+            //     document.location.reload();
+            // }
+            // else if(res.data.status === 401){
+            //    swal("Warning",res.data.message,"warning");
+            // }
+            // else{
+            //     setLogin({...loginInput,error_list:res.data.validation_errors});
+            // }
+        })
+    }
 
     const loginForm = () =>{
         const login= document.querySelector('.login')
@@ -59,9 +101,9 @@ export default function AuthModal() {
                     <h2 className = "text-2xl text-center font-bold text-gray-900 ">
                         Se connectez à votre compte
                     </h2>
-                    <form className = "flex w-full flex-col space-y-3">
-                        <input placeholder = "Nom d'utilisateur" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
-                        <input placeholder = "Mot de passe" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+                    <form method="post" onSubmit={loginSubmit} className = "flex w-full flex-col space-y-3">
+                        <input name="userName" onChange={handleInput} value={loginInput.userName} placeholder = "Nom d'utilisateur" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+                        <input name="password" onChange={handleInput} value={loginInput.password} placeholder = "Mot de passe" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <button className = "bg-main text-white flex items-center justify-center py-2 rounded text-sm" >
                                 <span>Se connectez</span>
                         </button>

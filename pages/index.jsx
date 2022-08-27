@@ -1,4 +1,3 @@
-
 import Head from 'next/head'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
@@ -11,6 +10,7 @@ import NewProduct from '../components/NewProduct'
 import WhyChooseUs from '../components/WhyChooseUs'
 import FromOurBlog from '../components/FromOurBlog'
 import Footer from '../components/Footer'
+import axios from 'axios'
 
 const Home=() => {
   return (
