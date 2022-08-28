@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from 'axios'
 import swal from 'sweetalert2'
 
-
 export default function AuthModal() {
 
     const [loginInput,setLogin] = useState({
@@ -22,21 +21,22 @@ export default function AuthModal() {
             password:loginInput.password,
         }
 
-        axios.post('login',data).then(res => {
-            console.log(res)
-            
-            // if(res.data.status === 200){
-            //     localStorage.setItem('auth_token',res.data.token);
-            //     localStorage.setItem('auth_name',res.data.name);
-            //     swal("Success",res.data.message,"success");
-            //     document.location.reload();
-            // }
-            // else if(res.data.status === 401){
-            //    swal("Warning",res.data.message,"warning");
-            // }
-            // else{
-            //     setLogin({...loginInput,error_list:res.data.validation_errors});
-            // }
+        axios.post('http://127.0.0.1:5000/login',data).then(res => {
+                  
+            if(res.data.status === 200){
+                localStorage.setItem('token',res.data.token);
+                localStorage.setItem('name',res.data.name);
+                localStorage.setItem('email',res.data.email);
+                localStorage.setItem('id',res.data.id);
+                localStorage.setItem('public_id',res.data.public_id);
+                localStorage.setItem('password',res.data.password);
+                swal.fire("Bienvenue","","success");
+                document.location.reload();
+            }
+            else
+            {
+                swal.fire("Echec !!",res.data.message,"warning");
+            }
         })
     }
 
