@@ -9,15 +9,14 @@ const Providers = ({children}) => {
 
 
 
-    //Archived Meetings API
     const [user , setUser] = useState([]);
-    const getUser = useMemo(async () => {
-        const res = await axios.get(`https://dummyjson.com/products`);
-        const data =  await res.data;
-        setUser(data);
-    },[user])
+    useMemo(async () => {
+            const res = await axios.get(`http://127.0.0.1:5000/getUser/${localStorage.getItem("public_id")}`);
+            const data =  await res.data;
+            setUser(data);
+    },[])
         return (
-            <DataContext.Provider value = {user}>
+            <DataContext.Provider value ={user}>
                 {children}
             </DataContext.Provider>
         )
