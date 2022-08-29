@@ -1,11 +1,17 @@
-
-import React, { useEffect } from 'react'
+import {Providers,DataContext} from '../Context/ContextApi';
+import React, { useContext, useEffect } from 'react'
 import  { useRouter} from 'next/router';
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 
 export default function Sidebar() {
+    const logOut = ()=>{
+        localStorage.clear()
+        document.location.reload();
+    }
+
+    const user=useContext(DataContext)
 
     useEffect(() =>{
         AOS.init();
@@ -46,7 +52,7 @@ export default function Sidebar() {
     }
     
   return (
-    <aside className="select-none">
+    <aside className="select-none xl:hidden">
             <div onClick={closeSidebar} className="sidebar1 hidden w-full h-screen fixed top-0 z-100 bg-gray-500 opacity-60  transform duration-100">
 
             </div>
@@ -106,10 +112,20 @@ export default function Sidebar() {
                         <i className='bx bx-search cursor-pointer'></i>
                         <span className="text-xs">Chercher</span>
                     </div>
-                    <div onClick={ModalAuth}  className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
-                        <i className='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
-                        <span className="text-xs">login</span>
-                    </div>
+                    {
+                        (user.status === 200)
+                        ?
+                        <div className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                            <i className='bx bx-user cursor-pointer text-main'></i>
+                            <span className="text-xs">{user.user.name}</span>
+                        </div>
+                        :
+                        <div onClick={ModalAuth}  className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                            <i className='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
+                            <span className="text-xs">Se connecter</span>
+                        </div>
+                    }
+                    
                     <div onClick = {() => router.push("/wishList")} className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
                         <i className='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
                         <span className="text-xs">Favories</span>
@@ -118,6 +134,24 @@ export default function Sidebar() {
                         <i className='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300'></i>
                         <span className="text-xs">Cart</span>
                     </div>
+                </div>
+                <div className="flex space-x-3 px-3 w-full text-xs">
+                   {
+                    (user.status==200 && user.user.admin==true)
+                    &&
+                    <div onClick = {() => router.push("/admin/dashboard")} className="w-full bg-main flex items-center justify-center rounded space-x-2 text-white cursor-pointer">
+                        <span className="py-3">Dashboard</span>
+                        <i className='bx bxs-dashboard' ></i>
+                    </div>
+                   }
+                   {
+                    (user.status === 200)
+                    &&
+                    <div onClick={logOut} className="w-full bg-dashBlack flex items-center justify-center rounded space-x-2 text-white cursor-pointer">
+                        <span className="py-3">déconnécter</span>
+                        <i className='bx bx-lock' ></i>
+                    </div>
+                   }
                 </div>
             </div>
     </aside>

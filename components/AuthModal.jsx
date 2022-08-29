@@ -39,6 +39,37 @@ export default function AuthModal() {
             }
         })
     }
+    
+    const [registerInput,setRegister] = useState({
+        userName:'',
+        password:'',
+        email:'',
+        error_list:[],
+    });
+    const handleRegisterInput =(e) =>{
+        e.persist();
+        setRegister({...registerInput,[e.target.name]:e.target.value});
+    }
+    const registerSubmit=(e)=>
+    {
+        e.preventDefault();
+        const data ={
+            userName:registerInput.userName,
+            password:registerInput.password,
+            email:registerInput.email,
+        }
+
+        axios.post('http://127.0.0.1:5000/register',data).then(res => {
+            if(res.data.status === 200){
+                swal.fire("Bienvenue","","success");
+                loginForm();
+            }
+            else
+            {
+                swal.fire("Echec !!",res.data.message,"warning");
+            }
+        })
+    }
 
     const loginForm = () =>{
         const login= document.querySelector('.login')
@@ -57,6 +88,7 @@ export default function AuthModal() {
         register.classList.add('flex')
         console.log("Hi")
     }
+    
     const ModalAuth =()=>{
         const modal= document.querySelector('.authmodal')
         modal.classList.add('hidden')
@@ -74,10 +106,10 @@ export default function AuthModal() {
                     <h2 className = "text-2xl text-center font-bold text-gray-900 ">
                         Crée votre compte
                     </h2>
-                    <form className = "flex w-full flex-col space-y-3">
-                        <input placeholder = "Nom d'utilisateur" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
-                        <input placeholder = "Email" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
-                        <input placeholder = "Mot de passe" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+                    <form onSubmit={registerSubmit} className = "flex w-full flex-col space-y-3">
+                        <input name="userName" value={registerInput.userName} onChange={handleRegisterInput} placeholder = "Nom d'utilisateur" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+                        <input name="email" value={registerInput.email} onChange={handleRegisterInput} placeholder = "Email" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+                        <input name="password" value={registerInput.password} onChange={handleRegisterInput} placeholder = "Password" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <input placeholder = "Confirmer votre Mot de passe" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <button className = "bg-main text-white flex items-center justify-center py-2 rounded text-sm" >
                                 <span>S'inscrire</span>

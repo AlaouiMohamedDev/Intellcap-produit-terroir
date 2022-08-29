@@ -4,12 +4,15 @@ import { useRouter } from 'next/router'
 import 'aos/dist/aos.css'
 import axios from 'axios'
 import {Providers,DataContext} from '../Context/ContextApi';
+import DropDown from './DropDown'
 
 export default function Header() {
-    
-    const user =useContext(DataContext);
-    console.log("🚀 ~ file: Header.jsx ~ line 17 ~ useEffect ~ user", user)
-     
+    const dropDown =()=> {
+        const drop = document.querySelector('.dropDown')
+        drop.classList.toggle('flex')
+        drop.classList.toggle('hidden')
+    }
+    const user =useContext(DataContext);     
 
     const router = useRouter();
 
@@ -34,8 +37,7 @@ export default function Header() {
                 header.classList.remove('py-3');
                 header.classList.remove('top-0');
                 header.classList.add('py-5');
-            }
-        
+            }        
         })
     },[]);
 
@@ -156,9 +158,16 @@ export default function Header() {
             <div className="hidden text-xl xl:flex items-center space-x-7">
                 <i className='bx bx-search cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={searchModal}></i>
                 {
-                  (user.status===200) ? <i className='bx bx-user cursor-pointer text-red-500 hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i> : <i className='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
-
+                    (user.status===200) 
+                    ? 
+                    <div className="relative flex flex-col items-center">
+                        <i onClick={dropDown} className='bx bx-user-check text-2xl cursor-pointer text-main' ></i>
+                        <DropDown user={user.user}/>
+                    </div>
+                    : 
+                    <i className='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
                 }
+                
                 <i onClick = {() => router.push("/wishList")} className='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' ></i>
                 <i className='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={cartModal}></i>
             </div>
