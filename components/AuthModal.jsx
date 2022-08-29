@@ -3,7 +3,6 @@ import axios from 'axios'
 import swal from 'sweetalert2'
 
 export default function AuthModal() {
-
     const [loginInput,setLogin] = useState({
         userName:'',
         password:'',
@@ -16,59 +15,84 @@ export default function AuthModal() {
     const loginSubmit=(e)=>
     {
         e.preventDefault();
-        const data ={
-            username:loginInput.userName,
-            password:loginInput.password,
+        if (loginInput.userName=="" || loginInput.password=="")
+        {
+            setLogin({...loginInput,error_list:{'messageErr':"Un champs est vide",'error':true}})
         }
-
-        axios.post('http://127.0.0.1:5000/login',data).then(res => {
-                  
-            if(res.data.status === 200){
-                localStorage.setItem('token',res.data.token);
-                localStorage.setItem('name',res.data.name);
-                localStorage.setItem('email',res.data.email);
-                localStorage.setItem('id',res.data.id);
-                localStorage.setItem('public_id',res.data.public_id);
-                localStorage.setItem('password',res.data.password);
-                swal.fire("Bienvenue","","success");
-                document.location.reload();
+        else
+        {
+            const data ={
+                username:loginInput.userName,
+                password:loginInput.password,
             }
-            else
-            {
-                swal.fire("Echec !!",res.data.message,"warning");
-            }
-        })
+            axios.post('http://127.0.0.1:5000/login',data).then(res => {
+                      
+                if(res.data.status === 200){
+                    localStorage.setItem('token',res.data.token);
+                    localStorage.setItem('name',res.data.name);
+                    localStorage.setItem('email',res.data.email);
+                    localStorage.setItem('id',res.data.id);
+                    localStorage.setItem('public_id',res.data.public_id);
+                    localStorage.setItem('password',res.data.password);
+                    swal.fire("Bienvenue","","success");
+                    document.location.reload();
+                }
+                else
+                {
+                    swal.fire("Echec !!",res.data.message,"warning");
+                }
+            })
+        }
     }
     
     const [registerInput,setRegister] = useState({
         userName:'',
         password:'',
         email:'',
+        confirm:'',
         error_list:[],
     });
     const handleRegisterInput =(e) =>{
         e.persist();
         setRegister({...registerInput,[e.target.name]:e.target.value});
     }
+
     const registerSubmit=(e)=>
     {
+        const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         e.preventDefault();
-        const data ={
-            userName:registerInput.userName,
-            password:registerInput.password,
-            email:registerInput.email,
+        if(registerInput.userName=="" ||registerInput.email=="" || registerInput.password=="" || registerInput.confirm=="")
+        {
+            setRegister({...registerInput,error_list:{'messageErr':"Un champs est vide",'error':true}})
         }
-
-        axios.post('http://127.0.0.1:5000/register',data).then(res => {
-            if(res.data.status === 200){
-                swal.fire("Bienvenue","","success");
-                loginForm();
+        else if(registerInput.confirm!=registerInput.password)
+        {
+            setRegister({...registerInput,error_list:{'messageErr':"Confirmation invalide du mot de passe ",'error':true}})
+        }
+        else if(!registerInput.email.match(mailformat))
+        {
+               setRegister({...registerInput,error_list:{'messageErr':"Email Incorrecte",'error':true}})
+        }
+        else
+        {
+            const data ={
+                userName:registerInput.userName,
+                password:registerInput.password,
+                email:registerInput.email,
             }
-            else
-            {
-                swal.fire("Echec !!",res.data.message,"warning");
-            }
-        })
+    
+            axios.post('http://127.0.0.1:5000/register',data).then(res => {
+                if(res.data.status === 200){
+                    swal.fire("Bienvenue","","success");
+                    loginForm();
+                }
+                else
+                {
+                    swal.fire("Echec !!",res.data.message,"warning");
+                }
+            })
+        }
+        
     }
 
     const loginForm = () =>{
@@ -102,7 +126,7 @@ export default function AuthModal() {
                       <i className = "bx bx-x cursor-pointer text-2xl font-semibold hover:text-main" onClick={ModalAuth}/>
                 </div>
                 {/* Register Modal */}
-                <div className="w-full hidden flex-col space-y-4 register">
+                <div className="w-full hidden flex-col space-y-4 register relative z-100">
                     <h2 className = "text-2xl text-center font-bold text-gray-900 ">
                         Crée votre compte
                     </h2>
@@ -110,7 +134,7 @@ export default function AuthModal() {
                         <input name="userName" value={registerInput.userName} onChange={handleRegisterInput} placeholder = "Nom d'utilisateur" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <input name="email" value={registerInput.email} onChange={handleRegisterInput} placeholder = "Email" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <input name="password" value={registerInput.password} onChange={handleRegisterInput} placeholder = "Password" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
-                        <input placeholder = "Confirmer votre Mot de passe" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+                        <input name="confirm" value={registerInput.confirm} onChange={handleRegisterInput} placeholder = "Confirmer votre Mot de passe" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <button className = "bg-main text-white flex items-center justify-center py-2 rounded text-sm" >
                                 <span>S'inscrire</span>
                         </button>
@@ -123,9 +147,18 @@ export default function AuthModal() {
                             Mot de passe oublier ?
                         </p>
                     </div>
+                    {
+                        (registerInput.error_list.error)
+                        &&
+                        <div className="flex text-xs text-red-500 absolute -bottom-10">
+                            {
+                                registerInput.error_list.messageErr
+                            }
+                        </div>
+                    }
                 </div>
                 {/* Login Modal */}
-                <div className="w-full flex flex-col space-y-4 login">
+                <div className="w-full flex flex-col space-y-4 login relative">
                     <h2 className = "text-2xl text-center font-bold text-gray-900 ">
                         Se connectez à votre compte
                     </h2>
@@ -144,6 +177,15 @@ export default function AuthModal() {
                             Mot de passe oublier ?
                         </p>
                     </div>
+                    {
+                        (loginInput.error_list.error)
+                        &&
+                        <div className="flex text-xs text-red-500 absolute -bottom-10">
+                            {
+                                loginInput.error_list.messageErr
+                            }
+                        </div>
+                    }
                 </div>
             </div>
             <img src="/ban-1.jpg" className="hidden md:flex w-1/2 bg-ban-1 object-cover h-full"/>
