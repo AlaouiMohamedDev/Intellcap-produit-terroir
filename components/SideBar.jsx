@@ -3,12 +3,14 @@ import React, { useContext, useEffect } from 'react'
 import  { useRouter} from 'next/router';
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 
 
 export default function Sidebar() {
     const logOut = ()=>{
         localStorage.clear()
         document.location.reload();
+        deleteCookie('token');
     }
 
     const user=useContext(DataContext)
