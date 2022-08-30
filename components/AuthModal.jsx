@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import swal from 'sweetalert2'
+import { setCookie,getCookie } from 'cookies-next';
 
 export default function AuthModal() {
     const [loginInput,setLogin] = useState({
@@ -34,6 +35,7 @@ export default function AuthModal() {
                     localStorage.setItem('id',res.data.id);
                     localStorage.setItem('public_id',res.data.public_id);
                     localStorage.setItem('password',res.data.password);
+                    setCookie('token',res.data.token);
                     swal.fire("Bienvenue","","success");
                     document.location.reload();
                 }
