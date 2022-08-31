@@ -2,29 +2,32 @@ import React,{ useState } from 'react'
 
 
 export default function TestUpload() {
-    const [image, setImage] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null);
-   
-  
-    const uploadToClient = (event) => {
-      if (event.target.files && event.target.files[0]) {
-        const i = event.target.files[0];
-        console.log("🚀 ~ file: TestUpload.jsx ~ line 21 ~ uploadToServer ~ image", i.size)
-        setImage(i);
-        setCreateObjectURL(URL.createObjectURL(i));
-        console.log("🚀 ~ file: TestUpload.jsx ~ line 7 ~ TestUpload ~ createObjectURL", createObjectURL)
-      }
-    };
-  
-    const uploadToServer = async (event) => {        
-      const body = new FormData();      
-      await body.append("file", image)
-       console.log("🚀 ~ file: TestUpload.jsx ~ line 22 ~ uploadToServer ~ body", body)
-       
-      const response = await fetch("./api/upload", {method: "POST", body}).then(res=>{
-        console.log(res)
-      });
-    };
+  const [image, setImage] = useState(null);
+  const [createObjectURL, setCreateObjectURL] = useState(null);
+
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+
+      setImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+    }
+  };
+
+  const uploadToServer = async (event) => {        
+    const body = new FormData();
+    // console.log("file", image)
+    body.append("file", image);  
+    body.append("upload_preset",'products')  
+    const response = await fetch("https://api.cloudinary.com/v1_1/dhi1q4hre/image/upload", {
+      method: "POST",
+      body
+    }).then(r=>r.json());
+    console.log("🚀 ~ file: TestUpload.jsx ~ line 25 ~ uploadToServer ~ response", response)
+
+    setImage(response.secure_url)
+    setCreateObjectURL(response.secure_url)
+  };
     
   return (
     <div>
