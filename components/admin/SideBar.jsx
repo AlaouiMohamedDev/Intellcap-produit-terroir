@@ -1,8 +1,13 @@
 import React from 'react'
 import { useRouter } from 'next/router';
-
+import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 export default function SideBar() {
-
+  const logOut = ()=>{
+    localStorage.clear()
+    document.location.replace('http://localhost:3000/')
+    deleteCookie('token');
+    deleteCookie('admin');
+}
   const router = useRouter();
 
 
@@ -140,7 +145,7 @@ export default function SideBar() {
           <div className="flex w-max items-center space-x-2 text-gray-400 text-sm hover:text-white duration-100 group relative conUser">
             <img src="/user.jpg" className="w-7 h-7 rounded-lg img-user" />
             <span className="fade span">Admin name</span>
-            <i className='door bx bxs-door-open text-xl cursor-pointer flex items-center' ></i>
+            <i onClick={logOut} className='door bx bxs-door-open text-xl cursor-pointer flex items-center' ></i>
             <span className="info absolute text-[10px] left-12 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Logout</span>
           </div>
           <div className="flex items-center space-x-2 text-[10px]">

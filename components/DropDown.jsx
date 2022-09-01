@@ -4,8 +4,9 @@ import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 export default function DropDown(props) {
     const logOut = ()=>{
         localStorage.clear()
-        document.location.reload();
+        document.location.replace('http://localhost:3000/')
         deleteCookie('token');
+        deleteCookie('admin');
     }
   return (
     <div className="absolute top-14 z-100 bg-white hidden dropDown flex-col w-max text-sm text-black/70 py-3 px-5 shadow-md rounded fade">

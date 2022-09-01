@@ -12,7 +12,7 @@ export default function Header() {
         drop.classList.toggle('flex')
         drop.classList.toggle('hidden')
     }
-    const user =useContext(DataContext);     
+    const {user} =useContext(DataContext);     
 
     const router = useRouter();
 

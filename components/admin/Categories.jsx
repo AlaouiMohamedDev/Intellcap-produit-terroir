@@ -1,19 +1,39 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
-import Swal from 'sweetalert2'
+import swal from 'sweetalert2'
 import Select from 'react-select'
+import axios from 'axios';
+import {Providers,DataContext} from '../../Context/ContextApi';
+import { setCookie,getCookie } from 'cookies-next';
 
 export default function Categories() {
   const router = useRouter();
 
+  const [search, setSearch] = useState([]);
   
+
+  const {categories} =useContext(DataContext)
+
+  useEffect(()=>{
+
+  },[])
+
   // Function EDITMODAL
 const ExitModalEdit  = () => {
     const editModal = document.querySelector('.editModal')
     editModal.classList.remove('flex')
     editModal.classList.add('hidden')
 }
-const ModalEdit  = () => {
+
+const [editInput,setEdit]=useState([]);
+const editHandler =(e) =>{
+    e.persist();
+    setEdit(e.target.value);
+}
+const [id,setId]=useState([]);
+const ModalEdit  = (cat) => {
+    setEdit(cat.name)
+    setId(cat.id)
     const editModal = document.querySelector('.editModal')
     editModal.classList.remove('hidden')
     editModal.classList.add('flex')
@@ -31,20 +51,83 @@ const ModalAdd = () => {
     addModal.classList.add('flex')
 }
 
-  const Delete =() =>{
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-        Swal.fire('Deleted!','Your file has been deleted.','success')
+
+const [categoryInput,setCategory] = useState(null);
+const addHandlerInput =(e) =>{
+    e.persist();
+    setCategory(e.target.value);
+}
+
+const [imageName, setImageName] = useState(null);
+const [image, setImage] = useState(null);
+
+const addHandlerImage = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+      setImage(i);
+      setImageName(i.name);
+    }
+};
+
+const AddCategory =async ()=>{
+
+    const body = new FormData();
+    body.append("CategoryUpload",image)
+    const response = await fetch("https://images.codata-admin.com/api-file-upload-terroir.php", {
+      method: "POST",
+      body
+    }).then(r=>r.json());
+    console.log("🚀 ~ file: Categories.jsx ~ line 81 ~ AddCategory ~ response", response)
+    
+    ExitModalAdd() 
+    const data ={
+        name:categoryInput,
+        image:response.image
+    }
+    axios.post('http://127.0.0.1:5000/category',data).then(res => {
+                      
+        if(res.data.status === 200){
+            swal.fire("Success",res.data.message,"success");
+            document.location.reload();
         }
-})}
+        else
+        {
+            swal.fire("Echec !!",res.data.message,"warning");
+        }
+    })
+
+}
+
+const Delete = (cat) =>{
+        swal.fire({
+            title: `Voulez vous vraiment supprimer ${cat.name}`,
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            axios.delete(`http://127.0.0.1:5000/category/${cat.id}`,{
+                headers:{'x-access-token':getCookie('token')}
+            }).then(res => {
+                const data = {
+                    path:'terroir/categories',
+                    image:cat.image
+                }
+                console.log("🚀 ~ file: Categories.jsx ~ line 180 ~ categories.filter ~ res", res)
+                if(res.data.status === 200){
+                axios.post("https://images.codata-admin.com/api-delete-file-terroir.php",data)
+                    swal.fire('Deleted!',res.data.message,'success')
+                    document.location.reload()
+                }
+            })
+            
+            }
+    })
+}
+
   return (
     <>
         <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
@@ -80,7 +163,10 @@ const ModalAdd = () => {
                         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                         <i className='w-5 y-5 bx bx-search'></i>
                         </div>
-                        <input type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher categorie" />
+                        <input value={search} onChange={(e)=>{
+                            e.persist();
+                            setSearch(e.target.value)
+                            }} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher categorie" />
                     </div>
                 </div>
                 <table className="w-full text-sm text-left  text-gray-400">
@@ -95,18 +181,32 @@ const ModalAdd = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
-                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src="/miel.png" />
-                                <div className="pl-3">
-                                    <div className="text-md">MIELS, AMLOU ET CONFITURES</div>
-                                </div>  
-                            </th>
-                            <td className="py-4 px-6 text-red-500 space-x-10">
-                                    <a onClick={ModalEdit} href="#" className="font-medium  text-custGreen hover:underline">Modifier</a>
-                                    <a onClick={Delete}  className="font-medium  text-red-500  hover:underline">Supprimer</a>
-                            </td>
-                        </tr>
+                        {
+                            categories.filter((val)=>{
+                                if(search == ""){
+                                    return val;
+                                }
+                                else if(val.name.toLowerCase().includes(search.toLowerCase())){
+                                    return val;
+                                }
+                            }).map((category)=>{
+                                return (
+                                    <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                            <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src={`https://images.codata-admin.com/terroir/categories/${category.image}`} />
+                                            <div className="pl-3">
+                                                <div className="text-md">{category.name}</div>
+                                            </div>  
+                                        </th>
+                                        <td className="py-4 px-6 text-red-500 space-x-10">
+                                                <a onClick={()=>ModalEdit(category)} href="#" className="font-medium  text-custGreen hover:underline">Modifier</a>
+                                                <a onClick={()=>Delete(category)} className="font-medium  text-red-500  hover:underline">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        
                     
                     </tbody>
                 </table>
@@ -122,7 +222,7 @@ const ModalAdd = () => {
                 <form className="grid grid-cols-2 gap-5">
                     <div className="col-span-2 flex flex-col space-y-2">
                         <span>Nom</span>
-                        <input type="text" defaultValue="productName"  placeholder="nom" className="bg-dashBlack outline-none border border-gray-700 text-sm py-2 px-3 rounded-md" />
+                        <input type="text" name="editInput" value={editInput} onChange={editHandler}  placeholder="nom" className="bg-dashBlack outline-none border border-gray-700 text-sm py-2 px-3 rounded-md" />
                     </div>
                     <div className="col-span-2 flex flex-col space-y-2 h-full">
                         <span>Image</span>
@@ -160,31 +260,23 @@ const ModalAdd = () => {
                 <form className="grid grid-cols-2 gap-5">
                     <div className="col-span-2 flex flex-col space-y-2">
                         <span>Nom</span>
-                        <input type="text"   placeholder="nom" className="bg-dashBlack outline-none border border-gray-700 text-sm py-2 px-3 rounded-md" />
+                        <input name="name" value={categoryInput} onChange={addHandlerInput} type="text"   placeholder="nom" className="bg-dashBlack outline-none border border-gray-700 text-sm py-2 px-3 rounded-md" />
                     </div>
                     <div className="col-span-2 flex flex-col space-y-2 h-full">
                         <span>Image</span>
-                        <div class="flex justify-center items-center w-full">
-                            
-                            <label for="dropzone-file" class="flex flex-col justify-center items-center w-full h-64 bg-dashBlack hover:bg-gray-700 rounded-lg border-2 border-gray-700 hover:border-dashBlack border-dashed cursor-pointer">
-
+                        <div class="flex justify-center items-center w-full relative">
+                            <label  for="dropzone-file" class="flex flex-col justify-center items-center w-full h-64 bg-dashBlack hover:bg-gray-700 rounded-lg border-2 border-gray-700 hover:border-dashBlack border-dashed cursor-pointer">
                                 <div class="flex flex-col justify-center items-center pt-5 pb-6">
-
                                     <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-
                                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-
                                     <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-
+                                    <span className="pt-5 ">{imageName}</span>
                                 </div>
-
-                                <input id="dropzone-file" type="file" class="hidden" />
-
+                                <input name="image" onChange={addHandlerImage}  id="dropzone-file" type="file" class="bg-red-500 opacity-0 absolute h-full w-full fileInput" />
                             </label>
-
                         </div>
                     </div>
-                    <input type="submit" value="Enregistrer" className="col-span-2 outline-none border border-custGreen text-custGreen py-3 bg-custGreen/30 rounded hover:bg-custGreen hover:text-gray-200 duration-200"/>
+                    <input onClick={AddCategory} type="button" value="Enregistrer" className="col-span-2 outline-none border border-custGreen text-custGreen py-3 bg-custGreen/30 rounded hover:bg-custGreen hover:text-gray-200 duration-200"/>
                 </form>
             </div>
         </div>

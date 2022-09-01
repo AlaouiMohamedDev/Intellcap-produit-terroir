@@ -11,6 +11,7 @@ export default function Sidebar() {
         localStorage.clear()
         document.location.reload();
         deleteCookie('token');
+        deleteCookie('admin');
     }
 
     const user=useContext(DataContext)

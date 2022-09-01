@@ -36,6 +36,9 @@ export default function AuthModal() {
                     localStorage.setItem('public_id',res.data.public_id);
                     localStorage.setItem('password',res.data.password);
                     setCookie('token',res.data.token);
+                    if(res.data.admin){
+                        setCookie('admin',res.data.admin);
+                    }
                     swal.fire("Bienvenue","","success");
                     document.location.reload();
                 }
