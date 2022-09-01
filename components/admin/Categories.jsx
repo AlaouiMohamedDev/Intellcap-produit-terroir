@@ -25,19 +25,6 @@ const ExitModalEdit  = () => {
     editModal.classList.add('hidden')
 }
 
-const [editInput,setEdit]=useState([]);
-const editHandler =(e) =>{
-    e.persist();
-    setEdit(e.target.value);
-}
-const [id,setId]=useState([]);
-const ModalEdit  = (cat) => {
-    setEdit(cat.name)
-    setId(cat.id)
-    const editModal = document.querySelector('.editModal')
-    editModal.classList.remove('hidden')
-    editModal.classList.add('flex')
-}
 
 // Function ADDMODAL
 const ExitModalAdd = () => {
@@ -59,7 +46,9 @@ const addHandlerInput =(e) =>{
 }
 
 const [imageName, setImageName] = useState(null);
-const [image, setImage] = useState(null);
+const [image, setImage] = useState(null); // For the input image
+
+
 
 const addHandlerImage = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -126,6 +115,82 @@ const Delete = (cat) =>{
             
             }
     })
+}
+
+const[imageDb,setImageDb] =useState(null); //For image stored in database
+const [editInput,setEdit]=useState([]);
+const editHandler =(e) =>{
+    e.persist();
+    setEdit(e.target.value);
+}
+const [id,setId]=useState([]);
+const ModalEdit  = (cat) => {
+    setImageDb(cat.image)
+    setEdit(cat.name)
+    setId(cat.id)
+    const editModal = document.querySelector('.editModal')
+    editModal.classList.remove('hidden')
+    editModal.classList.add('flex')
+}
+
+const HasCat =(id,name)=>{
+    for(let i=0; i<categories.length;i++){
+        if(categories[i].id!=id)
+       {
+           if(categories[i].name.trim().toUpperCase()==name.trim().toUpperCase()){
+               return true;
+           }
+       }
+    }
+    return false;
+}
+
+const Edit = () =>{
+
+    swal.fire({
+        title: `Voulez vous vraiment Modifier`,
+        text: `la categorie ${id}`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui , Modifier le!'
+    }).then( async (result) => {
+        if (result.isConfirmed) {
+            if(HasCat(id,editInput)){
+                swal.fire('Attention',"Gategory existe deja",'warning')
+            }
+            else{
+
+                    var img = imageDb;
+                    console.log("🚀 ~ file: Categories.jsx ~ line 150 ~ Edit ~ img", img)
+                    if(image != null){
+                        const body = new FormData();
+                        body.append('Upload',image)
+                        const con = {
+                            folder:'categories',
+                            image:imageDb
+                        }
+                        const response = await fetch(`https://images.codata-admin.com/api-update-file-terroir.php?folder=${con.folder}&image=${con.image}`,{
+                            method: "POST",
+                            body
+                        }).then(r=>r.json());
+                        img=response.image
+                    }
+                    const data = {
+                        name:editInput,
+                        image:img
+                    }
+                    axios.put(`http://127.0.0.1:5000/category/${id}`,data,{
+                    headers:{'x-access-token':getCookie('token')}
+                        }).then(res => {
+                            if(res.data.status === 200){
+                                swal.fire('Modified!',res.data.message,'success')
+                            }
+                        })
+            }
+        }
+})
 }
 
   return (
@@ -226,9 +291,9 @@ const Delete = (cat) =>{
                     </div>
                     <div className="col-span-2 flex flex-col space-y-2 h-full">
                         <span>Image</span>
-                        <div class="flex justify-center items-center w-full">
+                        <div class="flex justify-center items-center w-full relative">
                             
-                            <label for="dropzone-file" class="flex flex-col justify-center items-center w-full h-64 bg-dashBlack hover:bg-gray-700 rounded-lg border-2 border-gray-700 hover:border-dashBlack border-dashed cursor-pointer">
+                            <label for="dropzone-fil" class="flex flex-col justify-center items-center w-full h-64 bg-dashBlack hover:bg-gray-700 rounded-lg border-2 border-gray-700 hover:border-dashBlack border-dashed cursor-pointer">
 
                                 <div class="flex flex-col justify-center items-center pt-5 pb-6">
 
@@ -238,15 +303,17 @@ const Delete = (cat) =>{
 
                                     <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
 
+                                    <span className="pt-5 ">{imageName}</span>
                                 </div>
 
-                                <input id="dropzone-file" type="file" class="hidden" />
+                                <input name="image" onChange={addHandlerImage}  id="dropzone-fil" type="file" class="bg-red-500 opacity-0 absolute h-full w-full fileInput" />
+
 
                             </label>
 
                         </div>
                     </div>
-                    <input type="submit" value="Enregistrer" className="col-span-2 outline-none border border-custGreen text-custGreen py-3 bg-custGreen/30 rounded hover:bg-custGreen hover:text-gray-200 duration-200"/>
+                    <input onClick={Edit} type="button" value="Enregistrer" className="col-span-2 outline-none border border-custGreen text-custGreen py-3 bg-custGreen/30 rounded hover:bg-custGreen hover:text-gray-200 duration-200"/>
                 </form>
             </div>
         </div>
