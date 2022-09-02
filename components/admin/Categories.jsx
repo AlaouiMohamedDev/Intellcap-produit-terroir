@@ -186,6 +186,7 @@ const Edit = () =>{
                         }).then(res => {
                             if(res.data.status === 200){
                                 swal.fire('Modified!',res.data.message,'success')
+                                document.location.reload()
                             }
                         })
             }

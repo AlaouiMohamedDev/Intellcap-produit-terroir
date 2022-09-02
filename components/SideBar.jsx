@@ -14,7 +14,7 @@ export default function Sidebar() {
         deleteCookie('admin');
     }
 
-    const user=useContext(DataContext)
+    const {user}=useContext(DataContext)
 
     useEffect(() =>{
         AOS.init();

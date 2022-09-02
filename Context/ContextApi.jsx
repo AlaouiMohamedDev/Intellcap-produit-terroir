@@ -6,6 +6,13 @@ import { setCookie,getCookie } from 'cookies-next';
 const DataContext = createContext();
 
 const Providers = ({children}) => {
+     //Get All Cooperative
+     const [cooperatives , setCooperative] = useState([]);
+     useMemo(async () => {
+             const res = await axios.get('http://127.0.0.1:5000/cooperatives',{headers:{'x-access-token':getCookie('token')}});
+             const data =  await res.data;
+             setCooperative(data);
+     },[])
     //Get All Categories
     const [categories , setCategories] = useState([]);
     useMemo(async () => {
@@ -23,7 +30,7 @@ const Providers = ({children}) => {
     },[])
 
         return (
-            <DataContext.Provider value ={{user,categories}}>
+            <DataContext.Provider value ={{user,categories,cooperatives}}>
                 {children}
             </DataContext.Provider>
         )
