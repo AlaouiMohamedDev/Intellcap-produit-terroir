@@ -12,7 +12,10 @@
     animation-name: fade;
     animation-duration: 1s;
   }
-
+.alert-animation {
+  animation-name: alert-animation;
+  animation-duration: 1s;
+}
 .zoom-in{
     animation-name: zoom-in;
     animation-duration: 1.5s;
@@ -65,6 +68,10 @@
   @keyframes fade-down{
     from {opacity: .4;display:none;top:0px;} 
     to {opacity: 1;display:flex;top:20px;}
+  }
+  @keyframes alert-animation{
+    from {right:-2.5rem;} 
+    to {right:1.25rem;}
   }
 
 

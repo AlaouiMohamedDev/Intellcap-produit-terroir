@@ -1,14 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { setCookie,getCookie,deleteCookie } from 'cookies-next';
+import axios from 'axios';
 export default function SideBar() {
-  const logOut = ()=>{
+  const logOut =async ()=>{
     localStorage.clear()
-    document.location.replace('http://localhost:3000/')
     deleteCookie('token');
     deleteCookie('admin');
+    deleteCookie('name');
+    deleteCookie('id');
+    deleteCookie('public_id');
+    deleteCookie('name');
+    deleteCookie('email');
+    router.push('/')
+    const response = await axios.get(`http://127.0.0.1:5000/logout/${getCookie('id')}`);
 }
   const router = useRouter();
+
+  const [name,setName] = useState(null)
+
+  useEffect(() =>{
+   setName(getCookie('name'))
+  },[])
 
 
     const OpenSideBar = () =>{
@@ -121,7 +134,7 @@ export default function SideBar() {
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Produits</span>
           </div>
           <div onClick = {() => router.push("/admin/category")} className="flex items-center space-x-5 hover:text-white duration-100 relative group cursor-pointer">
-            <i class='bx bxs-pie-chart-alt-2'></i>
+            <i className='bx bxs-pie-chart-alt-2'></i>
             <span className="fade span">Categories</span>
             <span className="info absolute text-[10px] left-7 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Produits</span>
           </div>
@@ -144,7 +157,7 @@ export default function SideBar() {
         <div className="w-full flex flex-col  list-items space-y-3">
           <div className="flex w-max items-center space-x-2 text-gray-400 text-sm hover:text-white duration-100 group relative conUser">
             <img src="/user.jpg" className="w-7 h-7 rounded-lg img-user" />
-            <span className="fade span">Admin name</span>
+            <span className="fade span">{name}</span>
             <i onClick={logOut} className='door bx bxs-door-open text-xl cursor-pointer flex items-center' ></i>
             <span className="info absolute text-[10px] left-12 text-white fade bg-main py-1 px-2 hidden rounded-full w-max">Logout</span>
           </div>

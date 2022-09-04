@@ -1,10 +1,35 @@
-import React from 'react'
-import { useRouter } from 'next/router';
+import React, { useContext, useState } from 'react'
+import  { useRouter } from 'next/router';
 import Swal from 'sweetalert2'
+import { setCookie,getCookie } from 'cookies-next';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import {selectAllMessages} from '../../app/messages/messagesSlice'
 
 export default function Messages() {
-  const router = useRouter();
+    //Setting date
+var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const d = new Date();
+var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
+const router = useRouter();
 
+//Get messages
+//const {messages} = useContext(DataContext)
+
+const messages = useSelector(selectAllMessages)
+
+const [name,setName] = useState(null)
+
+useEffect(() =>{
+ setName(localStorage.getItem('name'))
+},[])
+
+const [search,setSearch] = useState([])
+const handler =(e)=>{
+    e.persist()
+    setSearch(e.target.value)
+}
   
   // Function EDITMODAL
 const ExitModalMessage  = () => {
@@ -12,27 +37,26 @@ const ExitModalMessage  = () => {
     messageModal.classList.remove('flex')
     messageModal.classList.add('hidden')
 }
-const ModalMessage  = () => {
+const [content,setContent] = useState(null)
+const ModalMessage  = (msg) => {
+    UpdateMessage(msg)
+    setContent(msg.message)
     const messageModal = document.querySelector('.messageModal')
     messageModal.classList.remove('hidden')
     messageModal.classList.add('flex')
 }
 
+const UpdateMessage =(msg) => {
+    console.log("🚀 ~ file: Messages.jsx ~ line 57 ~ UpdateMessage ~ msg", msg)
+    if(!msg.seen){
+        axios.put(`http://127.0.0.1:5000/message/${msg.id}`).then(res => {
+            if(res.data.status === 200){
+                router.push('')
+            }
+       })
+    }
+}
 
-  const Delete =() =>{
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-        Swal.fire('Deleted!','Your file has been deleted.','success')
-        }
-})}
   return (
     <>
         <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
@@ -46,12 +70,12 @@ const ModalMessage  = () => {
             </div>
             <div className="flex flex-col space-y-5 lg:space-y-0 lg:flex-row items-center justify-between">
                 <div className="flex flex-col text-center lg:text-left">
-                    <h3 className="text-md">Bonne journée, AdminName!</h3>
+                    <h3 className="text-md">Bonne journée, {name}</h3>
                     <span className="text-gray-600 text-xs">Voici ce qui se passe avec votre magasin aujourd'hui.</span>
                 </div>
                 <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 items-center space-x-3">
                     <div className="flex items-center text-xs bg-gray-700/40 rounded">
-                        <span className='px-3'>Vendredi 14 Aout 2022</span>
+                        <span className='px-3'>{date}</span>
                         <i className='bx bx-calendar text-[13px] text-white bg-blue-400/60 py-3 px-3'></i>
                     </div>
                     <div onClick = {() => router.push("/admin/product")} className="flex items-center text-xs rounded space-x-1 py-3 px-3 bg-custGreen/20 text-custGreen hover:text-white hover:bg-custGreen duration-100 cursor-pointer">
@@ -68,7 +92,7 @@ const ModalMessage  = () => {
                         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                         <i className='w-5 y-5 bx bx-search'></i>
                         </div>
-                        <input type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher message" />
+                        <input name="search" value={search} onChange={handler} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher message" />
                     </div>
                 </div>
                 <table className="w-full text-sm text-left  text-gray-400">
@@ -92,55 +116,55 @@ const ModalMessage  = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="cursor-pointer border-b  border-gray-800  hover:bg-dashBlack">
-                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                <div className="pl-3">
-                                    <div className="text-md">0001</div>
-                                </div>  
-                            </th>
-                            <td className="py-4 px-6">
-                                Omar
-                            </td>
-                            <td className="py-4 px-6">
-                                Omar@omar.com
-                            </td>
-                            <td className="py-4 px-6 text-custGreen text-xs">
-                                ouvert
-                            </td>
-                            <td onClick={ModalMessage}  className="py-4 px-6 space-x-1 flex items-center justify-center bg-custGreen text-white">
-                                <a className="  rounded text-xs cursor-pointer">
-                                    ouvrir
-                                </a>
-                                <i class='bx bx-show-alt'></i>
-                            </td>
-                        </tr>
-                        <tr className="cursor-pointer border-b  border-gray-800  hover:bg-dashBlack">
-                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                <div className="pl-3">
-                                    <div className="text-md">0001</div>
-                                </div>  
-                            </th>
-                            <td className="py-4 px-6">
-                                Omar
-                            </td>
-                            <td className="py-4 px-6">
-                                Omar@omar.com
-                            </td>
-                            <td className="py-4 px-6 text-red-500 text-xs">
-                                non ouvert
-                            </td>
-                            <td onClick={ModalMessage}  className="py-4 px-6 space-x-1 flex items-center justify-center bg-custGreen text-white">
-                                <a className="  rounded text-xs cursor-pointer">
-                                    ouvrir
-                                </a>
-                                <i class='bx bx-show-alt'></i>
-                            </td>
-                        </tr>
+                        {
+                           
+                            messages.filter((val)=>{
+
+                                    if(search==""){
+                                        return val;
+                                    }
+                                    else if(val.name.toLowerCase().includes(search.toLowerCase())){
+                                        return val;
+                                    }
+                              
+                                
+                            }).map((msg)=>{
+                                return(
+                                    <tr className="cursor-pointer border-b  border-gray-800  hover:bg-dashBlack">
+                                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                            <div className="pl-3">
+                                                <div className="text-md">{msg.id}</div>
+                                            </div>  
+                                        </th>
+                                        <td className="py-4 px-6">
+                                            {msg.name}
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            {msg.email}
+                                        </td>
+                                        {
+                                             (msg.seen) &&<td className="py-4 px-6 text-custGreen text-xs">Ouvert</td>
+                                        }
+                                        {
+                                             (!msg.seen) &&<td className="py-4 px-6 text-red-500 text-xs">non ouvert</td>
+                                        }
+                                        <td onClick={()=>ModalMessage(msg)}  className="py-4 px-6 space-x-1 flex items-center justify-center bg-custGreen text-white">
+                                            <a className="  rounded text-xs cursor-pointer">
+                                                ouvrir
+                                            </a>
+                                            <i class='bx bx-show-alt'></i>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        
+                     
                     </tbody>
                 </table>
             </div>
         </div>
-         {/* EditModal */}
+         {/* Modal */}
          <div className="fixed top-0 hidden fade messageModal items-center justify-center h-screen z-100 w-screen left-0">
             <div onClick={ExitModalMessage} className="h-screen w-screen bg-black/70 absolute">
             </div>
@@ -148,7 +172,7 @@ const ModalMessage  = () => {
                 <i onClick={ExitModalMessage} className='bx bx-x absolute text-2xl top-5 right-5'></i>
                 <h1 className="text-gray-300">Message de omar@omar.com</h1>
                 <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-                    <p class="text-sm text-justify">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque nemo quam eaque. Alias eveniet cum enim veniam explicabo atque odit aspernatur. Doloribus neque in dolorem rerum eum hic, impedit voluptate aperiam soluta officiis exercitationem enim. Sapiente, distinctio eos qui culpa maxime beatae! Facilis aspernatur cupiditate, ipsam explicabo necessitatibus velit quasi nesciunt laboriosam optio animi sit est neque dolorem distinctio fugiat qui et unde, placeat exercitationem veritatis mollitia. Beatae debitis sint porro facere nisi accusantium eos libero rerum necessitatibus esse ea dolore voluptatibus, minus distinctio quia eveniet est fugit laborum quos sed saepe veritatis? Vel similique quasi eos delectus dolorem voluptates!</p>
+                    <p class="text-sm text-justify">{content}</p>
             </div>
             </div>
         </div>

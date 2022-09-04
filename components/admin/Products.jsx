@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2'
 import Select from 'react-select'
 
 export default function Products() {
-  const router = useRouter();
+    //Setting date
+const option = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const d = new Date();
+var date =d.toLocaleDateString("en-US", option).replace(/,/g,' ');
+const router = useRouter();
 
   const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -86,6 +90,12 @@ const ModalAdd = () => {
         Swal.fire('Deleted!','Your file has been deleted.','success')
         }
 })}
+const [name,setName] = useState(null)
+
+useEffect(() =>{
+ setName(localStorage.getItem('name'))
+},[])
+
   return (
     <>
         <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
@@ -99,12 +109,12 @@ const ModalAdd = () => {
             </div>
             <div className="flex flex-col space-y-5 lg:space-y-0 lg:flex-row items-center justify-between">
                 <div className="flex flex-col text-center lg:text-left">
-                    <h3 className="text-md">Bonne journée, AdminName!</h3>
+                    <h3 className="text-md">Bonne journée, {name}</h3>
                     <span className="text-gray-600 text-xs">Voici ce qui se passe avec votre magasin aujourd'hui.</span>
                 </div>
                 <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 items-center space-x-3">
                     <div className="flex items-center text-xs bg-gray-700/40 rounded">
-                        <span className='px-3'>Vendredi 14 Aout 2022</span>
+                        <span className='px-3'>{date}</span>
                         <i className='bx bx-calendar text-[13px] text-white bg-blue-400/60 py-3 px-3'></i>
                     </div>
                     <div onClick={ModalAdd} className="flex items-center text-xs rounded space-x-1 py-3 px-3 bg-custGreen/20 text-custGreen hover:text-white hover:bg-custGreen duration-100 cursor-pointer">

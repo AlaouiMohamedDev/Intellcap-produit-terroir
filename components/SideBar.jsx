@@ -1,20 +1,34 @@
-import {Providers,DataContext} from '../Context/ContextApi';
-import React, { useContext, useEffect } from 'react'
+
+import React, { useContext, useState,useEffect } from 'react'
 import  { useRouter} from 'next/router';
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { setCookie,getCookie,deleteCookie } from 'cookies-next';
+import axios from 'axios';
+import { useSelector } from "react-redux";
+import { selectUserById } from '../app/users/usersSlice'
 
 
 export default function Sidebar() {
-    const logOut = ()=>{
+    const logOut =async ()=>{
         localStorage.clear()
-        document.location.reload();
         deleteCookie('token');
         deleteCookie('admin');
+        deleteCookie('name');
+        deleteCookie('id');
+        deleteCookie('public_id');
+        deleteCookie('name');
+        deleteCookie('email');
+        const response =await axios.get(`http://127.0.0.1:5000/logout/${user.id}`);
+        router.push("/")
+        //document.location.replace('http://localhost:3000/')
     }
+    //const {user}=useContext(DataContext)
+    
+    const user = useSelector(state => selectUserById(state,Number(getCookie('id'))))
+    
+    
 
-    const {user}=useContext(DataContext)
 
     useEffect(() =>{
         AOS.init();
@@ -116,11 +130,11 @@ export default function Sidebar() {
                         <span className="text-xs">Chercher</span>
                     </div>
                     {
-                        (user.status === 200)
+                        (user != null)
                         ?
                         <div className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
                             <i className='bx bx-user cursor-pointer text-main'></i>
-                            <span className="text-xs">{user.user.name}</span>
+                            <span className="text-xs">{user.name}</span>
                         </div>
                         :
                         <div onClick={ModalAuth}  className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
@@ -140,7 +154,9 @@ export default function Sidebar() {
                 </div>
                 <div className="flex space-x-3 px-3 w-full text-xs">
                    {
-                    (user.status==200 && user.user.admin==true)
+                    (user !=null)
+                    &&
+                    (user.admin==true)
                     &&
                     <div onClick = {() => router.push("/admin/dashboard")} className="w-full bg-main flex items-center justify-center rounded space-x-2 text-white cursor-pointer">
                         <span className="py-3">Dashboard</span>
@@ -148,7 +164,7 @@ export default function Sidebar() {
                     </div>
                    }
                    {
-                    (user.status === 200)
+                    (user != null)
                     &&
                     <div onClick={logOut} className="w-full bg-dashBlack flex items-center justify-center rounded space-x-2 text-white cursor-pointer">
                         <span className="py-3">déconnécter</span>

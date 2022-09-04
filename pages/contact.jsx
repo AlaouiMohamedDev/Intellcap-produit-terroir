@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Header from '../components/Header'
 import SideBar from '../components/SideBar'
@@ -6,8 +6,46 @@ import AuthModal from '../components/AuthModal'
 import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 export default function aboutUs() {
+const [inputs,setInputs] = useState({
+    name:'',
+    email:'',
+    message:'',
+    error_list:[],
+});
+
+const router =useRouter();
+
+const SubmitMessage =(e)=>{
+        e.preventDefault();
+        if (inputs.name=="" || inputs.email=="" || inputs.messgae=="")
+        {
+            setInputs({...inputs,error_list:{'messageErr':"Un champs est vide",'error':true}})
+        }
+        else{
+            const data ={
+                name: inputs.name,
+                email:inputs.email,
+                message:inputs.message
+            }
+            axios.post('http://127.0.0.1:5000/message',data).then(res => {
+                      
+                if(res.data.status === 200){
+                    const message = document.querySelector('.message')
+                    message.classList.add('flex')
+                    message.classList.remove('hidden')
+                    router.push('')
+                }
+            })
+        }
+}
+const HandlerInput =(e) =>{
+    e.persist();
+    setInputs({...inputs,[e.target.name]:e.target.value});
+}
   return (
     <div className="font-poppins h-screen">
         <Head>
@@ -22,6 +60,10 @@ export default function aboutUs() {
         <AuthModal />
         <Cart />
         <SearchModal />
+        <div className="alert-animation right-5 duration-200 message fixed justify-center items-center  bg-custGreen space-x-2 text-gray-100 text-sm py-3 px-5 hidden top-20 z-100">
+            <i class='bx bxs-check-circle text-md'></i>
+            <span>Message envoyé</span>
+        </div>
         <div className="bg-about space-y-4 bg-cover bg-center w-full flex flex-col items-center justify-center text-white relative h-1/3">
             <div className="bg-black/50 absolute w-full h-full z-10">
 
@@ -58,21 +100,36 @@ export default function aboutUs() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pb-10 px-10">
             <form action="" className="space-y-4">
-                <p className="font-bold text-lg ">Contactez-nous</p>
+                <div class="flex justify-between items-center lg:w-[94%]">
+                    <p className="font-bold text-lg ">Contactez-nous</p>
+                    {
+                        (inputs.error_list.error)
+                        &&
+                        <div className="text-sm text-red-500 flex items-center space-x-2 animate-pulse">
+                          
+                            <span>
+                            {
+                                inputs.error_list.messageErr
+                            }
+                            </span>
+                            <i class='text-md bx bxs-help-circle'></i>
+                        </div>
+                    }
+                </div>
                 <p className="text-xs text-gray-600">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, distinctio laudantium eos officiis quaerat quae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil recusandae dolorem deleniti consequuntur, quas maxime.</p>
                 <div className="flex flex-col space-y-2">
                     <span className="text-sm font-semibold text-gray-600">Nom</span>
-                    <input type="text" className="rounded w-full lg:w-[94%] py-2 px-2 outline-none border placeholder:text-sm hover:border-main duration-200 " placeholder='Ex:Mohamed..' />
+                    <input name="name" value={inputs.name} onChange={HandlerInput} type="text" className="rounded w-full lg:w-[94%] py-2 px-2 outline-none border placeholder:text-sm hover:border-main duration-200 " placeholder='Ex:Mohamed..' />
                 </div>
                 <div className="flex flex-col space-y-2">
                     <span className="text-sm font-semibold text-gray-600">Email</span>
-                    <input type="text" className="rounded w-full lg:w-[94%] py-2 px-2 outline-none border placeholder:text-sm hover:border-main duration-200 " placeholder='Ex:..@contact.com' />
+                    <input name="email" value={inputs.email} onChange={HandlerInput} type="text" className="rounded w-full lg:w-[94%] py-2 px-2 outline-none border placeholder:text-sm hover:border-main duration-200 " placeholder='Ex:..@contact.com' />
                 </div>
                 <div className="flex flex-col space-y-2">
                     <span className="text-sm font-semibold text-gray-600">Message</span>
-                    <textarea name="" id="" cols="30" rows="5"  className="rounded w-full lg:w-[94%] py-2 px-2 outline-none border placeholder:text-sm hover:border-main duration-200 " placeholder='Ex:Bonjour..'></textarea>
+                    <textarea name="message" value={inputs.message} onChange={HandlerInput}  cols="30" rows="5"  className="rounded w-full lg:w-[94%] py-2 px-2 outline-none border placeholder:text-sm hover:border-main duration-200 " placeholder='Ex:Bonjour..'></textarea>
                 </div>
-                <input type="submit" value="Envoyer" className="bg-main text-white rounded w-full lg:w-[94%] py-3 outline-none text-sm"/>
+                <input onClick={SubmitMessage} type="submit" value="Envoyer" className="bg-main text-white rounded w-full lg:w-[94%] py-3 outline-none text-sm"/>
             </form>
             <div>
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1161.3100038907394!2d-8.021680983527329!3d31.65351535893844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafec210db584a7%3A0x1cb520ab88165485!2sEMSI%20MARRAKECH!5e0!3m2!1sfr!2sma!4v1660848844905!5m2!1sfr!2sma" width="100%"height="100%" style={{border:"0"}} allowFullScreen="" loading="eager" referrerPolicy="no-referrer-when-downgrade">

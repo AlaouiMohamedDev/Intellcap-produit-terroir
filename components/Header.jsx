@@ -3,8 +3,10 @@ import AOS from 'aos'
 import { useRouter } from 'next/router'
 import 'aos/dist/aos.css'
 import axios from 'axios'
-import {Providers,DataContext} from '../Context/ContextApi';
 import DropDown from './DropDown'
+import { useSelector } from "react-redux";
+import { selectUserById } from '../app/users/usersSlice'
+import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 
 export default function Header() {
     const dropDown =()=> {
@@ -12,7 +14,9 @@ export default function Header() {
         drop.classList.toggle('flex')
         drop.classList.toggle('hidden')
     }
-    const {user} =useContext(DataContext);     
+    //const {user} =useContext(DataContext);     
+
+    const user = useSelector(state => selectUserById(state,Number(getCookie('id'))))
 
     const router = useRouter();
 
@@ -89,8 +93,8 @@ export default function Header() {
                 <i className='bx bx-phone-call pr-2' ></i>
                 <span>+212 658987515</span>
             </div>
-        </div>
-        {/* END topbar */}
+        </div> 
+        {/* END topbar
 
         {/* Header */}  
         <div className="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen">
@@ -158,15 +162,15 @@ export default function Header() {
             <div className="hidden text-xl xl:flex items-center space-x-7">
                 <i className='bx bx-search cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={searchModal}></i>
                 {
-                    (user.status===200) 
-                    ? 
+                    (user !=null) 
+                    ?
                     <div className="relative flex flex-col items-center">
                         <i onClick={dropDown} className='bx bx-user-check text-2xl cursor-pointer text-main' ></i>
-                        <DropDown user={user.user}/>
+                        <DropDown user={user}/>
                     </div>
-                    : 
+                    :  
                     <i className='bx bx-user cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={ModalAuth} ></i>
-                }
+                 } 
                 
                 <i onClick = {() => router.push("/wishList")} className='bx bx-heart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' ></i>
                 <i className='bx bx-cart cursor-pointer hover:text-main hover:-translate-y-1 duration-300' onClick={cartModal}></i>

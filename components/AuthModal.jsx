@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import swal from 'sweetalert2'
+import  { useRouter} from 'next/router';
 import { setCookie,getCookie } from 'cookies-next';
 
 export default function AuthModal() {
+    const router = useRouter();
     const [loginInput,setLogin] = useState({
-        userName:'',
+        email:'',
         password:'',
         error_list:[],
     });
@@ -16,31 +18,31 @@ export default function AuthModal() {
     const loginSubmit=(e)=>
     {
         e.preventDefault();
-        if (loginInput.userName=="" || loginInput.password=="")
+        if (loginInput.email=="" || loginInput.password=="")
         {
             setLogin({...loginInput,error_list:{'messageErr':"Un champs est vide",'error':true}})
         }
         else
         {
             const data ={
-                username:loginInput.userName,
+                email:loginInput.email,
                 password:loginInput.password,
             }
             axios.post('http://127.0.0.1:5000/login',data).then(res => {
                       
                 if(res.data.status === 200){
-                    localStorage.setItem('token',res.data.token);
-                    localStorage.setItem('name',res.data.name);
-                    localStorage.setItem('email',res.data.email);
-                    localStorage.setItem('id',res.data.id);
-                    localStorage.setItem('public_id',res.data.public_id);
-                    localStorage.setItem('password',res.data.password);
+                    setCookie('name',res.data.name);
+                    setCookie('email',res.data.email);
+                    setCookie('public_id',res.data.public_id);
+                    setCookie('id',res.data.id);
                     setCookie('token',res.data.token);
+                    setCookie('name',res.data.name);
                     if(res.data.admin){
                         setCookie('admin',res.data.admin);
                     }
                     swal.fire("Bienvenue","","success");
-                    document.location.reload();
+                    ModalAuth()
+                    router.push("/")
                 }
                 else
                 {
@@ -168,7 +170,7 @@ export default function AuthModal() {
                         Se connectez à votre compte
                     </h2>
                     <form method="post" onSubmit={loginSubmit} className = "flex w-full flex-col space-y-3">
-                        <input name="userName" onChange={handleInput} value={loginInput.userName} placeholder = "Nom d'utilisateur" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+                        <input name="email" onChange={handleInput} value={loginInput.email} placeholder = "Adresse Email" type="text" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <input name="password" onChange={handleInput} value={loginInput.password} placeholder = "Mot de passe" type="password" className = "placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                         <button className = "bg-main text-white flex items-center justify-center py-2 rounded text-sm" >
                                 <span>Se connectez</span>

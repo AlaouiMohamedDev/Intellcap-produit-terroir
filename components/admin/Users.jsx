@@ -1,14 +1,110 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
-import Swal from 'sweetalert2'
+import swal from 'sweetalert2'
+import { useSelector } from 'react-redux';
+import { selectAllUsers } from '../../app/users/usersSlice'
+import { getCookie } from 'cookies-next';
+import axios from 'axios';
 
 export default function Users() {
-  const router = useRouter();
+    //Setting date
+var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const d = new Date();
+var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
+const router = useRouter();
 
-  const Delete =() =>{
-    console.log('first')
-    Swal.fire({
-        title: 'Are you sure?',
+//var {users} = useContext(DataContext)
+ const users = useSelector(selectAllUsers)
+
+ var hasUsers = true
+for(var i =0 ;i<users.length;i++){
+    if(!users[i].admin && users[i].deletedAt != null){
+        hasUsers = false
+    }
+}
+
+var hasUsers1 = true
+for(var i =0 ;i<users.length;i++){
+    if(!users[i].admin && users[i].deletedAt == null){
+        hasUsers1 = false
+    }
+}
+const [name,setName] = useState(null)
+
+useEffect(() =>{
+ setName(getCookie('name'))
+},[])
+
+const [search,setSearch] = useState([])
+
+const handler =(e)=>{
+    e.persist()
+    setSearch(e.target.value)
+}
+
+const [searchDeleted,setSearchDeleted] = useState([])
+
+const handlerDeleted =(e)=>{
+    e.persist()
+    setSearchDeleted(e.target.value)
+}
+
+
+const [password,setPassword] = useState([])
+
+const handlerPass =(e) =>{
+    e.persist()
+    setPassword(e.target.value)
+}
+
+const [password1,setPassword1] = useState([])
+
+const handlerPass1 =(e) =>{
+    e.persist()
+    setPassword1(e.target.value)
+}
+const ExitConfirModal = () =>{
+    const Modal= document.querySelector('.ConfirModal')
+    Modal.classList.remove('flex')
+    Modal.classList.add('hidden')
+ }
+
+const [userId,setUserId] = useState([])
+const ConfirModal = (id) =>{
+   const Modal= document.querySelector('.ConfirModal')
+   Modal.classList.remove('hidden')
+   Modal.classList.add('flex')
+   setUserId(id)
+}
+
+const ExitConfirModal1 = () =>{
+    const Modal= document.querySelector('.ConfirModal1')
+    Modal.classList.remove('flex')
+    Modal.classList.add('hidden')
+ }
+
+
+const ConfirModal1 = (id) =>{
+   const Modal= document.querySelector('.ConfirModal1')
+   Modal.classList.remove('hidden')
+   Modal.classList.add('flex')
+   setUserId(id)
+}
+
+const ExitUsersModal = () =>{
+    const Modal= document.querySelector('.UsersModal')
+    Modal.classList.remove('flex')
+    Modal.classList.add('hidden')
+ }
+
+const UsersModal = () =>{
+    const Modal= document.querySelector('.UsersModal')
+    Modal.classList.remove('hidden')
+    Modal.classList.add('flex')
+}
+const Delete =()=>{
+    swal.fire({
+        title: `Voulez vous vraiment supprimer ${userId}`,
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
@@ -17,10 +113,62 @@ export default function Users() {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-        Swal.fire('Deleted!','Your file has been deleted.','success')
+            const data ={
+                idAdmin:getCookie('id'),
+                idUser:userId,
+                password:password
+            }
+            console.log("🚀 ~ file: Users.jsx ~ line 67 ~ Delete ~ data", data)
+            axios.put('http://127.0.0.1:5000/user',data,{
+                headers:{'x-access-token':getCookie('token')}
+            }).then(res => {
+                if(res.data.status === 200){
+                swal.fire('Deleted!',res.data.message,'success')
+                ExitConfirModal()
+                router.push('')
+                }
+                else{
+                    swal.fire('Not Deleted!',res.data.message,'warning')
+                }
+            })
         }
-})}
+    })
+}
+
+const Confirm=() =>{
+    swal.fire({
+        title: `Voulez vous vraiment restorer ${userId}`,
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Restor it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const data ={
+                idAdmin:getCookie('id'),
+                idUser:userId,
+                password:password1
+            }
+            axios.put('http://127.0.0.1:5000/restorUser',data,{
+                headers:{'x-access-token':getCookie('token')}
+            }).then(res => {
+                if(res.data.status === 200){
+                swal.fire('Restaurée!',res.data.message,'success')
+                ExitConfirModal1()
+                ExitUsersModal()
+                router.push('')
+                }
+                else{
+                    swal.fire('Not Restored!',res.data.message,'warning')
+                }
+            })
+        }
+    })
+}
   return (
+    <>
     <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
       <div className="flex flex-col sm:flex-row items-center justify-between  bg-dashBlack py-2 px-3">
             <h1 className="uppercase font-bold">Utilisateurs</h1>
@@ -32,17 +180,17 @@ export default function Users() {
         </div>
         <div className="flex flex-col space-y-5 lg:space-y-0 lg:flex-row items-center justify-between">
             <div className="flex flex-col text-center lg:text-left">
-                <h3 className="text-md">Bonne journée, AdminName!</h3>
+                <h3 className="text-md">Bonne journée, {name}</h3>
                 <span className="text-gray-600 text-xs">Voici ce qui se passe avec votre magasin aujourd'hui.</span>
             </div>
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 items-center space-x-3">
                 <div className="flex items-center text-xs bg-gray-700/40 rounded">
-                    <span className='px-3'>Vendredi 14 Aout 2022</span>
+                    <span className='px-3'>{date}</span>
                     <i className='bx bx-calendar text-[13px] text-white bg-blue-400/60 py-3 px-3'></i>
                 </div>
-                <div  onClick = {() => router.push("/admin/product")} className="flex items-center text-xs rounded space-x-1 py-3 px-3 bg-custGreen/20 text-custGreen hover:text-white hover:bg-custGreen duration-100 cursor-pointer">
-                    <i className='bx bx-plus-circle'></i>
-                    <span>Ajouter un produit</span>
+                <div onClick={UsersModal} className="flex items-center text-xs rounded space-x-1 py-3 px-3 bg-custGreen/20 text-custGreen hover:text-white hover:bg-custGreen duration-100 cursor-pointer">
+                    <i class='bx bx-user-x text-md'></i>
+                    <span>Utilisateur Archivée</span>
                 </div>
             </div>
         </div>
@@ -54,7 +202,7 @@ export default function Users() {
                     <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                       <i className='w-5 y-5 bx bx-search'></i>
                     </div>
-                    <input type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher utilisateur" />
+                    <input name="search" value={search} onChange={handler} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher utilisateur" />
                 </div>
             </div>
             <table className="w-full text-sm text-left  text-gray-400">
@@ -75,73 +223,177 @@ export default function Users() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
-                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                            <img className="w-10 h-10 rounded-full" src="/user.jpg" />
-                            <div className="pl-3">
-                                <div className="text-md">UserName</div>
-                                <div className="font-normal text-gray-500">neil.sims@flowbite.com</div>
-                            </div>  
-                        </th>
-                        <td className="py-4 px-6">
-                            20 commande
-                        </td>
-                        <td className="py-4 px-6">
-                            <div className="flex items-center">
-                                <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div> Online
-                            </div>
-                        </td>
-                        <td className="py-4 px-6 text-red-500 space-x-1 hover:underline">
-                            <a onClick={Delete} href="#" className="font-medium  text-red-500">Supprimer</a>
-                        </td>
-                    </tr>
-                    <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                    {
+                        (hasUsers)
+                        ?
+                        users.filter((val)=>{
+                            if(search == "")
+                            {
+                                return val;
+                            }
+                            else if(val.name.toLowerCase().includes(search.toLowerCase()))
+                            {
+                                return val;
+                            }
+                        }).map((user)=>{
+                            if(!user.admin && user.deletedAt == null)
+                            {
+                                return (
+                                        <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                <img className="w-10 h-10 rounded-full" src="/user.jpg" />
+                                                <div className="pl-3">
+                                                    <div className="text-md">{user.name}</div>
+                                                    <div className="font-normal text-gray-500">{user.email}</div>
+                                                </div>  
+                                            </th>
+                                            <td className="py-4 px-6">
+                                                20 commande
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                    {
+                                                        (user.isLogedIn)
+                                                        ?
+                                                        <div className="flex items-center"><div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>Online</div>
+                                                         :
+                                                        <div className="flex items-center"><div className="h-2.5 w-2.5 rounded-full bg-gray-400 mr-2"></div>Offline</div> 
+                                                    }
+                                            </td>
+                                            <td className="py-4 px-6 text-red-500 space-x-1 hover:underline">
+                                                <a onClick={()=>ConfirModal(user.id)} href="#" className="font-medium  text-red-500">Supprimer</a>
+                                            </td>
+                                        </tr>
+                                )
+
+                            }
+                        })
+                        :
+                        <tr className="bg-custGreen/20 text-custGreen">
+                            <td colspan="4" className="py-4 px-6 w-full text-center">Aucun Utilisateurs trouver</td>
+                        </tr>
+                    }
                     
-                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                            <img className="w-10 h-10 rounded-full" src="/user.jpg" />
-                            <div className="pl-3">
-                                <div className="text-md">UserName</div>
-                                <div className="font-normal text-gray-500">neil.sims@flowbite.com</div>
-                            </div>  
-                        </th>
-                        <td className="py-4 px-6">
-                            20 commande
-                        </td>
-                        <td className="py-4 px-6">
-                            <div className="flex items-center">
-                                <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div> Online
-                            </div>
-                        </td>
-                        <td className="py-4 px-6 text-red-500 space-x-1 hover:underline">
-                            <a onClick={Delete} href="#" className="font-medium  text-red-500">Supprimer</a>
-                        </td>
-                    </tr>
-                    <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
-                        
-                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                            <img className="w-10 h-10 rounded-full" src="/user.jpg" />
-                            <div className="pl-3">
-                                <div className="text-md">UserName</div>
-                                <div className="font-normal text-gray-500">neil.sims@flowbite.com</div>
-                            </div>  
-                        </th>
-                        <td className="py-4 px-6">
-                            20 commande
-                        </td>
-                        <td className="py-4 px-6">
-                            <div className="flex items-center">
-                                <div className="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div> Online
-                            </div>
-                        </td>
-                        <td className="py-4 px-6 text-red-500 space-x-1 hover:underline">
-                            <a onClick={Delete} href="#" className="font-medium  text-red-500">Supprimer</a>
-                        </td>
-                    </tr>
+                  
                 </tbody>
             </table>
         </div>
 
- 
+
     </div>
+        <div className="fixed top-0 hidden fade ConfirModal items-center justify-center h-screen z-100 w-screen left-0">
+            <div onClick={ExitConfirModal}  className="h-screen w-screen bg-black/70 absolute">
+            </div>
+            <div className="relative bg-[#1a1d21] text-gray-400  flex flex-col  rounded z-100 w-screen md:w-[60%]">
+                <div className="justify-between flex items-center py-2 px-5">
+                    <h1 className="text-gray-300">Verification Mot de Passe</h1>
+                    <i onClick={ExitConfirModal} class='cursor-pointer bx bxs-shield-x text-lg'></i>
+                </div>
+               <div class="flex flex-col space-y-3 mb-3">
+                    <div className="border-b border-gray-400"></div>
+                    <input name="password" value={password} onChange={handlerPass} type="password"   placeholder="Saisir mot de passe pour confirmer" className="bg-dashBlack mx-5 outline-none border border-gray-700 text-sm py-2 px-3 rounded-md" />
+                    <input onClick={Delete} type="button" value="Supprimer" className="col-span-2  outline-none mx-5 border border-red-500 text-red-500 py-3 bg-red-500/30 rounded hover:bg-red-500 cursor-pointer hover:text-gray-200 duration-200"/>
+               </div>
+            </div>
+        </div> 
+
+        <div className="fixed top-0 hidden fade UsersModal items-center justify-center h-screen z-100 w-screen left-0">
+            <div onClick={ExitUsersModal} className="h-screen w-screen bg-black/70 absolute">
+            </div>
+            <div className="relative bg-[#1a1d21] text-gray-400  flex flex-col  rounded z-100 w-[80%]">
+                <i onClick={ExitUsersModal} class='cursor-pointer bx bxs-shield-x text-lg absolute -top-9 py-1 px-2 bg-gray-300 rounded text-gray-700 right-0'></i>
+                <div className="px-5 overflow-x-auto relative shadow-md sm:rounded-lg">
+                    <div className="flex justify-between flex-col space-y-3 md:space-y-0 md:flex-row items-center py-3 bg-gray-9">
+                    <h1 className="text-xl">Liste d'utilisateurs  supprimée</h1>
+                        <div className="relative ">
+                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                            <i className='w-5 y-5 bx bx-search'></i>
+                            </div>
+                            <input name="search" value={searchDeleted} onChange={handlerDeleted} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher utilisateur" />
+                        </div>
+                    </div>
+                    <table className="w-full text-sm text-left  text-gray-400 mb-4">
+                        <thead className="text-xs  uppercase bg-dashBlack text-gray-400">
+                            <tr>
+                                <th scope="col" className="py-3 px-6">
+                                    Nom
+                                </th>
+                                <th scope="col" className="py-3 px-6">
+                                    Commande
+                                </th>
+                                <th scope="col" className="py-3 px-6">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {   
+                                (hasUsers1)
+                                ?
+                                users.filter((val)=>{
+                                    if(searchDeleted == "")
+                                    {
+                                        return val;
+                                    }
+                                    else if(val.name.toLowerCase().includes(searchDeleted.toLowerCase()))
+                                    {
+                                        return val;
+                                    }
+                                    if(val.lenght == 0){
+                                        test = false
+                                    }
+                                }).map((user)=>{
+                                    if(!user.admin && user.deletedAt != null)
+                                    {
+                                        return (
+                                                <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                                    <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                        <img className="w-10 h-10 rounded-full" src="/user.jpg" />
+                                                        <div className="pl-3">
+                                                            <div className="text-md">{user.name}</div>
+                                                            <div className="font-normal text-gray-500">{user.email}</div>
+                                                        </div>  
+                                                    </th>
+                                                    <td className="py-4 px-6">
+                                                        20 commande
+                                                    </td>
+                                                    <td onClick={()=>ConfirModal1(user.id)} className="py-4 px-6  space-x-1 hover:underline">
+                                                        <a href="#" className="font-medium bg-custGreen py-1 px-4 rounded  text-white">Restaurer</a>
+                                                    </td>
+                                                </tr>
+                                        )
+
+                                    }
+                                    
+                                })
+                                :
+                                <tr className="bg-custGreen/20 text-custGreen">
+                                    <td colspan="4" className="py-4 px-6 w-full text-center">Aucun Utilisateurs trouver</td>
+                                </tr>
+                            }
+                            
+                        
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div> 
+
+        <div className="fixed top-0 hidden fade ConfirModal1 items-center justify-center h-screen z-100 w-screen left-0">
+            <div onClick={ExitConfirModal1}  className="h-screen w-screen bg-black/70 absolute">
+            </div>
+            <div className="relative bg-[#1a1d21] text-gray-400  flex flex-col  rounded z-100 w-screen md:w-[60%]">
+                <div className="justify-between flex items-center py-2 px-5">
+                    <h1 className="text-gray-300">Verification Mot de Passe</h1>
+                    <i onClick={ExitConfirModal1} class='cursor-pointer bx bxs-shield-x text-lg'></i>
+                </div>
+               <div class="flex flex-col space-y-3 mb-3">
+                    <div className="border-b border-gray-400"></div>
+                    <input name="password" value={password1} onChange={handlerPass1} type="password"   placeholder="Saisir mot de passe pour confirmer" className="bg-dashBlack mx-5 outline-none border border-gray-700 text-sm py-2 px-3 rounded-md" />
+                    <input onClick={Confirm} type="button" value="Restaurer" className="col-span-2  outline-none mx-5 border border-custGreen text-custGreen py-3 bg-custGreen/30 rounded hover:bg-custGreen cursor-pointer hover:text-gray-200 duration-200"/>
+               </div>
+            </div>
+        </div> 
+    </>
   )
 }
