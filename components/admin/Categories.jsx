@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import swal from 'sweetalert2'
 import Select from 'react-select'
 import axios from 'axios';
-
+import Pagination from '../Pagination'
 import { setCookie,getCookie } from 'cookies-next';
 import {selectAllCategories} from '../../app/categories/categoriesSlice'
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
 
   //const {categories} =useContext(DataContext)
     const categories = useSelector(selectAllCategories)
-    console.log("🚀 ~ file: Categories.jsx ~ line 23 ~ Categories ~ categories", categories)
+
     
   useEffect(()=>{
 
@@ -65,25 +65,25 @@ const addHandlerImage = (event) => {
       setImageName(i.name);
     }
 };
+const AddCategory=async ()=>{
 
-const AddCategory =async ()=>{
-
-    const body = new FormData();
-    body.append("CategoryUpload",image)
-    const response = await fetch("https://images.codata-admin.com/api-file-upload-terroir.php", {
-      method: "POST",
-      body
-    }).then(r=>r.json());
-    console.log("🚀 ~ file: Categories.jsx ~ line 81 ~ AddCategory ~ response", response)
-    
-    ExitModalAdd() 
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+"-"+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var fullname=date+"-"+image.name
     const data ={
         name:categoryInput,
-        image:response.image
+        image:fullname
     }
-    axios.post('http://127.0.0.1:5000/category',data).then(res => {
+    axios.post('http://127.0.0.1:5000/category',data).then(async res => {
                       
         if(res.data.status === 200){
+            const body = new FormData();
+            body.append("CategoryUpload",image)
+            const response = await fetch(`https://images.codata-admin.com/api-file-upload-terroir.php?name=${fullname}`, {
+            method: "POST",
+            body
+            }).then(r=>r.json());
+            ExitModalAdd()
             swal.fire("Success",res.data.message,"success");
             router.push('')
         }
@@ -93,7 +93,13 @@ const AddCategory =async ()=>{
         }
     })
 
+
+
+    
+    
+    
 }
+
 
 const Delete = (cat) =>{
         swal.fire({
@@ -158,6 +164,15 @@ useEffect(() =>{
  setName(localStorage.getItem('name'))
 },[])
 
+const [currentPage,setCurrentPage] = useState(1)
+const [elementPerPage,seEelementPerPage] = useState(3)
+
+const indexOfLastElement = currentPage * elementPerPage
+const indexOfFirstElement = indexOfLastElement - elementPerPage
+const currentElements = categories.slice(indexOfFirstElement,indexOfLastElement)
+
+const paginate = pageNumber => setCurrentPage(pageNumber)
+
 const Edit = () =>{
 
     swal.fire({
@@ -216,7 +231,7 @@ const Edit = () =>{
   return (
     <>
         <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
-        <div className="flex flex-col sm:flex-row items-center justify-between  bg-dashBlack py-2 px-3">
+            <div className="flex flex-col sm:flex-row items-center justify-between  bg-dashBlack py-2 px-3">
                 <h1 className="uppercase font-bold">Categories</h1>
                 <div className="flex items-center space-x-1 text-xs">
                     <span onClick = {() => router.push("/admin/dashboard")} className="text-white cursor-pointer">Dashboard</span>
@@ -241,7 +256,7 @@ const Edit = () =>{
                 </div>
             </div>
             
-            <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+            <div className="overflow-x-auto relative  sm:rounded-lg">
                 <div className="flex justify-between flex-col space-y-3 md:space-y-0 md:flex-row items-center py-10 bg-gray-9">
                 <h1 className="text-xl">Liste des Categories</h1>
                     <div className="relative ">
@@ -267,7 +282,7 @@ const Edit = () =>{
                     </thead>
                     <tbody>
                         {
-                            categories.filter((val)=>{
+                            currentElements.filter((val)=>{
                                 if(search == ""){
                                     return val;
                                 }
@@ -295,6 +310,7 @@ const Edit = () =>{
                     
                     </tbody>
                 </table>
+            <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={categories.length}/>
             </div>
         </div>
          {/* EditModal */}

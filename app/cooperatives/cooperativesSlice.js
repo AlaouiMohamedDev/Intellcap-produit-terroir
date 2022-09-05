@@ -6,7 +6,7 @@ const URL = 'http://127.0.0.1:5000/cooperatives';
 
 const initialState = []
 
-export const fetchCooperatives= createAsyncThunk('cooperatives/fetchCooperatives', async () => {
+export const fetchCooperatives  = createAsyncThunk('cooperatives/fetchCooperatives', async () => {
     const response = await axios.get(URL);
     return response.data
 })
@@ -25,6 +25,6 @@ const cooperativesSlice = createSlice({
 
 export const selectAllCooperatives = (state) => state.cooperatives;
 
-//export const selectUserById = (state, userId) =>state.users.find(user => user.id === userId)
+export const selectCooperativeById = (state, cooperativeId) =>state.cooperatives.find(cooperative=> cooperative.id === cooperativeId)
 
 export default cooperativesSlice.reducer

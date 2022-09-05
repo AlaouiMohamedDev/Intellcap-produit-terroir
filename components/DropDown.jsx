@@ -22,14 +22,14 @@ export default function DropDown(props) {
   return (
     <div className="absolute top-14 z-100 bg-white hidden dropDown flex-col w-max text-sm text-black/70 py-3 px-5 shadow-md rounded fade">
        <span className="py-3 text-main text-xs text-center">{props.user.name}</span>
-       <div className="flex justify-between items-center border-b py-3 space-x-2 hover:text-main">
-            <a href="" >Profile</a>
+       <div className="cursor-pointer flex justify-between items-center border-b py-3 space-x-2 hover:text-main">
+            <a onClick = {() => router.push("/profil")} >Profile</a>
             <i className='bx bxs-user-detail'></i>
        </div>
        {
         (props.user.admin==true) 
         && 
-        <div className="flex justify-between items-center border-b py-3 space-x-2 hover:text-main">
+        <div className="cursor-pointer flex justify-between items-center border-b py-3 space-x-2 hover:text-main">
             <a onClick = {() => router.push("/admin/dashboard")}  >Dashboard</a>
             <i className='bx bxs-dashboard'></i>
         </div>

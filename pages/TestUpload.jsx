@@ -11,8 +11,8 @@ export default function TestUpload() {
       const i = event.target.files[0];
       
       setImage(i);
-      console.log("🚀 ~ file: TestUpload.jsx ~ line 14 ~ uploadToClient ~ i", i)
-      
+      console.log("🚀 ~ file: TestUpload.jsx ~ line 14 ~ uploadToClient ~ i", i.name)
+
       setCreateObjectURL(URL.createObjectURL(i));
     }
   };
@@ -22,9 +22,13 @@ export default function TestUpload() {
     // console.log("file", image)
     //body.append("file", image);  
     body.append("ProductUpload",image)
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var fullname=date+time+"-"+image.name
     //https://api.cloudinary.com/v1_1/dhi1q4hre/image/upload
     //body.append("upload_preset",'products'), 
-    const response = await fetch("https://images.codata-admin.com/api-file-upload-terroir.php", {
+    const response = await fetch(`https://images.codata-admin.com/api-file-upload-terroir.php?name=${fullname}`, {
       method: "POST",
       body
     }).then(r=>r.json());

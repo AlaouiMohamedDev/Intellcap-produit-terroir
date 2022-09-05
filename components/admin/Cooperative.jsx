@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import swal from 'sweetalert2'
 import axios from 'axios';
+import Pagination from '../Pagination'
 
 import { setCookie,getCookie } from 'cookies-next';
 import { selectAllCooperatives } from '../../app/cooperatives/cooperativesSlice';
@@ -60,28 +61,30 @@ const addHandlerImage = (event) => {
       setImageName(i.name);
     }
 };
-const addCooperative =async ()=>{
 
-    const body = new FormData();
-    body.append("CoopUpload",image)
-    const response = await fetch("https://images.codata-admin.com/api-file-upload-terroir.php", {
-      method: "POST",
-      body
-    }).then(r=>r.json());
-    console.log("🚀 ~ file: Cooperative.jsx ~ line 81 ~ AddCooperative ~ response", response)
-    
-    ExitModalAdd() 
+const addCooperative=async ()=>{
+
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+"-"+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var fullname=date+"-"+image.name
     const data ={
         name:addInputs.name,
         email:addInputs.email,
         adress:addInputs.adress,
         tel:addInputs.tel,
         description:addInputs.description,
-        image:response.image
+        image:fullname
     }
-    axios.post('http://127.0.0.1:5000/cooperative',data).then(res => {
+    axios.post('http://127.0.0.1:5000/cooperative',data).then(async res => {
                       
         if(res.data.status === 200){
+            const body = new FormData();
+            body.append("CoopUpload",image)
+            const response = await fetch(`https://images.codata-admin.com/api-file-upload-terroir.php?name=${fullname}`, {
+            method: "POST",
+            body
+            }).then(r=>r.json());
+            ExitModalAdd()
             swal.fire("Success",res.data.message,"success");
             router.push('')
         }
@@ -91,7 +94,14 @@ const addCooperative =async ()=>{
         }
     })
 
+
+
+    
+    
+    
 }
+
+
 const Delete = (coop) =>{
     swal.fire({
         title: `Voulez vous vraiment supprimer ? ${coop.name}`,
@@ -220,6 +230,16 @@ useEffect(() =>{
  setName(localStorage.getItem('name'))
 },[])
 
+const [currentPage,setCurrentPage] = useState(1)
+const [elementPerPage,seEelementPerPage] = useState(3)
+
+const indexOfLastElement = currentPage * elementPerPage
+const indexOfFirstElement = indexOfLastElement - elementPerPage
+const currentElements = cooperatives.slice(indexOfFirstElement,indexOfLastElement)
+
+const paginate = pageNumber => setCurrentPage(pageNumber)
+
+
   return (
     <>
         <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
@@ -248,7 +268,7 @@ useEffect(() =>{
                 </div>
             </div>
             
-            <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+            <div className="overflow-x-auto relative sm:rounded-lg">
                 <div className="flex justify-between flex-col space-y-3 md:space-y-0 md:flex-row items-center py-10 bg-gray-9">
                 <h1 className="text-xl">Liste des coopératives</h1>
                     <div className="relative ">
@@ -280,7 +300,7 @@ useEffect(() =>{
                     </thead>
                     <tbody>
                         {
-                            cooperatives.filter((val)=>{
+                            currentElements.filter((val)=>{
                                 if(search=="")
                                 {
                                     return val
@@ -315,6 +335,7 @@ useEffect(() =>{
                         
                     </tbody>
                 </table>
+               <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={cooperatives.length}/>
             </div>
         </div>
         {/* EditModal */}

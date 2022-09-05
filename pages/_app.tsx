@@ -6,12 +6,15 @@ import { fetchUsers } from '../app/users/usersSlice';
 import { fetchCategories } from '../app/categories/categoriesSlice';
 import { fetchCooperatives } from '../app/cooperatives/cooperativesSlice';
 import { fetchMessages } from '../app/messages/messagesSlice';
+import {fetchProducts} from '../app/products/productsSlice';
+import { getCookie } from 'cookies-next';
 
 function MyApp({ Component, pageProps }: AppProps) {
   store.dispatch(fetchUsers());
   store.dispatch(fetchCategories());
   store.dispatch(fetchCooperatives());
   store.dispatch(fetchMessages());
+  store.dispatch(fetchProducts());
   return <Provider store={store}>
            <Component {...pageProps} />
         </Provider>

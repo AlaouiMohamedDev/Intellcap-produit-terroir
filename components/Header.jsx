@@ -7,8 +7,12 @@ import DropDown from './DropDown'
 import { useSelector } from "react-redux";
 import { selectUserById } from '../app/users/usersSlice'
 import { setCookie,getCookie,deleteCookie } from 'cookies-next';
+import {selectAllCategories} from '../app/categories/categoriesSlice'
 
 export default function Header() {
+
+    const categories = useSelector(selectAllCategories)
+
     const dropDown =()=> {
         const drop = document.querySelector('.dropDown')
         drop.classList.toggle('flex')
@@ -112,38 +116,16 @@ export default function Header() {
                     </a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                     <div onMouseLeave={CatLeave}  className="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-rows-4 grid-flow-col gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="miel.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">Miels, Amlou et confitures</span>
-                        </div>
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="huile.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">Huiles alimentaires</span>
-                        </div>
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="rice.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">Semoules & farines</span>
-                        </div>
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="epice.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">épices & condiments</span>
-                        </div>
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="nuts.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">Fruits secs</span>
-                        </div>
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="tea-cup.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">Thés & Tisanes</span>
-                        </div>
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="serum.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">THydrolats & Tisanes</span>
-                        </div>
-                        <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
-                            <img src="bien-etre.png" alt="" className="w-8" />
-                            <span className="text-sm hover:text-main duration-500">Bien être</span>
-                        </div>
+                       {
+                            categories.map(category=>{
+                                return(
+                                    <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                                        <img src={`https://images.codata-admin.com/terroir/categories/${category.image}`} alt="" className="w-8" />
+                                        <span className="text-sm hover:text-main duration-500">{category.name}</span>
+                                    </div>
+                                )
+                            })
+                       }
                     </div>
                 </div>
                 <div className="flex flex-col items-center group relative">

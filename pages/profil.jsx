@@ -8,14 +8,14 @@ import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
 import UserBanner from '../components/user/UserBanner'
 import EditProfil from '../components/user/EditProfil'
-import {Providers,DataContext} from '../Context/ContextApi';
+
 import { useRouter } from 'next/router'
 
 export default function profil() {
   const router = useRouter();
-  const user = useContext(DataContext);
+
   return (
-    
+
         <div className="font-poppins h-screen">
           <Head>
               <title>IntellCap Produit 100% Marocaine</title>
@@ -33,6 +33,5 @@ export default function profil() {
             <EditProfil/>
             <Footer />    
     </div>
-
 )
 }
