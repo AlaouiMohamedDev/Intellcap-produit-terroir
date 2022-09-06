@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Header from '../components/Header'
 import SideBar from '../components/SideBar'
@@ -7,13 +7,62 @@ import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
 import ProductModal from '../components/ProductModal'
+import {selectCooperativeById} from '../app/cooperatives/cooperativesSlice'
+import { selectAllProducts } from '../app/products/productsSlice';
+import { useSelector } from 'react-redux'
 
-export default function coopProduct() {
-    const ModalP = () => {
+export default  function coopProduct() {
+    try{
+    
+        function parse_query_string(query) {
+                var vars = query.split("&");
+                var query_string = {};
+                for (var i = 0; i < vars.length; i++) {
+                  var pair = vars[i].split("=");
+                  var key = decodeURIComponent(pair.shift());
+                  var value = decodeURIComponent(pair.join("="));
+                  // If first entry with this name
+                  if (typeof query_string[key] === "undefined") {
+                    query_string[key] = value;
+                    // If second entry with this name
+                  } else if (typeof query_string[key] === "string") {
+                    var arr = [query_string[key], value];
+                    query_string[key] = arr;
+                    // If third or later entry with this name
+                  } else {
+                    query_string[key].push(value);
+                  }
+                }
+                return query_string;
+        }
+        
+        
+        var query = window.location.search.substring(1);
+        var getter = parse_query_string(query);
+    }
+    catch{
+
+    }
+    const cooperative = useSelector(state => selectCooperativeById(state,Number(getter.id)))
+    const products = useSelector(selectAllProducts)
+
+
+      const[modal,setModal] = useState({
+        name:"",
+        desc:"",
+        price:'',
+        image:''
+    })
+    const ModalP = (pro) => {
+        setModal({...modal,name:pro.nom,desc:pro.desc,price:pro.price,image:pro.image})
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
     }
+    var prod=0
+    products.forEach(product=>{
+      if(product.cooperative == cooperative.id) prod=prod+1
+    })
   return (
     <div className="font-poppins">
         <Head>
@@ -33,134 +82,62 @@ export default function coopProduct() {
 
             </div>
             <div className="z-20 w-[65%] cursor-pointer flex flex-col md:flex-row space-y-3 md:space-y-0 items-center rounded py-7 text-white space-x-5 px-5">
-                <img src="/cooperative/coop-2.png" className="object-cover w-[150px] h-[150px] border-2 border-white p-2 rounded-full" />
+                <img src={`https://images.codata-admin.com/terroir/cooperatives/${cooperative.image}`} className="object-cover w-[150px] h-[150px] border-2 border-white p-2 rounded-full" />
                 <div className="flex flex-col w-full space-y-5">
                     <div className="flex items-center justify-between">
-                        <h1 className="text-xl font-bold">Cooperative Taliouine</h1>
+                        <h1 className="text-xl font-bold">{cooperative.name}</h1>
                     
                     </div>
-                <p className="text-sm text-gray-300">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa eius officiis hic quia! Nobis, cupiditate.</p>
+                <p className="text-sm text-gray-300">{cooperative.description}</p>
                 <div className="flex items-center space-x-8">
                     <div className="flex items-center text-xs space-x-2 text-main bg-white py-1 px-2 w-max rounded">
                         <i className='bx bx-calendar-check'></i>
                         <span className="">16 Decmber 2022</span>
                     </div>
-                    <span className="text-xs text-main bg-white py-1 px-2 rounded w-max">10 produits</span>
+                    <span className="text-xs text-main bg-white py-1 px-2 rounded w-max">{prod}</span>
                 </div>
             </div>
             </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-10 px-10">
-            <div className="flex flex-col space-y-5 group">
-                <div className="h-[300px] w-full   relative overflow-hidden border-box">
-                    <img src="/product/miel.jpg" className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
-                    <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
-                        <a className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                            Ajoutez à la Cart
-                        </a>
-                        <a onClick={ModalP} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                        Vue Rapide
-                        </a>
-                    </div>
-                    <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
-                        <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
-                        <div className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
-                            <i className='bx bx-heart text-md '></i>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col space-y-3 items-start">
-                    <h6 className="font-bold">Miel de ravenelle - 220g</h6>
-                    <h6 className="text-sm text-black/50">Produit par : <span className="text-main">Ahmed coopératives</span></h6>
-                    <div className="flex items-center justify-between w-full">
-                        <h6 className="text-main font-black">80 DHs</h6>
-                        <span className="text-xs text-black/40">100% naturelle</span>
-                    </div>
-                </div>
-                </div>
-                <div className="flex flex-col space-y-5 group ">
-                <div className="h-[300px] w-full bg-gray-300 relative overflow-hidden border-box">
-                    <img src="/product/harissa.jpg" className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
-                    <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
-                        <a className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                            Ajoutez à la Cart
-                        </a>
-                        <a onClick={ModalP} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                        Vue Rapide
-                        </a>
-                    </div>
-                    <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
-                        <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
-                        <div className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
-                            <i className='bx bx-heart text-md '></i>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col space-y-3 items-start">
-                    <h6 className="font-bold">Harissa du souss rouge - 220g</h6>
-                    <h6 className="text-sm text-black/50">Produit par : <span className="text-main">Taliouine coopératives</span></h6>
-                    <div className="flex items-center justify-between w-full">
-                        <h6 className="text-main font-black">38 DHs</h6>
-                        <span className="text-xs text-black/40">100% naturelle</span>
-                    </div>
-                </div>
-                </div>
-                <div className="flex flex-col space-y-5 group ">
-                <div className="h-[300px] w-full bg-gray-300 relative overflow-hidden border-box">
-                    <img src="/product/paprika.jpg" className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
-                    <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
-                        <a className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                            Ajoutez à la Cart
-                        </a>
-                        <a onClick={ModalP} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                        Vue Rapide
-                        </a>
-                    </div>
-                    <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
-                        <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
-                        <div className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
-                            <i className='bx bx-heart text-md '></i>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col space-y-3 items-start">
-                    <h6 className="font-bold">Paprika - 100g</h6>
-                    <h6 className="text-sm text-black/50">Produit par : <span className="text-main">Douceurs coopératives</span></h6>
-                    <div className="flex items-center justify-between w-full">
-                        <h6 className="text-main font-black">28 DHs</h6>
-                        <span className="text-xs text-black/40">100% naturelle</span>
-                    </div>
-                </div>
-                </div>
-                <div className="flex flex-col space-y-5 group ">
-                <div className="h-[300px] w-full bg-gray-300 relative overflow-hidden border-box">
-                    <img src="/product/zaatr.jpg" className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
-                    <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
-                        <a className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                            Ajoutez à la Cart
-                        </a>
-                        <a onClick={ModalP} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
-                        Vue Rapide
-                        </a>
-                    </div>
-                    <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
-                        <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
-                        <div className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
-                            <i className='bx bx-heart text-md '></i>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col space-y-3 items-start">
-                    <h6 className="font-bold">Origan seche - 50g</h6>
-                    <h6 className="text-sm text-black/50">Produit par : <span className="text-main">Herblo coopératives</span></h6>
-                    <div className="flex items-center justify-between w-full">
-                        <h6 className="text-main font-black">13 DHs</h6>
-                        <span className="text-xs text-black/40">100% naturelle</span>
-                    </div>
-                </div>
-                </div>
+            {
+                products.map(product =>{
+                    if(product.cooperative == cooperative.id)
+                    {
+                        return (
+                            <div className="flex flex-col space-y-5 group">
+                                <div className="h-[300px] w-full   relative overflow-hidden border-box">
+                                    <img src={`https://images.codata-admin.com/terroir/products/${product.image}`} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
+                                    <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
+                                        <a className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                                            Ajoutez à la Cart
+                                        </a>
+                                        <a onClick={()=>ModalP(product)} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                                        Vue Rapide
+                                        </a>
+                                    </div>
+                                    <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
+                                        <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
+                                        <div className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
+                                            <i className='bx bx-heart text-md '></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col space-y-3 items-start">
+                                    <h6 className="font-bold">{product.nom}</h6>
+                                    <h6 className="text-sm text-black/50">Produit par : <span className="text-main">{cooperative.name}</span></h6>
+                                    <div className="flex items-center justify-between w-full">
+                                        <h6 className="text-main font-black">{product.prix} DHs</h6>
+                                        <span className="text-xs text-black/40">100% naturelle</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
+                })
+            }
         </div>
-        <ProductModal />
+        <ProductModal product={modal} />
         <Footer /> 
     </div>
     

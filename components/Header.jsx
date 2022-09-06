@@ -27,6 +27,7 @@ export default function Header() {
     useEffect(() => {
 
         
+
         AOS.init();
         const header = document.querySelector('.header')
 
@@ -101,7 +102,7 @@ export default function Header() {
         {/* END topbar
 
         {/* Header */}  
-        <div className="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen">
+        <div className="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen select-none">
             <img src="/logo-1.png" className=" w-48 md:w-64" />
             <i className='bx bx-menu flex xl:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
             <div className="text-sm space-x-7 items-center hidden xl:flex"> 
@@ -110,16 +111,16 @@ export default function Header() {
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div className="flex flex-col items-center group relative">
-                    <a className="hover:text-main duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
+                    <a onClick={() => router.push("/products")} className="hover:text-main cursor-pointer duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
                         <span>CATÉGORIES DE PRODUITS</span>
                         <i className='text-xs bx bxs-down-arrow'></i>
                     </a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                     <div onMouseLeave={CatLeave}  className="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-rows-4 grid-flow-col gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
-                       {
+                       {   
                             categories.map(category=>{
                                 return(
-                                    <div onClick = {() => router.push("/products")} className="flex items-center space-x-3 ">
+                                    <div key={category.id} onClick = {() => router.push(`/products?cat=${category.id}`)} className="flex items-center space-x-3 cursor-pointer ">
                                         <img src={`https://images.codata-admin.com/terroir/categories/${category.image}`} alt="" className="w-8" />
                                         <span className="text-sm hover:text-main duration-500">{category.name}</span>
                                     </div>

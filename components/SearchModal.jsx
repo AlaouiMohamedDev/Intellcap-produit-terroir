@@ -1,6 +1,12 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 export default function SearchModal() {
+    const router = useRouter();
+    const [search,setSearch] = useState([])
+    const handler =(e)=>{
+        e.persist()
+        setSearch(e.target.value)
+    }
     const searchModal =()=>{
         const search= document.querySelector('.search')
         search.classList.add('hidden')
@@ -16,8 +22,11 @@ export default function SearchModal() {
                 </div>
                 <div className="flex flex-col items-center w-full px-10 space-y-7">
                     <div className="relative flex group items-center justify-between border border-gray-500/50 hover:border-main  w-full">
-                        <input placeholder = "Nom du produit" type="text" className = "placeholder:text-sm text-sm py-3 px-3 w-full outline-none text-gray-600" />
-                        <i className='absolute group-hover:text-main bx bx-search cursor-pointer right-3 text-lg text-gray-500/50'></i>
+                        <input name="search" value={search} onChange={handler} placeholder = "Nom du produit" type="text" className = "placeholder:text-sm text-sm py-3 px-3 w-full outline-none text-gray-600" />
+                        <i onClick = {() =>{
+                            searchModal()
+                            router.push(`/products?search=${search}`)
+                        }}  className='absolute group-hover:text-main bx bx-search cursor-pointer right-3 text-lg text-gray-500/50'></i>
                     </div>
                     <div className="grid grid-cols-2 gap-3  uppercase">
                         <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">

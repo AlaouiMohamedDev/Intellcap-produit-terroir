@@ -7,6 +7,7 @@ import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectUserById } from '../app/users/usersSlice'
+import { selectAllCategories } from '../app/categories/categoriesSlice';
 
 
 export default function Sidebar() {
@@ -27,7 +28,7 @@ export default function Sidebar() {
     
     const user = useSelector(state => selectUserById(state,Number(getCookie('id'))))
     
-
+    const categories = useSelector(selectAllCategories)
     
 
 
@@ -87,38 +88,19 @@ export default function Sidebar() {
                             <i className='pr-1 bx bxs-chevron-down'></i>
                         </div>
                         <nav  className="hidden flex-col transition-all duration-500 text-xs text-left pl-10 py-5 space-y-3 list">
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="miel.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Miels, Amlou et confitures</a>
-                            </div>
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="huile.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Huiles alimentaires</a>
-                            </div>
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="rice.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Semoules & farines</a>
-                            </div>
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="epice.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">épices & condiments</a>
-                            </div>
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="nuts.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Fruits secs</a>
-                            </div>
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="tea-cup.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Thés & Tisanes</a>
-                            </div>
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="serum.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Thydrolats & Tisanes</a>
-                            </div>
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-3">
-                                <img src="bien-etre.png" alt="" className="w-5" />
-                                <a className="hover:text-main transition-all duration-500 cursor-pointer">Bien être</a>
-                            </div>
+                            {
+                                categories.map(cat=>{
+                                    return (
+                                        <div key={cat.id}  onClick = {() => {
+                                            closeSidebar()
+                                            router.push(`/products?cat=${cat.id}`)}
+                                        } className="flex items-center space-x-3">
+                                            <img src={`https://images.codata-admin.com/terroir/categories/${cat.image}`} alt="" className="w-5" />
+                                            <a className="hover:text-main transition-all duration-500 cursor-pointer">{cat.name}</a>
+                                        </div>
+                                    )
+                                })
+                            }
                         </nav>
                     </div>
                     <span onClick = {() => router.push("/cooperatives")} className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">COOPÉRATIVES</span>

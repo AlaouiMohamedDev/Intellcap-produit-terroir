@@ -10,6 +10,7 @@ import Section1 from '../components/products/Section1'
 import Section2 from '../components/products/Section2'
 
 export default function Products() {
+  
   return (
     <div className="h-screen font-poppins">
         <Head>
