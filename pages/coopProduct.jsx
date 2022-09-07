@@ -10,41 +10,30 @@ import ProductModal from '../components/ProductModal'
 import {selectCooperativeById} from '../app/cooperatives/cooperativesSlice'
 import { selectAllProducts } from '../app/products/productsSlice';
 import { useSelector } from 'react-redux'
+import Cooperatives from './cooperatives'
+import { getCookie } from 'cookies-next'
+import { useEffect } from 'react'
 
-export default  function coopProduct() {
-    try{
-    
-        function parse_query_string(query) {
-                var vars = query.split("&");
-                var query_string = {};
-                for (var i = 0; i < vars.length; i++) {
-                  var pair = vars[i].split("=");
-                  var key = decodeURIComponent(pair.shift());
-                  var value = decodeURIComponent(pair.join("="));
-                  // If first entry with this name
-                  if (typeof query_string[key] === "undefined") {
-                    query_string[key] = value;
-                    // If second entry with this name
-                  } else if (typeof query_string[key] === "string") {
-                    var arr = [query_string[key], value];
-                    query_string[key] = arr;
-                    // If third or later entry with this name
-                  } else {
-                    query_string[key].push(value);
-                  }
-                }
-                return query_string;
-        }
-        
-        
-        var query = window.location.search.substring(1);
-        var getter = parse_query_string(query);
+export async function getServerSideProps(context) {
+  
+    const response2 = await fetch('http://127.0.0.1:5000/cooperatives')
+    const data2 = await response2.json();
+  
+    const response1 = await fetch('http://127.0.0.1:5000/products');
+    const data1 = await response1.json();
+  
+    const response = await fetch('http://127.0.0.1:5000/categories');
+    const data = await response.json();
+    return {
+      props: {
+        products:data1,
+        cooperatives:data2,
+        categories:data,
+      },
     }
-    catch{
+  }
 
-    }
-    const cooperative = useSelector(state => selectCooperativeById(state,Number(getter.id)))
-    const products = useSelector(selectAllProducts)
+export default  function coopProduct({categories,products,cooperatives}) {
 
 
       const[modal,setModal] = useState({
@@ -52,17 +41,41 @@ export default  function coopProduct() {
         desc:"",
         price:'',
         image:''
-    })
+    }) 
+    const [prod,setProd] = useState(0)
+    
+    const [cooperative,setCooperative] = useState([])
+    const [prods,setProds] = useState([])
+    useEffect(() =>{
+            
+            var prod =0
+            var prods =[]
+            var coops ={}
+            cooperatives.forEach(coop=>{
+                if(coop.id == getCookie('coop'))
+                {
+                    coops=coop
+                }
+            })
+            products.forEach(product=>{
+                if(product.cooperative == getCookie('coop'))
+                {
+                    prod=prod+1
+                    prods.push(product)
+                }
+            })
+              setProd(prod)
+              setProds(prods)
+              setCooperative(coops)
+    },[])
+
     const ModalP = (pro) => {
-        setModal({...modal,name:pro.nom,desc:pro.desc,price:pro.price,image:pro.image})
+        setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image})
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
     }
-    var prod=0
-    products.forEach(product=>{
-      if(product.cooperative == cooperative.id) prod=prod+1
-    })
+    
   return (
     <div className="font-poppins">
         <Head>
@@ -72,11 +85,11 @@ export default  function coopProduct() {
             <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
         </Head>
-        <Header />
-        <SideBar />
+        <Header categories={categories}/>
+        <SideBar categories={categories}/>
         <AuthModal />
         <Cart />
-        <SearchModal />
+        <SearchModal categories={categories}/>
         <div className="bg-cooperative space-y-4 bg-cover bg-center w-full flex flex-col items-center justify-center text-white relative h-1/3">
             <div className="bg-black/50 absolute w-full h-full z-10">
 
@@ -101,11 +114,9 @@ export default  function coopProduct() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-10 px-10">
             {
-                products.map(product =>{
-                    if(product.cooperative == cooperative.id)
-                    {
+                prods.map(product =>{
                         return (
-                            <div className="flex flex-col space-y-5 group">
+                            <div key={product.id} className="flex flex-col space-y-5 group">
                                 <div className="h-[300px] w-full   relative overflow-hidden border-box">
                                     <img src={`https://images.codata-admin.com/terroir/products/${product.image}`} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                                     <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
@@ -133,7 +144,6 @@ export default  function coopProduct() {
                                 </div>
                             </div>
                         )
-                    }
                 })
             }
         </div>

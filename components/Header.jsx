@@ -9,9 +9,16 @@ import { selectUserById } from '../app/users/usersSlice'
 import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 import {selectAllCategories} from '../app/categories/categoriesSlice'
 
-export default function Header() {
 
-    const categories = useSelector(selectAllCategories)
+
+export default function Header({categories}) {
+
+
+//     const [cats,setCats] = useState([])
+    
+//    useEffect(()=>{
+//             setCats(categories)
+//     },[cats])
 
     const dropDown =()=> {
         const drop = document.querySelector('.dropDown')
@@ -30,7 +37,7 @@ export default function Header() {
 
         AOS.init();
         const header = document.querySelector('.header')
-
+        
         window.addEventListener('scroll', () => {
             if ((window.scrollY || window.pageYOffset) > 10 ) {
                 header.classList.add('fixed')
@@ -111,21 +118,32 @@ export default function Header() {
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div className="flex flex-col items-center group relative">
-                    <a onClick={() => router.push("/products")} className="hover:text-main cursor-pointer duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
+                    <a onClick={() => {
+                        deleteCookie('coop')
+                        deleteCookie('search')
+                        deleteCookie('cat')
+                        router.push("/products")
+                        }} className="hover:text-main cursor-pointer duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
                         <span>CATÉGORIES DE PRODUITS</span>
                         <i className='text-xs bx bxs-down-arrow'></i>
                     </a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                     <div onMouseLeave={CatLeave}  className="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-rows-4 grid-flow-col gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
-                       {   
-                            categories.map(category=>{
-                                return(
-                                    <div key={category.id} onClick = {() => router.push(`/products?cat=${category.id}`)} className="flex items-center space-x-3 cursor-pointer ">
-                                        <img src={`https://images.codata-admin.com/terroir/categories/${category.image}`} alt="" className="w-8" />
-                                        <span className="text-sm hover:text-main duration-500">{category.name}</span>
-                                    </div>
-                                )
-                            })
+                       {
+                       categories.map(category=>{
+                        return(
+
+                            <div key={category.id} onClick = {() => {
+                                setCookie('cat',category.id)
+                                deleteCookie('coop')
+                                deleteCookie('search')
+                                router.push(`/products`)
+                            }} className="flex items-center space-x-3 cursor-pointer ">
+                                    <img src={`https://images.codata-admin.com/terroir/categories/${category.image}`} alt="" className="w-8" />
+                                    <span className="text-sm hover:text-main duration-500">{category.name}</span>
+                            </div>
+                        )
+                        })
                        }
                     </div>
                 </div>

@@ -7,7 +7,21 @@ import Cart from '../components/Cart'
 import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
 
-export default function aboutUs() {
+
+export async function getServerSideProps(context) {
+
+    const response = await fetch('http://127.0.0.1:5000/categories');
+    const data = await response.json();
+    return {
+      props: {
+        cats:data,
+      },
+    }
+  }
+
+
+export default function aboutUs({cats}) {
+    const categories = cats
   return (
     <div className="font-poppins h-screen">
         <Head>
@@ -17,11 +31,11 @@ export default function aboutUs() {
             <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
         </Head>
-        <Header />
-        <SideBar />
+        <Header categories={categories}/>
+        <SideBar categories={categories}/>
         <AuthModal />
         <Cart />
-        <SearchModal />
+        <SearchModal categories={categories}/>
         <div className="bg-about space-y-4 bg-cover bg-center w-full flex flex-col items-center justify-center text-white relative h-1/3">
             <div className="bg-black/50 absolute w-full h-full z-10">
 

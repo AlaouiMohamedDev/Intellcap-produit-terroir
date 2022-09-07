@@ -21,7 +21,7 @@ const ModalP = () => {
                     <div className="flex flex-col space-y-5 md:space-y-10">
                         <div  className="flex flex-col space-y-4">
                             <h1 className="text-xl">{product.name}</h1>
-                            <span className="text-md text-gray-600">200 DHs</span>
+                            <span className="text-md text-gray-600">{product.price} DHs</span>
                             <p className="text-sm font-sans text-gray-600 text-justify">
                             {product.desc}
                             </p>

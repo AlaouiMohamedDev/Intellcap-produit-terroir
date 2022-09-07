@@ -9,7 +9,21 @@ import Footer from '../components/Footer'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-export default function aboutUs() {
+
+export async function getServerSideProps(context) {
+
+    const response = await fetch('http://127.0.0.1:5000/categories');
+    const data = await response.json();
+    return {
+      props: {
+        cats:data,
+      },
+    }
+  }
+
+
+export default function aboutUs({cats}) {
+    const categories = cats
 const [inputs,setInputs] = useState({
     name:'',
     email:'',
@@ -55,11 +69,11 @@ const HandlerInput =(e) =>{
             <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
         </Head>
-        <Header />
-        <SideBar />
+        <Header categories={categories}/>
+        <SideBar categories={categories}/>
         <AuthModal />
         <Cart />
-        <SearchModal />
+        <SearchModal categories={categories}/>
         <div className="alert-animation right-5 duration-200 message fixed justify-center items-center  bg-custGreen space-x-2 text-gray-100 text-sm py-3 px-5 hidden top-20 z-100">
             <i class='bx bxs-check-circle text-md'></i>
             <span>Message envoyé</span>

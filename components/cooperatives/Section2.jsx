@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { selectAllCooperatives } from '../../app/cooperatives/cooperativesSlice';
 import { selectAllProducts } from '../../app/products/productsSlice';
-export default function Section2() {
-  const cooperatives = useSelector(selectAllCooperatives)
-  const products = useSelector(selectAllProducts)
+import { setCookie } from 'cookies-next';
+export default function Section2({cooperatives,products}) {
+  
   const router = useRouter();
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 py-10 px-10">
@@ -16,7 +16,10 @@ export default function Section2() {
             if(product.cooperative == coop.id) prod=prod+1
           })
           return (
-              <div key={coop.id} onClick = {() => router.push(`/coopProduct?id=${coop.id}`)} className="cursor-pointer flex flex-col md:flex-row space-y-3 md:space-y-0 items-center border hover:border-main duration-200 rounded py-7 space-x-5 px-5">
+              <div key={coop.id} onClick = {() => {
+                setCookie('coop',coop.id)
+                router.push('/coopProduct')
+              }} className="cursor-pointer flex flex-col md:flex-row space-y-3 md:space-y-0 items-center border hover:border-main duration-200 rounded py-7 space-x-5 px-5">
                   <img src={`https://images.codata-admin.com/terroir/cooperatives/${coop.image}`} className="object-cover w-[150px] h-[150px] border border-main p-2 rounded-full" />
                   <div className="flex flex-col w-full space-y-5">
                     <div className="flex items-center justify-between">

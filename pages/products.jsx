@@ -9,8 +9,29 @@ import Sidebar from '../components/SideBar'
 import Section1 from '../components/products/Section1'
 import Section2 from '../components/products/Section2'
 
-export default function Products() {
-  
+
+export async function getServerSideProps(context) {
+  const response = await fetch('http://127.0.0.1:5000/categories')
+  const data = await response.json();
+
+  const response1 = await fetch('http://127.0.0.1:5000/products')
+  const data1 = await response1.json();
+
+  const response2 = await fetch('http://127.0.0.1:5000/cooperatives')
+  const data2 = await response2.json();
+  return {
+    props: {
+      coop:data2,
+      cats:data,
+      products:data1
+    },
+  }
+}
+
+
+export default function Products({cats,products,coop}) {
+  const categories = cats
+  const cooperatives =coop
   return (
     <div className="h-screen font-poppins">
         <Head>
@@ -20,14 +41,16 @@ export default function Products() {
             <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
         </Head>
-        <Header />
-        <Sidebar />
-        <AuthModal />
-        <Cart />
-        <SearchModal />
-        <Section1 />
-        <Section2 />
-        <Footer />
+        <main>
+          <Header categories={categories}/>
+          <Sidebar categories={categories}/>
+          <AuthModal />
+          <Cart />
+          <SearchModal categories={categories}/>
+          <Section1 />
+          <Section2 products={products} categories={categories} cooperatives={cooperatives}/>
+          <Footer />
+        </main>
     </div>
   )
 }

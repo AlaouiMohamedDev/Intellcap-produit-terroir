@@ -8,6 +8,21 @@ import { fetchCooperatives } from '../app/cooperatives/cooperativesSlice';
 import { fetchMessages } from '../app/messages/messagesSlice';
 import {fetchProducts} from '../app/products/productsSlice';
 import { getCookie } from 'cookies-next';
+import ProgressBar from '@badrap/bar-of-progress';
+import { Router } from 'next/router';
+
+
+
+const progress = new ProgressBar({
+  size : 4,
+  color:"#0ab39c",
+  className : "z-100",
+  delay :100,
+})
+
+Router.events.on(`routeChangeStart` , progress.start);
+Router.events.on(`routeChangeComplete` , progress.finish)
+Router.events.on(`routeChangeError` , progress.finish)
 
 function MyApp({ Component, pageProps }: AppProps) {
   store.dispatch(fetchUsers());

@@ -5,84 +5,130 @@ import { useSelector } from 'react-redux';
 import { selectAllCooperatives } from '../../app/cooperatives/cooperativesSlice';
 import { selectAllCategories } from '../../app/categories/categoriesSlice';
 import { useRouter } from 'next/router';
+import { getCookie, setCookie,deleteCookie } from 'cookies-next';
+import PaginationUser from '../PaginationUser'
 
-export default function Section2() {
+
+export default function Section2({products,categories,cooperatives}) {
     const router = useRouter();
-    var displayedProducts= []
-    
-    const products = useSelector(selectAllProducts)
-    const cooperatives = useSelector(selectAllCooperatives)
-    const categories = useSelector(selectAllCategories)
+    var [displayedProducts,setDisplayed]= useState(products)
+    const [filter,setFilter] = useState(0)
 
-try{
-    
-    function parse_query_string(query) {
-            var vars = query.split("&");
-            var query_string = {};
-            for (var i = 0; i < vars.length; i++) {
-              var pair = vars[i].split("=");
-              var key = decodeURIComponent(pair.shift());
-              var value = decodeURIComponent(pair.join("="));
-              // If first entry with this name
-              if (typeof query_string[key] === "undefined") {
-                query_string[key] = value;
-                // If second entry with this name
-              } else if (typeof query_string[key] === "string") {
-                var arr = [query_string[key], value];
-                query_string[key] = arr;
-                // If third or later entry with this name
-              } else {
-                query_string[key].push(value);
-              }
-            }
-            return query_string;
-    }
-    
-    
-    var query = window.location.search.substring(1);
-    var getter = parse_query_string(query);
+    const [currentPage,setCurrentPage] = useState(1)
+    const [elementPerPage,seEelementPerPage] = useState(6)
 
-    if(getter.filter !=null){
-        if(getter.filter == 2){
-            displayedProducts = [...products].sort((a,b)=> b.prix - a.prix)
+    const indexOfLastElement = currentPage * elementPerPage
+    const indexOfFirstElement = indexOfLastElement - elementPerPage
+    //const [currentElements,setCurrentElements] = useState([])
+
+    const paginate = pageNumber => setCurrentPage(pageNumber)
+    const currentElements =displayedProducts.slice(indexOfFirstElement,indexOfLastElement)
+    const [count,setCount] = useState(0)
+ 
+    // if(getCookie('cat'))
+    //         {
+    //             setDisplayed(products.filter(val=>{ if(val.category==getCookie('cat'))  return val}))
+    //         }
+    //         else if(getCookie('coop'))
+    //         {
+    //             setDisplayed(products.filter(val=>{ if(val.cooperative==getCookie('coop'))  return val}))
+    //         }
+    //         else if(getCookie('search'))
+    //         {
+    //             setDisplayed(products.filter(val=>{ if(val.nom.toLowerCase().includes(getCookie('search').toLowerCase()))  return val}))
+    //         }
+    //         else{
+    //             setDisplayed(products)
+    //         }
+
+    useEffect(() =>{
+        if(getCookie('cat'))
+        {
+            setDisplayed(products.filter(val=>{ if(val.category==getCookie('cat'))  return val}))
+        }
+        else if(getCookie('search'))
+        {
+            setDisplayed(products.filter(val=>{ if(val.nom.toLowerCase().includes(getCookie('search').toLocaleLowerCase()))  return val}))
         }
         else{
-            displayedProducts = [...products].sort((a,b)=> a.prix - b.prix)
+            setDisplayed(products)
         }
-    }
-    else{
-        displayedProducts = products
-    }
-    if(getter.cat !=null){
-        displayedProducts = displayedProducts.filter(val=>{if(val.category==getter.cat)return val})
-    }
-    else if(getter.coop !=null){
-        displayedProducts = displayedProducts.filter(val=>{if(val.cooperative==getter.coop)return val})
-    }
-    else if(getter.search !=null){
-        displayedProducts = displayedProducts.filter(val=>{if(val.nom.toLowerCase().includes(getter.search.toLowerCase()))return val})
-    }
-}
-catch{
+    },[getCookie('cat'),getCookie('search')])
+        useEffect(() =>{
+            
+            setCount(displayedProducts.length)
+        },[displayedProducts])
+        
+// try{
+    
+//     function parse_query_string(query) {
+//             var vars = query.split("&");
+//             var query_string = {};
+//             for (var i = 0; i < vars.length; i++) {
+//               var pair = vars[i].split("=");
+//               var key = decodeURIComponent(pair.shift());
+//               var value = decodeURIComponent(pair.join("="));
+//               // If first entry with this name
+//               if (typeof query_string[key] === "undefined") {
+//                 query_string[key] = value;
+//                 // If second entry with this name
+//               } else if (typeof query_string[key] === "string") {
+//                 var arr = [query_string[key], value];
+//                 query_string[key] = arr;
+//                 // If third or later entry with this name
+//               } else {
+//                 query_string[key].push(value);
+//               }
+//             }
+//             return query_string;
+//     }
 
-}
+//     var getter = parse_query_string(query);
+
+//     if(getter.filter !=null){
+//         if(getter.filter == 2){
+//             displayedProducts = [...products].sort((a,b)=> b.prix - a.prix)
+//         }
+//         else{
+//             displayedProducts = [...products].sort((a,b)=> a.prix - b.prix)
+//         }
+//     }
+//     else{
+//         displayedProducts = products
+//     }
+//     if(getter.cat !=null){
+//         displayedProducts = displayedProducts.filter(val=>{if(val.category==getter.cat)return val})
+//     }
+//     else if(getter.coop !=null){
+//         displayedProducts = displayedProducts.filter(val=>{if(val.cooperative==getter.coop)return val})
+//     }
+//     else if(getter.search !=null){
+//         displayedProducts = displayedProducts.filter(val=>{if(val.nom.toLowerCase().includes(getter.search.toLowerCase()))return val})
+//     }
+// }
+// catch{
+
+// }
 //Getting The GetParms from URL    
 
 
 
+
+
 const selectHandler = (e) =>{
-    var get= window.location.search.split('&')[0]+"&"
-    if(get == "&" || get.includes('?filter')){
-        get="?"
-    }
-    if(e.target.value ==2){
-        router.push(`/products${get}filter=2`)
-    }
-    else if(e.target.value == 1)
-    {
-        router.push(`/products${get}filter=1`)
-    }
-    
+ 
+    console.log("🚀 ~ file: Section2.jsx ~ line 107 ~ selectHandler ~ e.target.value", e.target.value)
+  if( e.target.value==2)
+  {
+      setDisplayed(currentElements.sort((a,b)=> a.prix - b.prix))
+  }
+  else if( e.target.value==1){
+      setDisplayed(currentElements.sort((a,b)=> b.prix - a.prix))
+  }
+  else{
+      setDisplayed(currentElements)
+  }
+ 
 }
 
 
@@ -98,7 +144,7 @@ const selectHandler = (e) =>{
         image:''
     })
     const ModalP = (pro) => {
-        setModal({...modal,name:pro.nom,desc:pro.desc,price:pro.price,image:pro.image})
+        setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image})
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
@@ -108,11 +154,11 @@ const selectHandler = (e) =>{
         <div className="bg-white py-10 px-5 md:px-10 lg:px-0 grid grid-cols-4">
             <div className="col-span-4 lg:col-span-3 w-full h-full lg:pl-5"> 
                 <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 justify-between text-sm text-black/60">
-                    <span>(25) produits</span>
+                    <span>({count}) produits</span>
                     <div className="flex items-center space-x-2">
                         <span>Filter par :</span>
-                        <select onChange={selectHandler} className="bg-white w-[200px] border hover:border-main duration-200 rounded outline-none py-1 px-2">
-                            <option disabled>Default</option>
+                        <select onChange={selectHandler} className="bg-white w-[200px] select border hover:border-main duration-200 rounded outline-none py-1 px-2">
+                            <option value={0} disabled>Default</option>
                             <option value={1}>Prix +</option>
                             <option value={2}>Prix -</option>
                         </select>
@@ -120,9 +166,9 @@ const selectHandler = (e) =>{
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 py-10">
                     {
-                        (displayedProducts.length !=0)
+                        (currentElements.length !=0)
                         ?
-                        displayedProducts.map(product=>{
+                        currentElements.map(product=>{
                             var coopName =""
                             cooperatives.forEach((coop)=>{
                                 if(coop.id == product.cooperative){
@@ -165,6 +211,11 @@ const selectHandler = (e) =>{
                         </div>
                     }
                 </div>
+                {   
+                        (currentElements.length !=0)
+                        &&
+                        <PaginationUser  className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={displayedProducts.length}/>
+                    }
             </div>
             <div className="flex flex-col px-5 w-full space-y-5 col-span-4 lg:col-span-1">
                 <div className="flex flex-col space-y-5 border hover:border-main duratio-200 rounded py-5 px-5 w-full">
@@ -177,7 +228,10 @@ const selectHandler = (e) =>{
                                     if(product.category == cat.id) count=count+1
                                 })
                                 return (
-                                    <div key={cat.id}  onClick = {() => router.push(`/products?cat=${cat.id}`)} className="flex items-center justify-between text-xs cursor-pointer">
+                                    <div key={cat.id}  
+                                    onClick = {() => {
+                                        setDisplayed(products.filter(val=>{ if(val.category==cat.id)  return val}))
+                                    }} className="flex items-center justify-between text-xs cursor-pointer">
                                         <div className="flex items-center space-x-2">
                                             <img src={`https://images.codata-admin.com/terroir/categories/${cat.image}`} alt="" className="w-5" />
                                             <a className="text-main cursor-pointer">{cat.name}</a>
@@ -195,7 +249,10 @@ const selectHandler = (e) =>{
                         {
                             cooperatives.map(coop=>{
                                 return (
-                                    <div key={coop.id}  onClick = {() => router.push(`/products?coop=${coop.id}`)} className="flex items-center space-x-2 text-xs text-main cursor-pointer">
+                                    <div key={coop.id} 
+                                    onClick = {() => {
+                                        setDisplayed(products.filter(val=>{ if(val.cooperative==coop.id)  return val}))
+                                    }} className="flex items-center space-x-2 text-xs text-main cursor-pointer">
                                         <i className='bx bxs-circle-half'></i>
                                         <span>{coop.name}</span>
                                     </div>

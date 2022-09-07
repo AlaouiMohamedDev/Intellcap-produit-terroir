@@ -16,7 +16,10 @@ var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
   const router = useRouter();
 // tout les Cooperatives
 //const {cooperatives}=useContext(DataContext)
- const cooperatives = useSelector(selectAllCooperatives)
+ const cooperatives= useSelector(selectAllCooperatives)
+
+
+ console.log("🚀 ~ file: Cooperative.jsx ~ line 20 ~ Cooperative ~ cooperatives", cooperatives)
 // Function EDITMODAL
 const ModalP = () => {
     const editModal = document.querySelector('.editModal')
@@ -242,6 +245,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
 
   return (
     <>
+    
         <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
         <div className="flex flex-col sm:flex-row items-center justify-between  bg-dashBlack py-2 px-3">
                 <h1 className="uppercase font-bold">Coopératives</h1>

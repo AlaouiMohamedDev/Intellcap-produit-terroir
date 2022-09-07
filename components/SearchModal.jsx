@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-export default function SearchModal() {
+import { deleteCookie, setCookie } from 'cookies-next';
+export default function SearchModal({categories}) {
     const router = useRouter();
     const [search,setSearch] = useState([])
     const handler =(e)=>{
@@ -25,42 +26,28 @@ export default function SearchModal() {
                         <input name="search" value={search} onChange={handler} placeholder = "Nom du produit" type="text" className = "placeholder:text-sm text-sm py-3 px-3 w-full outline-none text-gray-600" />
                         <i onClick = {() =>{
                             searchModal()
-                            router.push(`/products?search=${search}`)
+                            setCookie('search',search)
+                            deleteCookie('coop')
+                            deleteCookie('cat')
+                            router.push(`/products`)
                         }}  className='absolute group-hover:text-main bx bx-search cursor-pointer right-3 text-lg text-gray-500/50'></i>
                     </div>
                     <div className="grid grid-cols-2 gap-3  uppercase">
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="miel.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">Miels, Amlou et confitures</span>
-                        </div>
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="huile.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">Huiles alimentaires</span>
-                        </div>
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="rice.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">Semoules & farines</span>
-                        </div>
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="epice.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">épices & condiments</span>
-                        </div>
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="nuts.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">Fruits secs</span>
-                        </div>
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="tea-cup.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">Thés & Tisanes</span>
-                        </div>
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="serum.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">THydrolats & Tisanes</span>
-                        </div>
-                        <div className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                            <img src="bien-etre.png" alt="" className="w-10" />
-                            <span className="text-xs group-hover:text-main duration-500">Bien être</span>
-                        </div>
+                        {
+                            categories.map(category =>{
+                                return (
+                                    <div key={category.id} onClick = {() => {
+                                        setCookie('cat',category.id)
+                                        deleteCookie('coop')
+                                        deleteCookie('search')
+                                        router.push(`/products`)
+                                    }} className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
+                                        <img src={`https://images.codata-admin.com/terroir/categories/${category.image}`} alt="" className="w-10" />
+                                        <span className="text-xs group-hover:text-main duration-500">{category.name}</span>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
            </div>

@@ -3,15 +3,26 @@ import Head from 'next/head'
 import axios from 'axios'
 import swal from 'sweetalert2'
 import {getCookie} from 'cookies-next'
+import {selectAllCategories} from '../app/categories/categoriesSlice'
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router"
 
 
-// axios.defaults.baseURL= "";
-axios.defaults.headers.post['Access-Control-Allow-Origin']="http://127.0.0.1:5000";
 
+export async function getServerSideProps(context) {
 
-export default function test() {
+  const response = await fetch('http://127.0.0.1:5000/categories');
+  const data = await response.json();
+  return {
+    props: {
+      cats:data,
+    },
+  }
+}
+export default function test({cats}) {
     
-
+    console.log("🚀 ~ file: test.jsx ~ line 23 ~ test ~ cats", cats)
+    const categories =cats
   return (
     <div className="h-screen font-poppins">
         <Head>
@@ -21,7 +32,15 @@ export default function test() {
             <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
         </Head>
-        <h1>Hi</h1>
+        {
+
+            categories.map(c=>{
+              return(
+
+                <h1>{c.name}</h1>
+              )
+            })
+        }
        
 
     </div>

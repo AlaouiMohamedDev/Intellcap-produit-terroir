@@ -11,9 +11,22 @@ import EditProfil from '../components/user/EditProfil'
 
 import { useRouter } from 'next/router'
 
-export default function profil() {
-  const router = useRouter();
 
+export async function getServerSideProps(context) {
+
+  const response = await fetch('http://127.0.0.1:5000/categories');
+  const data = await response.json();
+  return {
+    props: {
+      cats:data,
+    },
+  }
+}
+
+
+export default function profil({cats}) {
+  const router = useRouter();
+  const categories =cats
   return (
 
         <div className="font-poppins h-screen">
@@ -24,11 +37,11 @@ export default function profil() {
               <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
               <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
           </Head>
-            <Header />
-            <SideBar />
+            <Header categories={categories}/>
+            <SideBar categories={categories}/>
             <AuthModal />
             <Cart />
-            <SearchModal />
+            <SearchModal categories={categories}/>
             <UserBanner name="edit"/>
             <EditProfil/>
             <Footer />    
