@@ -8,7 +8,7 @@ import { setCookie,getCookie } from 'cookies-next';
 import { selectAllCooperatives } from '../../app/cooperatives/cooperativesSlice';
 import { useSelector } from 'react-redux';
 
-export default function Cooperative() {
+export default function Cooperative({cooperatives,products}) {
 //Setting date
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const d = new Date();
@@ -16,10 +16,19 @@ var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
   const router = useRouter();
 // tout les Cooperatives
 //const {cooperatives}=useContext(DataContext)
- const cooperatives= useSelector(selectAllCooperatives)
+//  const cooperatives= useSelector(selectAllCooperatives)
 
 
- console.log("🚀 ~ file: Cooperative.jsx ~ line 20 ~ Cooperative ~ cooperatives", cooperatives)
+const [coops,setCoops]  = useState(cooperatives)
+
+
+const c= useSelector(selectAllCooperatives)
+useEffect(()=>{
+  setCoops(c)
+},[c])
+
+
+
 // Function EDITMODAL
 const ModalP = () => {
     const editModal = document.querySelector('.editModal')
@@ -238,7 +247,7 @@ const [elementPerPage,seEelementPerPage] = useState(3)
 
 const indexOfLastElement = currentPage * elementPerPage
 const indexOfFirstElement = indexOfLastElement - elementPerPage
-const currentElements = cooperatives.slice(indexOfFirstElement,indexOfLastElement)
+const currentElements = coops.slice(indexOfFirstElement,indexOfLastElement)
 
 const paginate = pageNumber => setCurrentPage(pageNumber)
 
@@ -313,6 +322,13 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                                     return val;
                                 }
                             }).map((coop)=>{
+                                var count=0
+                                products.forEach(product=>{
+                                    if(product.cooperative == coop.id)
+                                    {
+                                        count = count +1
+                                    }
+                                })
                                 return(
                                     <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
                                         <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
@@ -326,7 +342,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                                             {coop.tel}
                                         </td>
                                         <td className="py-4 px-6">
-                                            2
+                                            {count}
                                         </td>
                                         <td className="py-4 px-6 text-red-500 space-x-10">
                                             <a onClick={()=>ModalEdit(coop)} className="font-medium  text-custGreen hover:underline">Modifier</a>

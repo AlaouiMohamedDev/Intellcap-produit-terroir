@@ -8,7 +8,11 @@ import { setCookie,getCookie } from 'cookies-next';
 import {selectAllCategories} from '../../app/categories/categoriesSlice'
 import { useSelector } from 'react-redux';
 
-export default function Categories() {
+
+
+
+export default function Categories({categories}) {
+
 //Setting date
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const d = new Date();
@@ -18,13 +22,15 @@ var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
   const [search, setSearch] = useState([]);
   
 
-  //const {categories} =useContext(DataContext)
-    const categories = useSelector(selectAllCategories)
 
-    
-  useEffect(()=>{
+ const [cats,setCats]  = useState(categories)
 
-  },[])
+
+ const c= useSelector(selectAllCategories)
+ useEffect(()=>{
+    setCats(c)
+ },[c])
+
 
   // Function EDITMODAL
 const ExitModalEdit  = () => {
@@ -169,9 +175,14 @@ const [elementPerPage,seEelementPerPage] = useState(3)
 
 const indexOfLastElement = currentPage * elementPerPage
 const indexOfFirstElement = indexOfLastElement - elementPerPage
-const currentElements = categories.slice(indexOfFirstElement,indexOfLastElement)
+const currentElements = cats.slice(indexOfFirstElement,indexOfLastElement)
 
 const paginate = pageNumber => setCurrentPage(pageNumber)
+
+
+
+    
+
 
 const Edit = () =>{
 
@@ -217,6 +228,7 @@ const Edit = () =>{
                     headers:{'x-access-token':getCookie('token')}
                         }).then(res => {
                             if(res.data.status === 200){
+                                // setCats(c)
                                 document.querySelector('.btn-edit').classList.add('hidden')
                                 document.querySelector('.btn-edit').classList.remove('inline')
                                 swal.fire('Modified!',res.data.message,'success')
@@ -291,7 +303,7 @@ const Edit = () =>{
                                 }
                             }).map((category)=>{
                                 return (
-                                    <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                    <tr key={category.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
                                         <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
                                             <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src={`https://images.codata-admin.com/terroir/categories/${category.image}`} />
                                             <div className="pl-3">
@@ -310,7 +322,7 @@ const Edit = () =>{
                     
                     </tbody>
                 </table>
-            <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={categories.length}/>
+            <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={cats.length}/>
             </div>
         </div>
          {/* EditModal */}

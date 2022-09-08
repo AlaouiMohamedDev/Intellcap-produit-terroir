@@ -10,7 +10,7 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import {selectAllProducts} from '../../app/products/productsSlice'
 
-export default function Products() {
+export default function Products({products,categories,cooperatives}) {
     //Setting date
 const option = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const d = new Date();
@@ -19,9 +19,19 @@ const router = useRouter();
 
   const optionsCoop = []
 
-  const cooperatives = useSelector(selectAllCooperatives)
-  const categories = useSelector(selectAllCategories)
-  const products = useSelector(selectAllProducts)
+//   const cooperatives = useSelector(selectAllCooperatives)
+//   const categories = useSelector(selectAllCategories)
+  
+
+  const [prods,setProds]  = useState(products)
+
+
+  const c= useSelector(selectAllProducts)
+  useEffect(()=>{
+    setProds(c)
+  },[c])
+ 
+ 
 
   cooperatives.forEach(element => {
     let dropDownEle = { label: element.name, value: element.id };
@@ -375,10 +385,10 @@ const AddProduct=async ()=>{
                     <tbody>
                         {
                             
-                            (products.lenght != 0)
+                            (prods.lenght != 0)
                             ?
                             
-                            products.filter((val)=>{
+                            prods.filter((val)=>{
                                 if(search == ""){
                                     return val;
                                 }
@@ -399,7 +409,7 @@ const AddProduct=async ()=>{
                                     }
                                 })
                                 return(
-                                    <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                    <tr key={product.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
                                         <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
                                             <img className="w-12 h-12 rounded-lg"  src={`https://images.codata-admin.com/terroir/products/${product.image}`} />
                                             <div className="pl-3">

@@ -6,6 +6,10 @@ import { selectAllUsers } from '../../app/users/usersSlice'
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
 
+
+
+
+
 export default function Users() {
     //Setting date
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
