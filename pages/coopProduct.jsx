@@ -77,7 +77,7 @@ export default  function coopProduct({categories,products,cooperatives}) {
     }
     
   return (
-    <div className="font-poppins">
+    <div className="font-poppins overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
             <title>IntellCap Produit 100% Marocaine</title>
             <link rel="icon" href="/favicon.ico" />

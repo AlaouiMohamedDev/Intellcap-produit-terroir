@@ -10,8 +10,8 @@ import {fetchProducts} from '../app/products/productsSlice';
 import { getCookie } from 'cookies-next';
 import ProgressBar from '@badrap/bar-of-progress';
 import { Router } from 'next/router';
-
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const progress = new ProgressBar({
   size : 4,
@@ -30,7 +30,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   store.dispatch(fetchCooperatives());
   store.dispatch(fetchMessages());
   store.dispatch(fetchProducts());
+  // store.dispatch(getTotals());
+
   return <Provider store={store}>
+          <ToastContainer />
            <Component {...pageProps} />
         </Provider>
 }

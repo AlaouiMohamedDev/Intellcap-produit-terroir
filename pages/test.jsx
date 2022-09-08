@@ -24,7 +24,7 @@ export default function test({cats}) {
     console.log("🚀 ~ file: test.jsx ~ line 23 ~ test ~ cats", cats)
     const categories =cats
   return (
-    <div className="h-screen font-poppins">
+    <div className="h-screen font-poppins overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
             <title>Intellcap-Product</title>
             <link rel="icon" href="/favicon.ico" />

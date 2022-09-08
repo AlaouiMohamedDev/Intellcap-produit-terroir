@@ -31,7 +31,7 @@ export default function aboutUs({cats}) {
         ProductM.classList.add('flex')
     }
   return (
-    <div className="font-poppins h-screen">
+    <div className="font-poppins h-screen overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
             <title>IntellCap Produit 100% Marocaine</title>
             <link rel="icon" href="/favicon.ico" />

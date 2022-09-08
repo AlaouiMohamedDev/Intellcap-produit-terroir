@@ -61,7 +61,7 @@ const HandlerInput =(e) =>{
     setInputs({...inputs,[e.target.name]:e.target.value});
 }
   return (
-    <div className="font-poppins h-screen">
+    <div className="font-poppins h-screen overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
             <title>IntellCap Produit 100% Marocaine</title>
             <link rel="icon" href="/favicon.ico" />

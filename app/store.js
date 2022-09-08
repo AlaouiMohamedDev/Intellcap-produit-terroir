@@ -4,6 +4,7 @@ import categoriesReducer from './categories/categoriesSlice'
 import cooperativeReducer from './cooperatives/cooperativesSlice'
 import messagesReducer from './messages/messagesSlice'
 import productsReducer from './products/productsSlice'
+import cartReducer from './cartSlices'
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         categories: categoriesReducer,
         cooperatives: cooperativeReducer ,
         messages:messagesReducer,
-        products : productsReducer
+        products : productsReducer,
+        cart: cartReducer,
     }
 })

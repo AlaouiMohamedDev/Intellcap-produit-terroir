@@ -33,7 +33,7 @@ export default function Products({cats,products,coop}) {
   const categories = cats
   const cooperatives =coop
   return (
-    <div className="h-screen font-poppins">
+    <div className="h-screen font-poppins overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
             <title>Intellcap-Product</title>
             <link rel="icon" href="/favicon.ico" />

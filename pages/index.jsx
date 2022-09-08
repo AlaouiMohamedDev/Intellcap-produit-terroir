@@ -19,17 +19,26 @@ export async function getServerSideProps(context) {
 
   const response = await fetch('http://127.0.0.1:5000/categories');
   const data = await response.json();
+  
+  const response1 = await fetch('http://127.0.0.1:5000/products');
+  const data1 = await response1.json();
+
+  const response2 = await fetch('http://127.0.0.1:5000/cooperatives');
+  const data2 = await response2.json();
   return {
     props: {
+      cooperatives:data2,
+      products:data1,
       cats:data,
     },
   }
 }
 
-const Home=({cats}) => {
+const Home=({cats,products,cooperatives}) => {
+  // console.log("🚀 ~ file: index.jsx ~ line 38 ~ Home ~ products", products)
   const categories = cats
   return (
-    <div className="font-poppins overflow-y-hidden">
+    <div className="font-poppins overflow-y-hidden overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
       <Head>
         <title>IntellCap Produit 100% Marocaine</title>
         <link rel="icon" href="/favicon.ico" />
@@ -45,7 +54,7 @@ const Home=({cats}) => {
         <Cart />
         <SearchModal categories={categories}/>
         <HomeCategory categories={categories}/>
-        <NewProduct  />
+        <NewProduct cooperatives={cooperatives} products={products}/>
         <WhyChooseUs />
         <FromOurBlog />
         <Footer />

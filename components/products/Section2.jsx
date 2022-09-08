@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import ProductModal from '../ProductModal'
 import {selectAllProducts} from '../../app/products/productsSlice'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCooperatives } from '../../app/cooperatives/cooperativesSlice';
 import { selectAllCategories } from '../../app/categories/categoriesSlice';
 import { useRouter } from 'next/router';
 import { getCookie, setCookie,deleteCookie } from 'cookies-next';
 import PaginationUser from '../PaginationUser'
-
+import { addToCart } from "../../app/cartSlices";
 
 export default function Section2({products,categories,cooperatives}) {
     const router = useRouter();
@@ -134,6 +134,13 @@ const selectHandler = (e) =>{
 
 
 
+
+const dispatch = useDispatch();
+
+const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
 // const productsPriceAccending= [...products].sort((a,b)=> a.prix - b.prix)
 
 // console.log("🚀 ~ file: Section2.jsx ~ line 57 ~ Section2 ~ productsPriceAccending", productsPriceAccending)
@@ -180,7 +187,7 @@ const selectHandler = (e) =>{
                                     <div className="h-[300px] w-full   relative overflow-hidden border-box">
                                         <img src={`https://images.codata-admin.com/terroir/products/${product.image}`} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                                         <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
-                                            <a className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                                            <a onClick ={ () => handleAddToCart(product)} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                                                 Ajoutez à la Cart
                                             </a>
                                             <a onClick={()=>ModalP(product)} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">

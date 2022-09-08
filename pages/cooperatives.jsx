@@ -30,7 +30,7 @@ export async function getServerSideProps(context) {
 export default function Cooperatives({cats,cooperatives,products}) {
   const categories = cats
   return (
-    <div className="font-poppins h-screen">
+    <div className="font-poppins h-screen overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
             <title>Intellcap-Coppératives</title>
             <link rel="icon" href="/favicon.ico" />
