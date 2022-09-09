@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { getCookie } from 'cookies-next';
 
 export default function UserBanner(props) {
     
     const router = useRouter();
+    
+    const [name,setName] =useState("Guest")
+    useEffect(() =>{
+        if(getCookie('name'))
+        {
+            setName(getCookie('name'))
+        }
+        else{
+            setName("Guest")
+        }
+    },[getCookie('name'),name])
     
   return (
     <>
@@ -16,11 +27,11 @@ export default function UserBanner(props) {
                     <img src="/user.jpg" alt="" className="object-cover rounded-full" />
                 </div>
                 <div className="flex flex-col justify-evenly z-20 space-y-3 xl:space-y-0 items-center xl:items-start">
-                    <span className="text-xl font-semibold text-white">{getCookie('name')}</span>
+                    <span className="text-xl font-semibold text-white">{name}</span>
                     <div className="flex flex-col xl:flex-row items-start xl:items-center space-y-5 xl:space-x-5 xl:space-y-0 text-sm w-max xl:w-auto">
-                        {
-                            (props.name=="edit") ? <a className="text-center active py-2 px-4 rounded w-full xl:w-auto">Modifier profile</a> : <a onClick = {() => router.push("/profil")} className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 w-full xl:w-auto">Modifier profile</a>
-
+                        
+                        { 
+                           name!="Guest" && ((props.name=="edit") ? <a className="text-center active py-2 px-4 rounded w-full xl:w-auto">Modifier profile</a> : <a onClick = {() => router.push("/profil")} className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 w-full xl:w-auto">Modifier profile</a>)
                         }
                         {
                             (props.name=="wish") ? <a className="text-center active py-2 px-4 rounded w-full xl:w-auto">Mes favoris</a> : <a onClick = {() => router.push("/wishList")} className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 w-full xl:w-auto">Mes favoris</a>
@@ -31,13 +42,17 @@ export default function UserBanner(props) {
 
                         }
                         {
-                            (props.name=="command") ? <a className="text-center active py-2 px-4 rounded w-full xl:w-auto">Historique des achats</a> : <a onClick = {() => router.push("/commande")} className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 w-full xl:w-auto">Historique des achats</a>
-
+                            name!="Guest" && ((props.name=="command") ? <a className="text-center active py-2 px-4 rounded w-full xl:w-auto">Historique des achats</a> : <a onClick = {() => router.push("/commande")} className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 w-full xl:w-auto">Historique des achats</a>)
+ 
                         }
+                        {
+                             name!="Guest"
+                             &&
                         <a className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 space-x-2 items-center w-full xl:w-auto">
                             <span>Se déconnecter</span>
                             <i className='bx bxs-lock'></i>
                         </a>
+                        }
                     </div>
                 </div>
             </div>

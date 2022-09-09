@@ -81,6 +81,12 @@ export default function card({cats}) {
         modal.classList.add('flex')
     }
 
+    const cartModal =()=>{
+        const cart= document.querySelector('.cart')
+        cart.classList.remove('hidden')
+        cart.classList.add('flex')
+    }
+
   return (
     <div className="font-poppins h-screen overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
@@ -98,73 +104,118 @@ export default function card({cats}) {
         <UserBanner name="card"/>
         {
             cart.cartItems&&
-            countItems != 0
+            countItems !== 0
             ?
-            <section className="grid grid-cols-1 lg:grid-cols-3 gap-10 px-10 md:px-16 lg:px-24 py-10 items-start">
-                <h1 className="lg:col-span-3 text-xl">Votre Carte :</h1>
-                <div className="lg:col-span-2 space-y-5 flex flex-col items-center overflow-y-auto h-[600px] scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-black w-full px-2 py-3">
+                <div className="select-none grid gird-cols-1 lg:grid-cols-3 gap-10 lg:px-20 md:px-16 px-10 pb-10">
                 {
-                            cart.cartItems &&
-                            cart.cartItems.map(cartItem => (
-                                <div key={cartItem.id} className="flex items-center  py-4 border-b last:border-none w-full  space-x-5">
-                                    <img src={`https://images.codata-admin.com/terroir/products/${cartItem.image}`} className="w-[100px] h-[100px] object-cover" />
-                                    <div className="flex flex-col space-y-3 items-left">
-                                        <span className="text-[14px] text-black/70">{cartItem.nom}</span>
-                                        <span className="text-xs font-bold ">{cartItem.prix} MAD</span>
-                                        <div className="flex justify-between space-x-5 mt-6">
-                                            <div className="flex items-center text-sm text-black/60">
-                                                <i onClick={() => handleDecreaseCart(cartItem)}  className='cursor-pointer bx bx-chevron-down text-lg py-1 px-2 border'></i>
-                                                <span className="text-xs px-5 border-y h-full flex items-center w-max">{cartItem.cartQuantity}</span>
-                                                <i onClick={() => handleAddToCart(cartItem)} className='cursor-pointer bx bx-chevron-up text-lg py-1 px-2 border'></i>
-                                            </div>
-                                            <div onClick={() => handleRemoveFromCart(cartItem)} className="flex items-center text-xs text-red-400">
-                                                <i className='bx bx-x' ></i>
-                                                <span>Remove</span>
-                                            </div>
+                    cart.cartItems&&
+                    countItems != 0
+                    &&
+                    <>
+                        <div className="lg:col-span-2 space-y-5 w-full">
+                            {
+                                user != null
+                                ?
+                                <>
+                                    <div className="flex items-center space-x-3">
+                                        <i className='text-white bg-main py-1 px-2  text-lg rounded-full bx bxs-truck'></i>
+                                        <h1 className="text-xl text-dashBlack font-bold">Livraison</h1>
+                                    </div>
+                                    <div className="px-7 space-y-3">
+                                        <div className="flex flex-col md:flex-row items-center gap-5 uppercase w-full">
+                                                <div className="space-y-2 w-full">
+                                                    <h6 className="text-sm text-black/50 font-semibold">Nom</h6>
+                                                    <input name="lasttName" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                </div>
+                                                <div className="space-y-2 w-full">
+                                                    <h6 className="text-sm text-black/50 font-semibold">Prénom</h6>
+                                                    <input name="firstName" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                </div>
+                                        </div>
+                                        <div className="flex flex-col md:flex-row items-center gap-5 uppercase w-full">
+                                                <div className="space-y-2 w-full">
+                                                    <h6 className="text-sm text-black/50 font-semibold">Ville</h6>
+                                                    <input name="city" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                </div>
+                                                <div className="space-y-2 w-full">
+                                                    <h6 className="text-sm text-black/50 font-semibold">Téléphone</h6>
+                                                    <input name="tele" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                </div>
+                                        </div>
+                                        <div className="space-y-2 w-full">
+                                            <h6 className="text-sm text-black/50 font-semibold">Adresse</h6>
+                                            <input name="adress" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                        </div>
+                                        <div className="w-full  flex justify-end py-5">
+                                            <span className="w-full md:w-[40%] rounded bg-main text-white py-3 text-center">
+                                                Confirmer la commande
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        
-                        }
-                </div>
-                {
-                    user != null
-                    ?
-                    <section className="w-full text-sm">
-                        <div className="flex flex-col w-full space-y-5">
-                            <div className="bg-gray-200/70 space-y-5 py-5 px-5 rounded">
-                                <div className="flex justify-between items-center">
-                                    <p>Sous totale</p>
+                                </>
+                                :
+                                <section className="w-full p-4 text-xs border flex flex-col space-y-5">
+                                    <p>Vous devez d'abord vous inscrire pour connaître votre adresse exacte afin de livrer</p>
+                                    <span onClick={ModalAuth} className="cursor-pointer w-full py-3 text-center bg-dashBlack text-white">
+                                        Se connectez
+                                    </span>
+                                </section>
+                            }
+                        </div>
+                        <div className="col-span-1 shadow border">
+                            <div className="flex justify-between items-center py-4 px-4 border-b">
+                                <h3 className="text-sm text-black/70">Récapitulatif de la commande</h3>
+                                <span onClick={cartModal} className="text-blue-400 text-xs">Modifier cart</span>
+                            </div>
+                            <h6 className="text-xs text-gray-400 px-4 py-3">{countItems} éléments</h6>
+                            <div className="px-4 py-3 flex flex-col max-h-[150px] overflow-x-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-black space-y-3">
+                                {
+                                    cart.cartItems&&
+                                    cart.cartItems.map(cartItem =>(
+                                        <div key={cartItem.id} className="flex items-start space-x-3 w-full">
+                                            <img src={`https://images.codata-admin.com/terroir/products/${cartItem.image}`} className="w-14 h-14 object-cover" />
+                                            <div className="flex justify-between w-full">
+                                                <h6 className="text-[13px] text-black/70">{cartItem.cartQuantity} x {cartItem.nom}</h6>
+                                                <span className="text-[13px] text-black/70">{cartItem.prix} MAD</span>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                            <div className="border-y px-4 py-3 space-y-2">
+                                <div className="flex items-center justify-between text-[13px] text-black/70">
+                                    <h6>Sous total</h6>
                                     <span>{total} MAD</span>
                                 </div>
-                                <div className=" flex justify-between items-center">
-                                    <p>Livraison</p>
+                                <div className="flex items-center justify-between text-[13px] text-black/70">
+                                    <h6>Livraison</h6>
                                     <span>50 MAD</span>
                                 </div>
-                                <div className="text-lg border-t border-black flex justify-between items-center pt-5">
-                                    <p>Total</p>
-                                    <span>{total+50} MAD</span>
+                                <div className="flex items-center justify-between text-[13px] text-black/70">
+                                    <h6>Taxe</h6>
+                                    <span>0 MAD</span>
+                                </div>
+                                <h5
+                                onClick={()=>{
+                                    document.querySelector('.cuppon').classList.toggle('hidden')
+                                    document.querySelector('.cuppon').classList.toggle('flex')
+                                }}
+                                className="text-blue-400 text-xs hover:text-blue-500 cursor-pointer">Coupon/Certificat-cadeau</h5>
+                                <div className="items-center w-full space-x-2 hidden cuppon">
+                                    <input type="text" className="outline-none border  border-black/60 rounded w-2/3 py-2 px-2 text-xs" />
+                                    <span class="text-center text-black/60 border border-black/40 rounded text-xs py-2 w-1/3">Apply</span>
                                 </div>
                             </div>
-                            <input type="submit" value="Confirmer Commande" className="cursor-pointer bg-main w-full text-white py-3" />
-                            <div onClick = {() => router.push("/products")} className="flex items-center space-x-1 cursor-pointer hover:border-b border-black w-max duration-150">
-                                <i className='bx bx-left-arrow-alt text-xl' ></i>
-                                <span>Ajouter autre produit</span>
+                            <div className="flex justify-between items-center px-4 py-4">
+                                <h6 className="text-sm text-black/70">Total</h6>
+                                <span className="text-2xl text-dashBlack font-black">{total+50} MAD</span>
                             </div>
                         </div>
-                    </section>
-                    :
-                    <section className="w-full p-4 text-xs border flex flex-col space-y-5">
-                        <p>Vous devez d'abord vous inscrire pour connaître votre adresse exacte afin de livrer</p>
-                        <span onClick={ModalAuth} className="cursor-pointer w-full py-3 text-center bg-dashBlack text-white">
-                            Se connectez
-                        </span>
-                    </section>
-                }
-            </section>
+                    </>
+                } 
+                </div>
             :
-             <div className=" w-full px-10 md:px-16 lg:px-24 py-10 text-center">
+            <div className=" w-full px-10 md:px-16 lg:px-24 py-10 text-center">
                 <div className="space-x-2 py-7 bg-orange-500/70 text-orange-700">
                     <span>Votre panier est vide</span>
                     <span onClick={()=>router.push('/products')} className="underline">Allez aux shop</span>

@@ -6,7 +6,6 @@ import axios from 'axios';
 export default function DropDown(props) {
   const router = useRouter();
   const logOut =async ()=>{
-    localStorage.clear()
     deleteCookie('token');
     deleteCookie('admin');
     deleteCookie('name');

@@ -1,6 +1,20 @@
-import React from 'react'
+
+import React, { useState } from 'react'
 
 export default function ProductModal({product}) {
+
+const [count,setCount] = useState(1)
+
+const increase = () =>{
+    setCount(count+1)
+}
+const decrease = () =>{
+    if(count>=2)
+    {
+        setCount(count-1)
+    }
+}
+
 
 const ModalP = () => {
     const ProductM = document.querySelector('.ProductM')
@@ -27,10 +41,10 @@ const ModalP = () => {
                             </p>
                         </div>
                         <div className="flex justify-between items-center ">
-                            <div className=" text-sm md:text-base space-x-4 border py-3 px-6" >
-                                <span className="text-gray-300 cursor-pointer">-</span>
-                                <span>1</span>
-                                <span className="text-gray-300 cursor-pointer">+</span>
+                            <div className="flex items-center border-y  text-sm text-black/60">
+                                <i onClick={decrease} className='cursor-pointer bx bx-chevron-down text-lg py-1 px-2 border-x'></i>
+                                <span className="text-xs px-5 h-full flex items-center justify-center w-[40px]">{count}</span>
+                                <i onClick={increase} className='cursor-pointer bx bx-chevron-up text-lg py-1 px-2 border-x'></i>
                             </div>
                             <a href="#" className="text-sm md:text-base text-white bg-main px-4 md:px-6 py-3">Ajouter au panier</a>
                         </div>

@@ -24,9 +24,9 @@ export default function Cart() {
   const c = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-useEffect(() => {
-    setCart({})
-},[])
+    useEffect(() => {
+        setCart({})
+    },[])
 
 
 const [total,setTotal] = useState(0)
@@ -74,7 +74,7 @@ const [total,setTotal] = useState(0)
                                     <div className="flex justify-between space-x-5 mt-6">
                                         <div className="flex items-center text-sm text-black/60">
                                             <i onClick={() => handleDecreaseCart(cartItem)}  className='cursor-pointer bx bx-chevron-down text-lg py-1 px-2 border'></i>
-                                            <span className="text-xs px-5 border-y h-full flex items-center w-max">{cartItem.cartQuantity}</span>
+                                            <span className="text-xs px-5 border-y h-full flex items-center justify-center w-[40px]">{cartItem.cartQuantity}</span>
                                             <i onClick={() => handleAddToCart(cartItem)} className='cursor-pointer bx bx-chevron-up text-lg py-1 px-2 border'></i>
                                         </div>
                                         <div onClick={() => handleRemoveFromCart(cartItem)} className="flex items-center text-xs text-red-400">

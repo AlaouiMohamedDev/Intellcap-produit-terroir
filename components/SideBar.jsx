@@ -19,7 +19,6 @@ export default function Sidebar({categories}) {
 //     },[cats])
 
     const logOut =async ()=>{
-        localStorage.clear()
         deleteCookie('token');
         deleteCookie('admin');
         deleteCookie('name');

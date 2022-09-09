@@ -4,7 +4,7 @@ import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 import axios from 'axios';
 export default function SideBar() {
   const logOut =async ()=>{
-    localStorage.clear()
+
     deleteCookie('token');
     deleteCookie('admin');
     deleteCookie('name');

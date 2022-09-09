@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { getCookie, setCookie,deleteCookie } from 'cookies-next';
 import PaginationUser from '../PaginationUser'
 import { addToCart } from "../../app/cartSlices";
+import { addTofav } from '../../app/favSlices';
 
 export default function Section2({products,categories,cooperatives}) {
     const router = useRouter();
@@ -140,7 +141,9 @@ const dispatch = useDispatch();
 const handleAddToCart = (product) => {
     dispatch(addToCart(product));
   };
-
+  const handleAddToFav = (product) => {
+    dispatch(addTofav(product));
+};
 // const productsPriceAccending= [...products].sort((a,b)=> a.prix - b.prix)
 
 // console.log("🚀 ~ file: Section2.jsx ~ line 57 ~ Section2 ~ productsPriceAccending", productsPriceAccending)
@@ -196,7 +199,7 @@ const handleAddToCart = (product) => {
                                         </div>
                                         <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
                                             <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
-                                            <div className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
+                                            <div onClick ={ () => handleAddToFav(product)} className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
                                                 <i className='bx bx-heart text-md '></i>
                                             </div>
                                         </div>

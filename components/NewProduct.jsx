@@ -3,6 +3,7 @@ import ProductModal from './ProductModal'
 import {selectAllProducts} from '../app/products/productsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from "../app/cartSlices";
+import { addTofav } from "../app/favSlices";
 
 export default function NewProduct({cooperatives}) {
 
@@ -32,7 +33,10 @@ export default function NewProduct({cooperatives}) {
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
     };
-
+    
+    const handleAddToFav = (product) => {
+        dispatch(addTofav(product));
+    };
     const ModalP = (pro) => {
         setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image})
         const ProductM = document.querySelector('.ProductM')
@@ -64,7 +68,7 @@ export default function NewProduct({cooperatives}) {
                                 </div>
                                 <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
                                     <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
-                                    <div className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
+                                    <div onClick ={ () => handleAddToFav(product)} className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
                                         <i className='bx bx-heart text-md '></i>
                                     </div>
                                 </div>
