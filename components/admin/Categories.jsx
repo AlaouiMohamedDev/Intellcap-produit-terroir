@@ -72,23 +72,22 @@ const addHandlerImage = (event) => {
     }
 };
 const AddCategory=async ()=>{
+    
+    const body = new FormData();
+    // console.log("file", image)
+    body.append("file", image);  
+    body.append("upload_preset","categories")
+    const response = await fetch('https://api.cloudinary.com/v1_1/realmoro/image/upload', {
+      method: "POST",
+      body:body
+    }).then(r=>r.json());
 
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+"-"+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var fullname=date+"-"+image.name
     const data ={
         name:categoryInput,
-        image:fullname
+        image:response.secure_url
     }
     axios.post('http://127.0.0.1:5000/category',data).then(async res => {
-                      
         if(res.data.status === 200){
-            const body = new FormData();
-            body.append("CategoryUpload",image)
-            const response = await fetch(`https://images.codata-admin.com/api-file-upload-terroir.php?name=${fullname}`, {
-            method: "POST",
-            body
-            }).then(r=>r.json());
             ExitModalAdd()
             swal.fire("Success",res.data.message,"success");
             router.push('')
@@ -121,13 +120,7 @@ const Delete = (cat) =>{
             axios.delete(`http://127.0.0.1:5000/category/${cat.id}`,{
                 headers:{'x-access-token':getCookie('token')}
             }).then(res => {
-                const data = {
-                    path:'terroir/categories',
-                    image:cat.image
-                }
-                console.log("🚀 ~ file: Categories.jsx ~ line 180 ~ categories.filter ~ res", res)
                 if(res.data.status === 200){
-                axios.post("https://images.codata-admin.com/api-delete-file-terroir.php",data)
                     swal.fire('Deleted!',res.data.message,'success')
                     router.push('')
                 }
@@ -204,21 +197,18 @@ const Edit = () =>{
                 document.querySelector('.btn-edit').classList.remove('inline')
             }
             else{
-
-                    var img = imageDb;
-                    console.log("🚀 ~ file: Categories.jsx ~ line 150 ~ Edit ~ img", img)
-                    if(image != null){
+                var img=imageDb 
+                    if(image!=null)
+                    {
                         const body = new FormData();
-                        body.append('Upload',image)
-                        const con = {
-                            folder:'categories',
-                            image:imageDb
-                        }
-                        const response = await fetch(`https://images.codata-admin.com/api-update-file-terroir.php?folder=${con.folder}&image=${con.image}`,{
-                            method: "POST",
-                            body
+                        // console.log("file", image)
+                        body.append("file", image);  
+                        body.append("upload_preset","categories")
+                        const response = await fetch('https://api.cloudinary.com/v1_1/realmoro/image/upload', {
+                        method: "POST",
+                        body:body
                         }).then(r=>r.json());
-                        img=response.image
+                        img=response.secure_url
                     }
                     const data = {
                         name:editInput,
@@ -305,7 +295,7 @@ const Edit = () =>{
                                 return (
                                     <tr key={category.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
                                         <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                            <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src={`https://images.codata-admin.com/terroir/categories/${category.image}`} />
+                                            <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src={category.image} />
                                             <div className="pl-3">
                                                 <div className="text-md">{category.name}</div>
                                             </div>  

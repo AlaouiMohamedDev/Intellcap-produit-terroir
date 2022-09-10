@@ -25,8 +25,8 @@ export default function HomeCategory({categories}) {
         {categories.slice(0,4).map(cat=>{
           return (
             <div key={cat.id}  onClick = {() => router.push(`/products?cat=${cat.id}`)} className="cursor-pointer flex flex-col group items-center space-y-5 text-center border border-gray-500/20 hover:border-main py-7 px-7">
-            <img src={`https://images.codata-admin.com/terroir/categories/${cat.image}`} alt="" className="w-14" />
-            <span className="text-md group-hover:text-main duration-500">{cat.name}</span>
+            <img src={cat.image} alt="" className="w-12" />
+            <span className="text-sm group-hover:text-main duration-500">{cat.name}</span>
             </div>
           )
         })}
@@ -40,8 +40,8 @@ export default function HomeCategory({categories}) {
       {categories.slice(4,8).map(cat=>{
           return (
             <div key={cat.id}  onClick = {() => router.push(`/products?cat=${cat.id}`)} className="cursor-pointer flex flex-col group items-center space-y-5 text-center border border-gray-500/20 hover:border-main py-7 px-7">
-            <img src={`https://images.codata-admin.com/terroir/categories/${cat.image}`} alt="" className="w-14" />
-            <span className="text-md group-hover:text-main duration-500">{cat.name}</span>
+            <img src={cat.image} alt="" className="w-12" />
+            <span className="text-sm group-hover:text-main duration-500">{cat.name}</span>
             </div>
           )
         })}

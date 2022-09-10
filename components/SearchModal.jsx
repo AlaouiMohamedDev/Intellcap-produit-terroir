@@ -42,7 +42,7 @@ export default function SearchModal({categories}) {
                                         deleteCookie('search')
                                         router.push(`/products`)
                                     }} className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                                        <img src={`https://images.codata-admin.com/terroir/categories/${category.image}`} alt="" className="w-10" />
+                                        <img src={category.image} alt="" className="w-10" />
                                         <span className="text-xs group-hover:text-main duration-500">{category.name}</span>
                                     </div>
                                 )

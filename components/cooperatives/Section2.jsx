@@ -20,7 +20,7 @@ export default function Section2({cooperatives,products}) {
                 setCookie('coop',coop.id)
                 router.push('/coopProduct')
               }} className="cursor-pointer flex flex-col md:flex-row space-y-3 md:space-y-0 items-center border hover:border-main duration-200 rounded py-7 space-x-5 px-5">
-                  <img src={`https://images.codata-admin.com/terroir/cooperatives/${coop.image}`} className="object-cover w-[150px] h-[150px] border border-main p-2 rounded-full" />
+                  <img src={coop.image} className="object-cover w-[150px] h-[150px] border border-main p-2 rounded-full" />
                   <div className="flex flex-col w-full space-y-5">
                     <div className="flex items-center justify-between">
                       <h1 className="text-md font-bold text-gray-900">{coop.name}</h1>

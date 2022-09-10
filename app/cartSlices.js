@@ -19,21 +19,40 @@ const cartSlice = createSlice({
       );
 
       if (existingIndex >= 0) {
-        state.cartItems[existingIndex] = {
-          ...state.cartItems[existingIndex],
-          cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
-        };
-        toast.info("Increased product quantity", {
-          position: "bottom-left",
-        });
+        if(state.cartItems[existingIndex].cartQuantity >= action.payload.qte)
+        {
+          toast.error("Produit en repture", {
+            position: "bottom-left",
+          });
+        }
+        else{
+          state.cartItems[existingIndex] = {
+            ...state.cartItems[existingIndex],
+            cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
+          };
+          toast.info("Increased product quantity", {
+            position: "bottom-left",
+          });
+          localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        }
       } else {
-        let tempProductItem = { ...action.payload, cartQuantity: 1 };
-        state.cartItems.push(tempProductItem);
-        toast.success("Product added to cart", {
-          position: "bottom-left",
-        });
+        if(action.payload.qte == 0)
+        {
+          toast.error("Produit en repture", {
+            position: "bottom-left",
+          });
+        }
+        else{
+
+          let tempProductItem = { ...action.payload, cartQuantity: 1 };
+          state.cartItems.push(tempProductItem);
+          toast.success("Product added to cart", {
+            position: "bottom-left",
+          });
+          localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        }
       }
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      
     },
     decreaseCart(state, action) {
       const itemIndex = state.cartItems.findIndex(
@@ -105,7 +124,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, decreaseCart, removeFromCart, getTotals, clearCart } =
+export const { addToCart,decreaseCart, removeFromCart, getTotals, clearCart } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

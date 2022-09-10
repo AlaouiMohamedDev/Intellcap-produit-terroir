@@ -26,6 +26,8 @@ export default function Sidebar({categories}) {
         deleteCookie('public_id');
         deleteCookie('name');
         deleteCookie('email');
+        deleteCookie('adress')
+        deleteCookie('tel')
         const response =await axios.get(`http://127.0.0.1:5000/logout/${user.id}`);
         router.push("/")
         //document.location.replace('http://localhost:3000/')
@@ -105,7 +107,7 @@ export default function Sidebar({categories}) {
                                         deleteCookie('search')
                                         router.push(`/products`)
                                     }} className="flex items-center space-x-3">
-                                        <img src={`https://images.codata-admin.com/terroir/categories/${cat.image}`} alt="" className="w-5" />
+                                        <img src={cat.image} alt="" className="w-5" />
                                         <a className="hover:text-main transition-all duration-500 cursor-pointer">{cat.name}</a>
                                     </div>
                                 )

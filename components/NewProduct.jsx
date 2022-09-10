@@ -21,6 +21,7 @@ export default function NewProduct({cooperatives}) {
         setProducts(p)
     },[p])
     const[modal,setModal] = useState({
+        id:'',
         name:"",
         desc:"",
         price:'',
@@ -38,7 +39,7 @@ export default function NewProduct({cooperatives}) {
         dispatch(addTofav(product));
     };
     const ModalP = (pro) => {
-        setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image})
+        setModal({...modal,id:pro.id,nom:pro.nom,desc:pro.description,prix:pro.prix,image:pro.image})
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
@@ -57,7 +58,7 @@ export default function NewProduct({cooperatives}) {
                     return(
                         <div key={product.id} className="flex flex-col space-y-5 group ">
                             <div className="w-[300px] h-[400px] bg-gray-300 relative overflow-hidden border-box">
-                                <img src={`https://images.codata-admin.com/terroir/products/${product.image}`} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
+                                <img src={product.image} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                                 <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
                                     <a onClick ={ () => handleAddToCart(product)} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                                         Ajoutez à la Cart

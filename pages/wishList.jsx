@@ -98,7 +98,7 @@ export default function aboutUs({cats,cooperatives}) {
                     return (
                         <div key={item.id} class="flex flex-col space-y-5 group">
                         <div class="h-[300px] w-full   relative overflow-hidden border-box">
-                            <img src={`https://images.codata-admin.com/terroir/products/${item.image}`} class="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
+                            <img src={item.image} class="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                             <div class="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
                                 <a onClick ={()=> handleAddToCart(item)} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                                     Ajoutez à la Cart

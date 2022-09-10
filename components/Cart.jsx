@@ -67,7 +67,7 @@ const [total,setTotal] = useState(0)
                         cart.cartItems &&
                         cart.cartItems.map(cartItem => (
                             <div key={cartItem.id} className="flex items-center  py-4 border-b last:border-none w-full  space-x-5">
-                                <img src={`https://images.codata-admin.com/terroir/products/${cartItem.image}`} className="w-[100px] h-[100px] object-cover" />
+                                <img src={cartItem.image} className="w-[100px] h-[100px] object-cover" />
                                 <div className="flex flex-col space-y-3 items-left">
                                     <span className="text-[14px] text-black/70">{cartItem.nom}</span>
                                     <span className="text-xs font-bold ">{cartItem.prix} MAD</span>

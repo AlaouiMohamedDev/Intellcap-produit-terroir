@@ -1,48 +1,43 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Head from 'next/head'
-import axios from 'axios'
-import swal from 'sweetalert2'
-import {getCookie} from 'cookies-next'
-import {selectAllCategories} from '../app/categories/categoriesSlice'
-import { useSelector } from "react-redux";
-import { useRouter } from "next/router"
+import { useState } from "react";
 
 
+export default function PrivatePage(props) {
+  const [image, setImage] = useState(null);
+  const [createObjectURL, setCreateObjectURL] = useState(null);
 
-export async function getServerSideProps(context) {
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
 
-  const response = await fetch('http://127.0.0.1:5000/categories');
-  const data = await response.json();
-  return {
-    props: {
-      cats:data,
-    },
-  }
-}
-export default function test({cats}) {
-    
-    console.log("🚀 ~ file: test.jsx ~ line 23 ~ test ~ cats", cats)
-    const categories =cats
+      setImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+    }
+  };
+
+  const uploadToServer = async (event) => {
+    const body = new FormData();
+    body.append("file", image);
+    const response = await fetch("./api/upload/file", {
+      method: "POST",
+      body
+    });
+    console.log("🚀 ~ file: test.jsx ~ line 24 ~ uploadToServer ~ response", response)
+  };
+
   return (
-    <div className="h-screen font-poppins overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
-        <Head>
-            <title>Intellcap-Product</title>
-            <link rel="icon" href="/favicon.ico" />
-            <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet' />
-            <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-        </Head>
-        {
-
-            categories.map(c=>{
-              return(
-
-                <h1>{c.name}</h1>
-              )
-            })
-        }
-       
-
+    <div>
+      <div>
+        <img src={createObjectURL} />
+        <h4>Select Image</h4>
+        <input type="file" name="myImage" onChange={uploadToClient} />
+        <button
+          className="btn btn-primary"
+          type="submit"
+          onClick={uploadToServer}
+        >
+          Send to server
+        </button>
+      </div>
     </div>
-  )
+  );
 }

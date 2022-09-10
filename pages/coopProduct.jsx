@@ -95,7 +95,7 @@ export default  function coopProduct({categories,products,cooperatives}) {
 
             </div>
             <div className="z-20 w-[65%] cursor-pointer flex flex-col md:flex-row space-y-3 md:space-y-0 items-center rounded py-7 text-white space-x-5 px-5">
-                <img src={`https://images.codata-admin.com/terroir/cooperatives/${cooperative.image}`} className="object-cover w-[150px] h-[150px] border-2 border-white p-2 rounded-full" />
+                <img src={cooperative.image} className="object-cover w-[150px] h-[150px] border-2 border-white p-2 rounded-full" />
                 <div className="flex flex-col w-full space-y-5">
                     <div className="flex items-center justify-between">
                         <h1 className="text-xl font-bold">{cooperative.name}</h1>
@@ -118,7 +118,7 @@ export default  function coopProduct({categories,products,cooperatives}) {
                         return (
                             <div key={product.id} className="flex flex-col space-y-5 group">
                                 <div className="h-[300px] w-full   relative overflow-hidden border-box">
-                                    <img src={`https://images.codata-admin.com/terroir/products/${product.image}`} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
+                                    <img src={product.image} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                                     <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
                                         <a className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                                             Ajoutez à la Cart

@@ -12,6 +12,8 @@ export default function SideBar() {
     deleteCookie('public_id');
     deleteCookie('name');
     deleteCookie('email');
+    deleteCookie('adress')
+    deleteCookie('tel')
     router.push('/')
     const response = await axios.get(`http://127.0.0.1:5000/logout/${getCookie('id')}`);
 }

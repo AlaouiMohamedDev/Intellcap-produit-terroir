@@ -20,22 +20,14 @@ export default function TestUpload() {
   const uploadToServer = async (event) => {        
     const body = new FormData();
     // console.log("file", image)
-    //body.append("file", image);  
-    body.append("ProductUpload",image)
-      var today = new Date();
-      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      var fullname=date+time+"-"+image.name
-    //https://api.cloudinary.com/v1_1/dhi1q4hre/image/upload
-    //body.append("upload_preset",'products'), 
-    const response = await fetch(`https://images.codata-admin.com/api-file-upload-terroir.php?name=${fullname}`, {
+    body.append("file", image);  
+    body.append("upload_preset","image_terroir")
+    const response = await fetch('https://api.cloudinary.com/v1_1/realmoro/image/upload', {
       method: "POST",
-      body
+      body:body
     }).then(r=>r.json());
-    console.log("🚀 ~ file: TestUpload.jsx ~ line 25 ~ uploadToServer ~ response", response)
+    console.log("🚀 ~ file: TestUpload.jsx ~ line 25 ~ uploadToServer ~ response", response.secure_url)
 
-    setImage("http://images.codata-admin.com/terroir/products/"+response.image)
-    setCreateObjectURL("http://images.codata-admin.com/terroir/products/"+response.image)
   };
 
   const DeleteFromServer = async () =>{

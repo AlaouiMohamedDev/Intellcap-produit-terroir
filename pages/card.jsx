@@ -19,6 +19,8 @@ import {
 } from "../app/cartSlices";
 import { selectUserById } from "../app/users/usersSlice";
 import { getCookie } from "cookies-next";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export async function getServerSideProps(context) {
 
@@ -36,7 +38,13 @@ export default function card({cats}) {
     const router = useRouter();
     const user = useSelector(state => selectUserById(state,Number(getCookie('id'))))
 
-    
+    const [inputs,setInputs] = useState({
+        firstName:getCookie('name'),
+        lastName:'',
+        city:'',
+        adress:getCookie('adress'),
+        tel:getCookie('tel')
+    })
     const [cart,setCart] = useState([])
     const [countItems,setCount] = useState(0)
     const c = useSelector((state) => state.cart);
@@ -46,6 +54,10 @@ export default function card({cats}) {
     setCart({})
     },[])
 
+    const handler =(e) =>{
+        e.persist()
+        setInputs({...inputs,[e.target.name]:e.target.value})
+    }
 
     const [total,setTotal] = useState(0)
 
@@ -86,7 +98,40 @@ export default function card({cats}) {
         cart.classList.remove('hidden')
         cart.classList.add('flex')
     }
-
+    const commander = () => {
+        if(inputs.firstName == "" || inputs.firstName == "" || inputs.adress =="" || inputs.tel =="" || inputs.city == "")
+        {
+            toast.error("Tous les champs sont requis",{ position: "bottom-left" })
+        }
+        else{
+            var prods = []
+            cart.cartItems.forEach(c=>{
+                prods.push({id_prod:c.id,qte:c.cartQuantity})
+            })
+            const data ={
+                id_user:getCookie('id'),
+                firstName:inputs.firstName,
+                lastName:inputs.lastName,
+                city:inputs.city,
+                adress:inputs.adress,
+                tel:inputs.tel,
+                prixT:total+50,
+                prods:prods
+            }
+            axios.post('http://127.0.0.1:5000/commande',data,{
+                headers:{'x-access-token':getCookie('token')}
+                    }).then(res => {
+                        if(res.data.status === 200){
+                            localStorage.clear()
+                            toast.success(res.data.message,{ position: "bottom-left" })
+                            router.push('/commande')
+                        }
+                        else{
+                            toast.error("Erreur :(",{ position: "bottom-left" })
+                        }
+                    })
+        }
+    }
   return (
     <div className="font-poppins h-screen overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">
         <Head>
@@ -125,29 +170,29 @@ export default function card({cats}) {
                                         <div className="flex flex-col md:flex-row items-center gap-5 uppercase w-full">
                                                 <div className="space-y-2 w-full">
                                                     <h6 className="text-sm text-black/50 font-semibold">Nom</h6>
-                                                    <input name="lasttName" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                    <input name="lastName" value={inputs.lastName} onChange={handler} type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
                                                 </div>
                                                 <div className="space-y-2 w-full">
                                                     <h6 className="text-sm text-black/50 font-semibold">Prénom</h6>
-                                                    <input name="firstName" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                    <input name="firstName" value={inputs.firstName} onChange={handler} type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
                                                 </div>
                                         </div>
                                         <div className="flex flex-col md:flex-row items-center gap-5 uppercase w-full">
                                                 <div className="space-y-2 w-full">
                                                     <h6 className="text-sm text-black/50 font-semibold">Ville</h6>
-                                                    <input name="city" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                    <input name="city" value={inputs.city} onChange={handler} type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
                                                 </div>
                                                 <div className="space-y-2 w-full">
                                                     <h6 className="text-sm text-black/50 font-semibold">Téléphone</h6>
-                                                    <input name="tele" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                                    <input name="tel" value={inputs.tel} onChange={handler} type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
                                                 </div>
                                         </div>
                                         <div className="space-y-2 w-full">
                                             <h6 className="text-sm text-black/50 font-semibold">Adresse</h6>
-                                            <input name="adress" type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
+                                            <input name="adress" value={inputs.adress} onChange={handler} type="text" className="w-full border rounded outline-none px-2 py-2 focus:border-main text-sm text-black/70" />
                                         </div>
                                         <div className="w-full  flex justify-end py-5">
-                                            <span className="w-full md:w-[40%] rounded bg-main text-white py-3 text-center">
+                                            <span onClick={commander} className="w-full md:w-[40%] rounded bg-main text-white py-3 text-center">
                                                 Confirmer la commande
                                             </span>
                                         </div>
@@ -173,7 +218,7 @@ export default function card({cats}) {
                                     cart.cartItems&&
                                     cart.cartItems.map(cartItem =>(
                                         <div key={cartItem.id} className="flex items-start space-x-3 w-full">
-                                            <img src={`https://images.codata-admin.com/terroir/products/${cartItem.image}`} className="w-14 h-14 object-cover" />
+                                            <img src={cartItem.image} className="w-14 h-14 object-cover" />
                                             <div className="flex justify-between w-full">
                                                 <h6 className="text-[13px] text-black/70">{cartItem.cartQuantity} x {cartItem.nom}</h6>
                                                 <span className="text-[13px] text-black/70">{cartItem.prix} MAD</span>

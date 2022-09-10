@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import swal from 'sweetalert2'
 import axios from 'axios';
 import Pagination from '../Pagination'
-
+import { toast } from "react-toastify";
 import { setCookie,getCookie } from 'cookies-next';
 import { selectAllCooperatives } from '../../app/cooperatives/cooperativesSlice';
 import { useSelector } from 'react-redux';
@@ -74,43 +74,50 @@ const addHandlerImage = (event) => {
     }
 };
 
-const addCooperative=async ()=>{
 
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+"-"+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var fullname=date+"-"+image.name
-    const data ={
-        name:addInputs.name,
-        email:addInputs.email,
-        adress:addInputs.adress,
-        tel:addInputs.tel,
-        description:addInputs.description,
-        image:fullname
-    }
-    axios.post('http://127.0.0.1:5000/cooperative',data).then(async res => {
-                      
-        if(res.data.status === 200){
-            const body = new FormData();
-            body.append("CoopUpload",image)
-            const response = await fetch(`https://images.codata-admin.com/api-file-upload-terroir.php?name=${fullname}`, {
-            method: "POST",
-            body
-            }).then(r=>r.json());
-            ExitModalAdd()
-            swal.fire("Success",res.data.message,"success");
-            router.push('')
-        }
-        else
-        {
-            swal.fire("Echec !!",res.data.message,"warning");
+const addCooperative=async ()=>{
+    var test=false
+    coops.forEach(coop => {
+         if(coop.email == addInputs.email){
+            	test=true
         }
     })
-
-
-
     
-    
-    
+    if(test)
+    {
+        toast.error("Email cooperative exist deja", { position: "bottom-left" });
+        ExitModalAdd()
+    }
+    else{
+        const body = new FormData();
+        // console.log("file", image)
+        body.append("file", image);  
+        body.append("upload_preset","cooperatives")
+        const response = await fetch('https://api.cloudinary.com/v1_1/realmoro/image/upload', {
+          method: "POST",
+          body:body
+        }).then(r=>r.json());
+        const data ={
+            name:addInputs.name,
+            email:addInputs.email,
+            adress:addInputs.adress,
+            tel:addInputs.tel,
+            description:addInputs.description,
+            image:response.secure_url
+        }
+        axios.post('http://127.0.0.1:5000/cooperative',data).then(async res => {
+                          
+            if(res.data.status === 200){
+                ExitModalAdd()
+                toast.success(res.data.message,{ position: "bottom-left" })
+                router.push('')
+            }
+            else
+            {
+                toast.error(res.data.message,{ position: "bottom-left" })
+            }
+        })
+    }    
 }
 
 
@@ -132,9 +139,7 @@ const Delete = (coop) =>{
                 path:'terroir/cooperatives',
                 image:coop.image
             }
-            console.log("🚀 ~ file: cooperatives.jsx ~ line 180 ~ cooperatives.filter ~ res", res)
             if(res.data.status === 200){
-            axios.post("https://images.codata-admin.com/api-delete-file-terroir.php",data)
                 swal.fire('Deleted!',res.data.message,'success')
                 router.push('')
             }
@@ -200,19 +205,16 @@ const Edit = () =>{
             else{
 
                     var img = imageDb;
-                    console.log("🚀 ~ file: Categories.jsx ~ line 150 ~ Edit ~ img", img)
                     if(image != null){
                         const body = new FormData();
-                        body.append('Upload',image)
-                        const con = {
-                            folder:'cooperatives',
-                            image:imageDb
-                        }
-                        const response = await fetch(`https://images.codata-admin.com/api-update-file-terroir.php?folder=${con.folder}&image=${con.image}`,{
-                            method: "POST",
-                            body
+                        // console.log("file", image)
+                        body.append("file", image);  
+                        body.append("upload_preset","cooperatives")
+                        const response = await fetch('https://api.cloudinary.com/v1_1/realmoro/image/upload', {
+                          method: "POST",
+                          body:body
                         }).then(r=>r.json());
-                        img=response.image
+                        img=response.secure_url
                     }
                     const data = {
                         name:editInput.name,
@@ -332,7 +334,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                                 return(
                                     <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
                                         <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                            <img className="w-10 h-10 rounded-full" src={`https://images.codata-admin.com/terroir/cooperatives/${coop.image}`}/>
+                                            <img className="w-10 h-10 rounded-full" src={coop.image}/>
                                             <div className="pl-3">
                                                 <div className="text-md">{coop.name}</div>
                                                 <div className="font-normal text-gray-500">{coop.email}</div>

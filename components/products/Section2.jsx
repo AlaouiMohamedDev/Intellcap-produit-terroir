@@ -188,7 +188,7 @@ const handleAddToCart = (product) => {
                             return(
                                 <div key={product.id} className="flex flex-col space-y-5 group">
                                     <div className="h-[300px] w-full   relative overflow-hidden border-box">
-                                        <img src={`https://images.codata-admin.com/terroir/products/${product.image}`} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
+                                        <img src={product.image} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
                                         <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
                                             <a onClick ={ () => handleAddToCart(product)} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                                                 Ajoutez à la Cart

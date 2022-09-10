@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import {selectAllProducts} from '../../app/products/productsSlice'
+import { toast } from 'react-toastify';
 
 export default function Products({products,categories,cooperatives}) {
     //Setting date
@@ -198,17 +199,15 @@ const Edit = () =>{
                     var img = imageDb;
                     if(image != null){
                         const body = new FormData();
-                        body.append('Upload',image)
-                        const con = {
-                            folder:'products',
-                            image:imageDb
-                        }
-                        const response = await fetch(`https://images.codata-admin.com/api-update-file-terroir.php?folder=${con.folder}&image=${con.image}`,{
-                            method: "POST",
-                            body
+                        // console.log("file", image)
+                        body.append("file", image);  
+                        body.append("upload_preset","products")
+                        const response = await fetch('https://api.cloudinary.com/v1_1/realmoro/image/upload', {
+                        method: "POST",
+                        body:body
                         }).then(r=>r.json());
-                        console.log("🚀 ~ file: Products.jsx ~ line 200 ~ Edit ~ response", response)
-                        img=response.image
+
+                        img=response.secure_url
                     }
                     const data = {
                         name:editInput.name,
@@ -262,12 +261,7 @@ const Delete = (product) =>{
         axios.delete(`http://127.0.0.1:5000/product/${product.id}`,{
             headers:{'x-access-token':getCookie('token')}
         }).then(res => {
-            const data = {
-                path:'terroir/products',
-                image:product.image
-            }
             if(res.data.status === 200){
-            axios.post("https://images.codata-admin.com/api-delete-file-terroir.php",data)
                 swal.fire('Deleted!',res.data.message,'success')
                 router.push('')
             }
@@ -284,9 +278,15 @@ useEffect(() =>{
 
 const AddProduct=async ()=>{
 
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+"-"+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var fullname=date+"-"+image.name
+    const body = new FormData();
+    // console.log("file", image)
+    body.append("file", image);  
+    body.append("upload_preset","products")
+    const response = await fetch('https://api.cloudinary.com/v1_1/realmoro/image/upload', {
+      method: "POST",
+      body:body
+    }).then(r=>r.json());
+
     const data ={
         name:addInput.name,
         price:Number(addInput.price),
@@ -294,26 +294,20 @@ const AddProduct=async ()=>{
         qte:Number(addInput.qte),
         catId:catId,
         coopId:coopId,
-        image:fullname
+        image:response.secure_url
     }
     axios.post('http://127.0.0.1:5000/product',data,{
         headers:{'x-access-token':getCookie('token')}
     }).then(async res => {
                       
         if(res.data.status === 200){
-            const body = new FormData();
-            body.append("ProductUpload",image)
-            const response = await fetch(`https://images.codata-admin.com/api-file-upload-terroir.php?name=${fullname}`, {
-            method: "POST",
-            body
-            }).then(r=>r.json());
             ExitModalAdd()
-            swal.fire("Success",res.data.message,"success");
+            toast.success(res.data.message,{ position: "bottom-left" })
             router.push('')
         }
         else
         {
-            swal.fire("Echec !!",res.data.message,"warning");
+            toast.error(res.data.message,{ position: "bottom-left" })
         }
     })
 
@@ -411,7 +405,7 @@ const AddProduct=async ()=>{
                                 return(
                                     <tr key={product.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
                                         <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                            <img className="w-12 h-12 rounded-lg"  src={`https://images.codata-admin.com/terroir/products/${product.image}`} />
+                                            <img className="w-12 h-12 rounded-lg"  src={product.image}/>
                                             <div className="pl-3">
                                                 <div className="text-md">{product.nom}</div>
                                                 <div className="font-normal text-gray-500">{coopName}</div>

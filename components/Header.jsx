@@ -139,7 +139,7 @@ export default function Header({categories}) {
                                 deleteCookie('search')
                                 router.push(`/products`)
                             }} className="flex items-center space-x-3 cursor-pointer ">
-                                    <img src={`https://images.codata-admin.com/terroir/categories/${category.image}`} alt="" className="w-8" />
+                                    <img src={category.image} alt="" className="w-8" />
                                     <span className="text-sm hover:text-main duration-500">{category.name}</span>
                             </div>
                         )
