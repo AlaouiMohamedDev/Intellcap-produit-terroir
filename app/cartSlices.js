@@ -19,7 +19,7 @@ const cartSlice = createSlice({
       );
 
       if (existingIndex >= 0) {
-        if(state.cartItems[existingIndex].cartQuantity >= action.payload.qte)
+        if(state.cartItems[existingIndex].cartQuantity  >= state.cartItems[existingIndex].qte)
         {
           toast.error("Produit en repture", {
             position: "bottom-left",

@@ -7,7 +7,7 @@ import { fetchCategories } from '../app/categories/categoriesSlice';
 import { fetchCooperatives } from '../app/cooperatives/cooperativesSlice';
 import { fetchMessages } from '../app/messages/messagesSlice';
 import {fetchProducts} from '../app/products/productsSlice';
-import { getCookie } from 'cookies-next';
+import {fetchCommandes} from '../app/commandes/commandesSlices';
 import ProgressBar from '@badrap/bar-of-progress';
 import { Router } from 'next/router';
 import { ToastContainer } from "react-toastify";
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   store.dispatch(fetchCooperatives());
   store.dispatch(fetchMessages());
   store.dispatch(fetchProducts());
-  // store.dispatch(getTotals());
+  store.dispatch(fetchCommandes());
 
   return <Provider store={store}>
           <ToastContainer />

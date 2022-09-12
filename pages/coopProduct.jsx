@@ -70,7 +70,7 @@ export default  function coopProduct({categories,products,cooperatives}) {
     },[])
 
     const ModalP = (pro) => {
-        setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image})
+        setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image,qte:pro.qte})
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
