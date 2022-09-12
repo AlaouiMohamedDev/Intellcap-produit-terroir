@@ -5,12 +5,13 @@ import { useSelector } from 'react-redux';
 import { selectAllUsers } from '../../app/users/usersSlice'
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 
 
+export default function Users({commandes}) {
 
-export default function Users() {
     //Setting date
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const d = new Date();
@@ -37,7 +38,10 @@ const [name,setName] = useState(null)
 
 useEffect(() =>{
  setName(getCookie('name'))
+
 },[])
+
+
 
 const [search,setSearch] = useState([])
 
@@ -85,6 +89,47 @@ const ExitConfirModal1 = () =>{
     const Modal= document.querySelector('.ConfirModal1')
     Modal.classList.remove('flex')
     Modal.classList.add('hidden')
+ }
+
+ const Exitpass = () =>{
+    const Modal= document.querySelector('.password')
+    Modal.classList.remove('flex')
+    Modal.classList.add('hidden')
+ }
+
+ const [id_user,setId_user] =useState(0)
+ const pass = (id) =>{
+    setId_user(id)
+    const Modal= document.querySelector('.password')
+    Modal.classList.remove('hidden')
+    Modal.classList.add('flex')
+ }
+
+ const [passwordModal,setPasswordModal] = useState()
+
+ const handlerPassModal = (e) => {
+    e.persist()
+    setPasswordModal(e.target.value)
+ }
+
+ const setAdmin = () => {
+    const data = {
+        idAdmin :getCookie('id'),
+        password : passwordModal
+    }
+    axios.put(`http://127.0.0.1:5000/promoteuser/${id_user}`,data, {headers:{'x-access-token':getCookie('token')}}).then(res=>{
+        if(res.data.status == 200)
+        {
+            Exitpass()
+            toast.success(res.data.message,{ position: "bottom-left" })
+            router.push('')
+        }
+        else
+        {
+            Exitpass()
+            toast.error(res.data.message,{ position: "bottom-left" })
+        }
+    })
  }
 
 
@@ -242,6 +287,13 @@ const Confirm=() =>{
                         }).map((user)=>{
                             if(!user.admin && user.deletedAt == null)
                             {
+                                var count =0
+                                commandes.forEach(c=>{
+                                    if(c.id_user == user.id)
+                                    {
+                                        count++;
+                                    }
+                                })
                                 return (
                                         <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
                                             <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
@@ -252,7 +304,7 @@ const Confirm=() =>{
                                                 </div>  
                                             </th>
                                             <td className="py-4 px-6">
-                                                20 commande
+                                                {count} commandes
                                             </td>
                                             <td className="py-4 px-6">
                                                     {
@@ -263,8 +315,14 @@ const Confirm=() =>{
                                                         <div className="flex items-center"><div className="h-2.5 w-2.5 rounded-full bg-gray-400 mr-2"></div>Offline</div> 
                                                     }
                                             </td>
-                                            <td className="py-4 px-6 text-red-500 space-x-1 hover:underline">
-                                                <a onClick={()=>ConfirModal(user.id)} href="#" className="font-medium  text-red-500">Supprimer</a>
+                                            <td className="py-4 px-6">
+                                                <div className="flex items-center space-x-3 ">
+                                                    <a onClick={()=>ConfirModal(user.id)}  className="font-medium hover:underline text-red-500">Supprimer</a>
+                                                    <a onClick={()=>pass(user.id)} className="flex items-center space-x-1 text-[13px] rounded bg-yellow-400/60 text-yellow-400 hover:bg-yellow-400 hover:text-white duration-200  px-2 py-1 cursor-pointer">
+                                                        <i class='bx bx-intersect' ></i>
+                                                        <span>Promouvoir</span>
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                 )
@@ -397,7 +455,22 @@ const Confirm=() =>{
                     <input onClick={Confirm} type="button" value="Restaurer" className="col-span-2  outline-none mx-5 border border-custGreen text-custGreen py-3 bg-custGreen/30 rounded hover:bg-custGreen cursor-pointer hover:text-gray-200 duration-200"/>
                </div>
             </div>
-        </div> 
+        </div>
+        
+
+        <div className="fixed top-0 hidden fade password items-center justify-center h-screen z-100 w-screen left-0">
+            <div onClick={Exitpass} className="h-screen w-screen bg-black/70 absolute">
+            </div>
+            <div className="relative bg-[#1a1d21] text-gray-400 z-100 rounded space-y-4 py-5 px-10">
+                 <i onClick={Exitpass} class='text-lg absolute right-4 top-2 bx bx-x'></i>
+                <h1>Entrée Votre Mot de Passe Pour La confimation</h1>
+                <div className="flex items-center relative justify-center">
+                    <input name="passwordModal" value={passwordModal} onChange={handlerPassModal} type="password" className = "py-2 px-2 rounded outline-none border w-full bg-dashBlack border-gray-400 text-sm " />
+                    <i onClick={setAdmin} class='bx bxs-send absolute right-2 cursor-pointer rounded hover:bg-gray-500 hover:text-gray-100 durtion-100 bg-gray-700 py-1 px-2'></i>
+                </div>
+                <span className="text-xs text-gray-500">Attention cette opération n'est pas réversible ,merci de revérifier</span>
+            </div>
+        </div>
     </>
   )
 }

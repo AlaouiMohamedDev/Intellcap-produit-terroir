@@ -125,7 +125,7 @@ export default function commande({cats,commandes,details,products}) {
                                         c.statut == "Annulé" && (<td className="py-4 px-6 text-gray-700">{c.statut} <i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-5 text-lg'></i></td>)
                                     }
                                     {
-                                        c.statut == "livré" && (<td className="py-4 px-6 text-custGreen">{c.statut} <i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-5 text-lg'></i></td>)
+                                        c.statut == "Livré" && (<td className="py-4 px-6 text-custGreen">{c.statut} <i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-5 text-lg'></i></td>)
                                     }
                                 </tr>
                                 <tr key={c.id*Math.random()} id={-c.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hidden">
