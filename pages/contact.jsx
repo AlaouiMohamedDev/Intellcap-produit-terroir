@@ -8,6 +8,7 @@ import SearchModal  from '../components/SearchModal'
 import Footer from '../components/Footer'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
 
 export async function getServerSideProps(context) {
@@ -48,9 +49,10 @@ const SubmitMessage =(e)=>{
             axios.post('http://127.0.0.1:5000/message',data).then(res => {
                       
                 if(res.data.status === 200){
-                    const message = document.querySelector('.message')
-                    message.classList.add('flex')
-                    message.classList.remove('hidden')
+                    toast.success("Message Envoyer",{ position: "top-right" })
+                    // const message = document.querySelector('.message')
+                    // message.classList.add('flex')
+                    // message.classList.remove('hidden')
                     router.push('')
                 }
             })

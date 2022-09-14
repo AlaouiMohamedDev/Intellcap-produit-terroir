@@ -4,7 +4,7 @@ import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 
 
 
-export default function Home({topProducts}) {
+export default function Home({topProducts,users,coops,commandes}) {
     //Setting date
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const d = new Date();
@@ -21,6 +21,27 @@ topProducts.forEach(i=>{
         id=i.coopId
         countCoop ++
     }
+})
+
+var usersCount =0
+
+users.forEach(u=>{
+    if(!u.admin)
+    usersCount ++
+})
+
+var coopCount =0
+
+coops.forEach(u=>{
+    coopCount ++
+})
+
+var cmdCount =0
+var totalVente =0
+
+commandes.forEach(u=>{
+    totalVente += u.prixT
+    cmdCount ++
 })
 
 useEffect(() =>{
@@ -63,7 +84,7 @@ useEffect(() =>{
                 </div>
                 <div class="flex justify-between items-end">
                     <div class="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">555.25 MAD</span>
+                        <span className="text-lg">{totalVente} MAD</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
                     <i class='flex items-center bx bx-dollar-circle text-3xl text-custGreen bg-custGreen/20 w-max h-max rounded py-2 px-3'></i>
@@ -79,7 +100,7 @@ useEffect(() =>{
                 </div>
                 <div class="flex justify-between items-end">
                     <div class="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">0 cmd</span>
+                        <span className="text-lg">{cmdCount} cmd</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
                     <i class='flex items-center bx bx-shopping-bag text-3xl text-blue-500 bg-blue-500/20 w-max h-max rounded py-2 px-3'></i>
@@ -95,7 +116,7 @@ useEffect(() =>{
                 </div>
                 <div class="flex justify-between items-end">
                     <div class="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">90 client</span>
+                        <span className="text-lg">{usersCount} client</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
                     <i class='flex items-center bx bx-user text-3xl text-orange-500 bg-orange-500/20 w-max h-max rounded py-2 px-3'></i>
@@ -111,7 +132,7 @@ useEffect(() =>{
                 </div>
                 <div class="flex justify-between items-end">
                     <div class="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">20 coop</span>
+                        <span className="text-lg">{coopCount} coop</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
                     <i class='flex items-center bx bxs-leaf text-3xl text-lime-500 bg-lime-500/20 w-max h-max rounded py-2 px-3'></i>
