@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { setCookie,getCookie,deleteCookie } from 'cookies-next';
-export default function Home() {
+
+
+
+export default function Home({topProducts}) {
     //Setting date
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const d = new Date();
 var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
     const router = useRouter();
 const [name,setName] = useState(null)
+
+var idCoop =0
+
+var countCoop =0
+var id=0
+topProducts.forEach(i=>{
+    if(i.coopId != id){
+        id=i.coopId
+        countCoop ++
+    }
+})
 
 useEffect(() =>{
  setName(getCookie('name'))
@@ -105,266 +119,87 @@ useEffect(() =>{
             </div>
         </div>
         <div className="grid gri-cols-1 lg:grid-cols-2 gap-5">
-            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full">
+            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full h-max">
                 <div class="border-b border-gray-700 flex w-full">
                     <div className="py-4 px-3 flex items-center justify-between text-sm w-full">
                         <span>Produits les plus vendus</span>
-                        <span>Total : <span className="text-gray-500">5</span></span>
+                        <span>Total : <span className="text-gray-500">{topProducts.length<5 ?topProducts.length:5}</span></span>
                     </div>
                 </div>
-                <div className="border-b border-gray-700 md:w-full w-max ">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/product/paprika.jpg" className="w-12 h-12" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel ravenelle 220g</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>80 MAD</span>
-                            <span class="text-[10px] text-gray-500">Prix</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10 cmds</span>
-                            <span class="text-[10px] text-gray-500">Commande</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>20</span>
-                            <span class="text-[10px] text-gray-500">Stock</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>5000 MAD </span>
-                            <span class="text-[10px] text-gray-500">Total</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700 md:w-full w-max ">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/product/paprika.jpg" className="w-12 h-12" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel ravenelle 220g</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>80 MAD</span>
-                            <span class="text-[10px] text-gray-500">Prix</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10 cmds</span>
-                            <span class="text-[10px] text-gray-500">Commande</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>20</span>
-                            <span class="text-[10px] text-gray-500">Stock</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>5000 MAD </span>
-                            <span class="text-[10px] text-gray-500">Total</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700 md:w-full w-max ">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/product/paprika.jpg" className="w-12 h-12" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel ravenelle 220g</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>80 MAD</span>
-                            <span class="text-[10px] text-gray-500">Prix</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10 cmds</span>
-                            <span class="text-[10px] text-gray-500">Commande</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>20</span>
-                            <span class="text-[10px] text-gray-500">Stock</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>5000 MAD </span>
-                            <span class="text-[10px] text-gray-500">Total</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700 md:w-full w-max ">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/product/paprika.jpg" className="w-12 h-12" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel ravenelle 220g</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>80 MAD</span>
-                            <span class="text-[10px] text-gray-500">Prix</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10 cmds</span>
-                            <span class="text-[10px] text-gray-500">Commande</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>20</span>
-                            <span class="text-[10px] text-gray-500">Stock</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>5000 MAD </span>
-                            <span class="text-[10px] text-gray-500">Total</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700 md:w-full w-max ">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/product/paprika.jpg" className="w-12 h-12" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel ravenelle 220g</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>80 MAD</span>
-                            <span class="text-[10px] text-gray-500">Prix</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10 cmds</span>
-                            <span class="text-[10px] text-gray-500">Commande</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>20</span>
-                            <span class="text-[10px] text-gray-500">Stock</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>5000 MAD </span>
-                            <span class="text-[10px] text-gray-500">Total</span>
-                        </div>
-                    </div>
-                </div>
+                {
+                    topProducts.slice(0,5).map(prod=>{
+                        return(
+                            <div key={prod.id_prod} className="border-b border-gray-700 md:w-full w-max ">
+                                <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
+                                    <img src={prod.image} className="w-12 h-12 rounded" />
+                                    <div className="flex flex-col space-y-2">
+                                        <span>{prod.nom}</span>
+                                        <span class="text-[10px] text-gray-500">{prod.created}</span>
+                                    </div>
+                                    <div className="flex flex-col space-y-2">
+                                        <span>{prod.prix} MAD</span>
+                                        <span class="text-[10px] text-gray-500">Prix</span>
+                                    </div>
+                                    <div className="flex flex-col space-y-2">
+                                        <span>{prod.qte} cmds</span>
+                                        <span class="text-[10px] text-gray-500">Commande</span>
+                                    </div>
+                                    <div className="flex flex-col space-y-2">
+                                        <span>{prod.stock}</span>
+                                        <span class="text-[10px] text-gray-500">Stock</span>
+                                    </div>
+                                    <div className="flex flex-col space-y-2">
+                                        <span>{prod.prix * prod.qte} MAD </span>
+                                        <span class="text-[10px] text-gray-500">Total</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+                
             </div>
-            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full">
+            <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full h-max">
                 <div class="border-b border-gray-700 ">
                     <div className="py-4 px-3 flex items-center justify-between text-sm">
                         <span>Meilleures ventes</span>
-                        <span>Total : <span className="text-gray-500">5</span></span>
+                        <span>Total : <span className="text-gray-500">{countCoop}</span></span>
                     </div>
                 </div>
-                <div className="border-b border-gray-700  md:w-full w-max">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/cooperative/coop-2.png" className="w-12 h-12 rounded-full object-cover" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Ahmed cooperative</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel</span>
-                            <span class="text-[10px] text-gray-500">Produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10</span>
-                            <span class="text-[10px] text-gray-500">Total produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <div classNme="flex items-center">
-                                <span>20%</span>
-                                <i class='bx bx-bar-chart text-custGreen text-md '></i>
-                            </div>
-                            <span class="text-[10px] text-gray-500">vente</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700  md:w-full w-max">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/cooperative/coop-1.jpg" className="w-12 h-12 rounded-full object-cover" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Taliouine cooperative</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel</span>
-                            <span class="text-[10px] text-gray-500">Produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10</span>
-                            <span class="text-[10px] text-gray-500">Total produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <div classNme="flex items-center">
-                                <span>20%</span>
-                                <i class='bx bx-bar-chart text-custGreen text-md '></i>
-                            </div>
-                            <span class="text-[10px] text-gray-500">vente</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700  md:w-full w-max">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/cooperative/coop-3.png" className="w-12 h-12 rounded-full object-cover" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Taliouine cooperative</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel</span>
-                            <span class="text-[10px] text-gray-500">Produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10</span>
-                            <span class="text-[10px] text-gray-500">Total produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <div classNme="flex items-center">
-                                <span>20%</span>
-                                <i class='bx bx-bar-chart text-custGreen text-md '></i>
-                            </div>
-                            <span class="text-[10px] text-gray-500">vente</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700  md:w-full w-max">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/cooperative/coop-4.png" className="w-12 h-12 rounded-full object-cover" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Taliouine cooperative</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel</span>
-                            <span class="text-[10px] text-gray-500">Produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10</span>
-                            <span class="text-[10px] text-gray-500">Total produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <div classNme="flex items-center">
-                                <span>20%</span>
-                                <i class='bx bx-bar-chart text-custGreen text-md '></i>
-                            </div>
-                            <span class="text-[10px] text-gray-500">vente</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="border-b border-gray-700  md:w-full w-max">
-                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                        <img src="/cooperative/coop-1.jpg" className="w-12 h-12 rounded-full object-cover" />
-                        <div className="flex flex-col space-y-2">
-                            <span>Taliouine cooperative</span>
-                            <span class="text-[10px] text-gray-500">20-02-2020</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>Miel</span>
-                            <span class="text-[10px] text-gray-500">Produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <span>10</span>
-                            <span class="text-[10px] text-gray-500">Total produit</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                            <div classNme="flex items-center">
-                                <span>20%</span>
-                                <i class='bx bx-bar-chart text-custGreen text-md '></i>
-                            </div>
-                            <span class="text-[10px] text-gray-500">vente</span>
-                        </div>
-                    </div>
-                </div>
+                {
+                    topProducts.map(i=>{
+                        if(i.coopId != idCoop)
+                        {
+                            idCoop = i.coopId
+                            return (
+                                <div key={i.coopId} className="border-b border-gray-700  md:w-full w-max">
+                                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
+                                        <img src={i.coopImage} className="w-12 h-12 rounded-full object-cover" />
+                                        <div className="flex flex-col space-y-2">
+                                            <span>{i.coopName}</span>
+                                            <span class="text-[10px] text-gray-500">{i.coopJoined}</span>
+                                        </div>
+                                        <div className="flex flex-col space-y-2">
+                                            <span>{i.nom}</span>
+                                            <span class="text-[10px] text-gray-500">Produit</span>
+                                        </div>
+                                        <div className="flex flex-col space-y-2">
+                                            <span>{i.countProd}</span>
+                                            <span class="text-[10px] text-gray-500">Total produit</span>
+                                        </div>
+                                        <div className="flex flex-col space-y-2">
+                                            <div classNme="flex items-center">
+                                                <span>20%</span>
+                                                <i class='bx bx-bar-chart text-custGreen text-md '></i>
+                                            </div>
+                                            <span class="text-[10px] text-gray-500">vente</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
+                    })
+                }
             </div>
         </div>
     </div>

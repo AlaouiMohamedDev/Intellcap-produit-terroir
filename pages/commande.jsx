@@ -12,6 +12,7 @@ import { getCookie } from 'cookies-next'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {selectCommandesByUserId} from '../app/commandes/commandesSlices'
+import PaginationUser from '../components/PaginationUser'
 
 
 export async function getServerSideProps(context) {
@@ -67,6 +68,16 @@ export default function commande({cats,commandes,details,products}) {
         }))
     },[getCookie('id')])
 
+    
+const [currentPage,setCurrentPage] = useState(1)
+const [elementPerPage,seEelementPerPage] = useState(3)
+
+const indexOfLastElement = currentPage * elementPerPage
+const indexOfFirstElement = indexOfLastElement - elementPerPage
+const currentElements = cmd.slice(indexOfFirstElement,indexOfLastElement)
+
+const paginate = pageNumber => setCurrentPage(pageNumber)
+
 
   return (
     <div className="font-poppins ">
@@ -84,7 +95,8 @@ export default function commande({cats,commandes,details,products}) {
       <SearchModal categories={categories}/>
       <UserBanner name="command"/>
     
-      <div class="overflow-x-auto relative">
+      <div class="overflow-x-auto relative px-10 pb-10 md:px-16 lg:px-20  space-y-10">
+        <h1 className="text-dashBalck">Votre Commande :</h1>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -104,28 +116,28 @@ export default function commande({cats,commandes,details,products}) {
             </thead>
             <tbody>
             {
-                        cmd.map(c=>{
+                        currentElements.map(c=>{
                             return (
                             <>
-                                <tr key={c.id*Math.random()} id={c.id} onClick={()=>item(c.id)}  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr key={c.id*Math.random()} id={c.id} onClick={()=>item(c.id)}  className="bg-white border-b text-sm dark:bg-gray-800 dark:border-gray-700 relative">
 
                                     <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {c.id}
                                     </th>
-                                    <td className="py-4 px-6">
+                                    <td className="py-4 px-6 truncate">
                                         {c.date}
                                     </td>
-                                    <td className="py-4 px-6">
+                                    <td className="py-4 px-6 truncate">
                                         {c.prixT} MAD
                                     </td>
                                     {
-                                        c.statut == "En traitement" && (<td className="py-4 px-6 text-orange-500">{c.statut}<i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-5 text-lg'></i> </td>)
+                                        c.statut == "En traitement" && (<td className="py-4 px-6 text-orange-500">{c.statut}<i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-3 text-lg'></i> </td>)
                                     }
                                     {
-                                        c.statut == "Annulé" && (<td className="py-4 px-6 text-gray-700">{c.statut} <i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-5 text-lg'></i></td>)
+                                        c.statut == "Annulé" && (<td className="py-4 px-6 text-gray-700">{c.statut} <i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-3 text-lg'></i></td>)
                                     }
                                     {
-                                        c.statut == "Livré" && (<td className="py-4 px-6 text-custGreen">{c.statut} <i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-5 text-lg'></i></td>)
+                                        c.statut == "Livré" && (<td className="py-4 px-6 text-custGreen">{c.statut} <i id={"i"+c.id} class='text-black font-bold bx bx-chevron-down absolute right-3 text-lg'></i></td>)
                                     }
                                 </tr>
                                 <tr key={c.id*Math.random()} id={-c.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hidden">
@@ -194,6 +206,7 @@ export default function commande({cats,commandes,details,products}) {
                     }
             </tbody>
         </table>
+        <PaginationUser className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={cmd.length}/>
       </div>
       <Footer /> 
     </div>
