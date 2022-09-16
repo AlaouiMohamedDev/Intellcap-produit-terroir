@@ -10,6 +10,7 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import {selectAllProducts} from '../../app/products/productsSlice'
 import { toast } from 'react-toastify';
+import Pagination from '../Pagination'
 
 export default function Products({products,categories,cooperatives}) {
     //Setting date
@@ -24,14 +25,7 @@ const router = useRouter();
 //   const categories = useSelector(selectAllCategories)
   
 
-  const [prods,setProds]  = useState(products)
 
-
-  const c= useSelector(selectAllProducts)
-  useEffect(()=>{
-    setProds(c)
-  },[c])
- 
  
 
   cooperatives.forEach(element => {
@@ -42,10 +36,14 @@ const router = useRouter();
  
   const optionsCat = []
 
-  const [search,setSearch] = useState([])
+
   const handleSearch = (e) => {
     e.persist()
     setSearch(e.target.value)
+  }
+  const handleSearch1 = (e) => {
+    e.persist()
+    setSearch1(e.target.value)
   }
   
   categories.forEach(element => {
@@ -318,6 +316,65 @@ const AddProduct=async ()=>{
     
 }
 
+
+
+const [prods,setProds] = useState([])
+const [deletedProds,setDeletedProds] = useState([])
+
+const c= useSelector(selectAllProducts)
+
+
+
+
+useEffect(() => {
+    setProds({})
+    setDeletedProds({})
+},[])
+
+
+
+useEffect(() => {
+    setProds(c.filter(val=>{if(val.deletedAt == null)return val}))
+    setDeletedProds(c.filter(val=>{if(val.deletedAt != null)return val}))
+},[c])
+
+
+
+useEffect(() =>{
+ setName(localStorage.getItem('name'))
+},[])
+
+const [search1,setSearch1] = useState([])
+const [search, setSearch] = useState([]);
+const [currentPage,setCurrentPage] = useState(1)
+const [elementPerPage,seEelementPerPage] = useState(3)
+
+const indexOfLastElement = currentPage * elementPerPage
+const indexOfFirstElement = indexOfLastElement - elementPerPage
+const currentElements = prods.slice(indexOfFirstElement,indexOfLastElement)
+
+const paginate = pageNumber => setCurrentPage(pageNumber)
+
+
+const [currentPage1,setCurrentPage1] = useState(1)
+const [elementPerPage1,seEelementPerPage1] = useState(3)
+
+const indexOfLastElement1 = currentPage1 * elementPerPage1
+const indexOfFirstElement1 = indexOfLastElement1 - elementPerPage1
+const currentElements1 = deletedProds.slice(indexOfFirstElement1,indexOfLastElement1)
+
+const paginate1 = pageNumber1 => setCurrentPage1(pageNumber1)
+
+
+const restore = (p) => {
+    axios.put(`http://127.0.0.1:5000/restoreProduct/${p.id}`).then(res => {
+        if(res.data.status === 200){
+            toast.success(res.data.message,{ position: "bottom-left" })
+            router.push('')
+        }
+    })
+}
+
   return (
     <>
         <div className="ml-[70px] md:ml-[250px] py-5 px-5 w-full text-gray-300 space-y-5 page">
@@ -346,7 +403,7 @@ const AddProduct=async ()=>{
                 </div>
             </div>
             
-            <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+            <div className="overflow-x-auto relative  sm:rounded-lg">
                 <div className="flex justify-between flex-col space-y-3 md:space-y-0 md:flex-row items-center py-10 bg-gray-9">
                 <h1 className="text-xl">Liste des produits</h1>
                     <div className="relative ">
@@ -356,7 +413,7 @@ const AddProduct=async ()=>{
                         <input name="search" value={search} onChange={handleSearch} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher produit" />
                     </div>
                 </div>
-                <table className="w-full text-sm text-left  text-gray-400">
+                <table className="w-full text-sm text-left  text-gray-400 ">
                     <thead className="text-xs  uppercase bg-dashBlack text-gray-400">
                         <tr>
                             <th scope="col" className="py-3 px-6">
@@ -379,9 +436,8 @@ const AddProduct=async ()=>{
                     <tbody>
                         {
                             
-                            (prods.lenght != 0)
+                            (prods.length != 0)
                             ?
-                            
                             prods.filter((val)=>{
                                 if(search == ""){
                                     return val;
@@ -390,8 +446,6 @@ const AddProduct=async ()=>{
                                     return val;
                                 }
                             }).map((product)=>{
-                                if(product.deleteAt == null)
-                                {
                                     var catName =""
                                     categories.forEach((cat)=>{
                                         if(cat.id == product.category){
@@ -428,18 +482,113 @@ const AddProduct=async ()=>{
                                             </td>
                                         </tr>
                                     )
-                                }
-                                
+
                             })
                             :
                             <tr className="bg-custGreen/20 text-custGreen">
-                                <td colspan="4" className="py-4 px-6 w-full text-center">Aucun Produits trouver</td>
+                                <td colSpan="5" className="py-4 px-6 w-full text-center">Aucun Produits trouver</td>
                             </tr>
                         }
                         
                     
                     </tbody>
                 </table>
+
+                    <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={prods.length}/>
+            </div>
+
+            <div className="overflow-x-auto relative  sm:rounded-lg">
+                <div className="flex justify-between flex-col space-y-3 md:space-y-0 md:flex-row items-center py-10 bg-gray-9">
+                <h1 className="text-xl">Liste des produits</h1>
+                    <div className="relative ">
+                        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <i className='w-5 y-5 bx bx-search'></i>
+                        </div>
+                        <input name="search" value={search1} onChange={handleSearch1} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher produit" />
+                    </div>
+                </div>
+                <table className="w-full text-sm text-left  text-gray-400">
+                    <thead className="text-xs  uppercase bg-dashBlack text-gray-400">
+                        <tr>
+                            <th scope="col" className="py-3 px-6">
+                                Nom
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Categorie
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Quantite
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Prix
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            
+                            (deletedProds.length != 0)
+                            ?
+                            deletedProds.filter((val)=>{
+                                if(search1 == ""){
+                                    return val;
+                                }
+                                else if(val.nom.toLowerCase().includes(search1.toLowerCase())){
+                                    return val;
+                                }
+                            }).map((product)=>{
+                                    var catName =""
+                                    categories.forEach((cat)=>{
+                                        if(cat.id == product.category){
+                                            catName = cat.name
+                                        }
+                                    })
+                                    var coopName =""
+                                    cooperatives.forEach((coop)=>{
+                                        if(coop.id == product.cooperative){
+                                            coopName = coop.name
+                                        }
+                                    })
+                                    return(
+                                        <tr key={product.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                <img className="w-12 h-12 rounded-lg"  src={product.image}/>
+                                                <div className="pl-3">
+                                                    <div className="text-md">{product.nom}</div>
+                                                    <div className="font-normal text-gray-500">{coopName}</div>
+                                                </div>  
+                                            </th>
+                                            <td className="py-4 px-6">
+                                                {catName}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                {product.qte}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                {product.prix} MAD
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                <a onClick={()=>restore(product)} className="cursor-pointer py-2 px-3 bg-custGreen text-white rounded text-xs">
+                                                    Restaurer
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    )
+
+                            })
+                            :
+                            <tr className="bg-custGreen/20 text-custGreen">
+                                <td colSpan="5" className="py-4 px-6 w-full text-center">Aucun Produits trouver</td>
+                            </tr>
+                        }
+                        
+                    
+                    </tbody>
+                </table>
+                <Pagination className="my-10" paginate={paginate1} elementPerPage={elementPerPage1} totalElement={deletedProds.length}/>
             </div>
         </div>
          {/* EditModal */}

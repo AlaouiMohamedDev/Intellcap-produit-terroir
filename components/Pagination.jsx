@@ -9,7 +9,11 @@ export default function Pagination({elementPerPage,totalElement,paginate}) {
     }
   return (
     <div className="justify-end flex items-center my-7 text-sm font-bold  space-x-3">
-        <span>Pages</span>
+        {
+            totalElement !=0
+            &&
+            <span>Pages</span>
+        }
             {
                 pageNumbers.map(num=>(
                     <span onClick={()=> paginate(num)} key={num} className="bg-dashBlack px-3 py-2">{num}</span>

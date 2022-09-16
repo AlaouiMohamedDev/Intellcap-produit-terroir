@@ -7,6 +7,7 @@ import Pagination from '../Pagination'
 import { setCookie,getCookie } from 'cookies-next';
 import {selectAllCategories} from '../../app/categories/categoriesSlice'
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 
@@ -19,17 +20,10 @@ const d = new Date();
 var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
   const router = useRouter();
 
-  const [search, setSearch] = useState([]);
+
   
 
 
- const [cats,setCats]  = useState(categories)
-
-
- const c= useSelector(selectAllCategories)
- useEffect(()=>{
-    setCats(c)
- },[c])
 
 
   // Function EDITMODAL
@@ -159,10 +153,33 @@ const HasCat =(id,name)=>{
 }
 const [name,setName] = useState(null)
 
+const [cats,setCats] = useState([])
+const [deletedCats,setDeletedCats] = useState([])
+
+const c= useSelector(selectAllCategories)
+
+
+
+useEffect(() => {
+    setCats({})
+    setDeletedCats({})
+},[])
+
+
+
+useEffect(() => {
+    setCats(c.filter(val=>{if(val.deletedAt == null)return val}))
+    setDeletedCats(c.filter(val=>{if(val.deletedAt != null)return val}))
+},[c])
+
+
+
 useEffect(() =>{
  setName(localStorage.getItem('name'))
 },[])
 
+const [search1,setSearch1] = useState([])
+const [search, setSearch] = useState([]);
 const [currentPage,setCurrentPage] = useState(1)
 const [elementPerPage,seEelementPerPage] = useState(3)
 
@@ -171,6 +188,26 @@ const indexOfFirstElement = indexOfLastElement - elementPerPage
 const currentElements = cats.slice(indexOfFirstElement,indexOfLastElement)
 
 const paginate = pageNumber => setCurrentPage(pageNumber)
+
+
+const [currentPage1,setCurrentPage1] = useState(1)
+const [elementPerPage1,seEelementPerPage1] = useState(3)
+
+const indexOfLastElement1 = currentPage1 * elementPerPage1
+const indexOfFirstElement1 = indexOfLastElement1 - elementPerPage1
+const currentElements1 = deletedCats.slice(indexOfFirstElement1,indexOfLastElement1)
+
+const paginate1 = pageNumber1 => setCurrentPage1(pageNumber1)
+
+
+const restore = (cat) => {
+    axios.put(`http://127.0.0.1:5000/restoreCategory/${cat.id}`).then(res => {
+        if(res.data.status === 200){
+            toast.success(res.data.message,{ position: "bottom-left" })
+            router.push('')
+        }
+    })
+}
 
 
 
@@ -284,6 +321,8 @@ const Edit = () =>{
                     </thead>
                     <tbody>
                         {
+                            currentElements.length !=0
+                            ?
                             currentElements.filter((val)=>{
                                 if(search == ""){
                                     return val;
@@ -292,8 +331,6 @@ const Edit = () =>{
                                     return val;
                                 }
                             }).map((category)=>{
-                                if(category.deletedAt == null)
-                                {
                                     return (
                                         <tr key={category.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
                                             <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
@@ -308,14 +345,81 @@ const Edit = () =>{
                                             </td>
                                         </tr>
                                     )
-                                }
                             })
+                            :
+                            <tr className="bg-custGreen/20 text-custGreen">
+                                <td colspan="4" className="py-4 px-6 w-full text-center">Aucune categorie</td>
+                            </tr>
                         }
                         
                     
                     </tbody>
                 </table>
             <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={cats.length}/>
+            </div>
+
+            <div className="overflow-x-auto relative  sm:rounded-lg">
+                <div className="flex justify-between flex-col space-y-3 md:space-y-0 md:flex-row items-center py-10 bg-gray-9">
+                <h1 className="text-xl">Liste des Categories supprimées</h1>
+                    <div className="relative ">
+                        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <i className='w-5 y-5 bx bx-search'></i>
+                        </div>
+                        <input value={search1} onChange={(e)=>{
+                            e.persist();
+                            setSearch1(e.target.value)
+                            }} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher categorie" />
+                    </div>
+                </div>
+                <table className="w-full text-sm text-left  text-gray-400">
+                    <thead className="text-xs  uppercase bg-dashBlack text-gray-400">
+                        <tr>
+                            <th scope="col" className="py-3 px-6">
+                                Nom
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            currentElements1.length !=0
+                            ?
+                            currentElements1.filter((val)=>{
+                                if(search1 == ""){
+                                    return val;
+                                }
+                                else if(val.name.toLowerCase().includes(search1.toLowerCase())){
+                                    return val;
+                                }
+                            }).map((category)=>{
+                                    return (
+                                        <tr key={category.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src={category.image} />
+                                                <div className="pl-3">
+                                                    <div className="text-md">{category.name}</div>
+                                                </div>  
+                                            </th>
+                                            <td className="py-4 px-6">
+                                            <a onClick={()=>restore(category)} className="cursor-pointer py-2 px-3 bg-custGreen text-white rounded text-xs">
+                                                    Restaurer
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    )
+                            })
+                            :
+                            <tr className="bg-custGreen/20 text-custGreen">
+                                <td colspan="4" className="py-4 px-6 w-full text-center">Aucune categorie</td>
+                            </tr>
+                        }
+                        
+                    
+                    </tbody>
+                </table>
+            <Pagination className="my-10" paginate={paginate1} elementPerPage={elementPerPage1} totalElement={deletedCats.length}/>
             </div>
         </div>
          {/* EditModal */}

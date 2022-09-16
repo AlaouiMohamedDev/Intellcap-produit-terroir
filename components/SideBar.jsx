@@ -28,6 +28,7 @@ export default function Sidebar({categories}) {
         deleteCookie('email');
         deleteCookie('adress')
         deleteCookie('tel')
+        deleteCookie('image')
         const response =await axios.get(`http://127.0.0.1:5000/logout/${user.id}`);
         router.push("/")
         //document.location.replace('http://localhost:3000/')

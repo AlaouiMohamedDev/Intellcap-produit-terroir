@@ -4,7 +4,7 @@ import { setCookie,getCookie,deleteCookie } from 'cookies-next';
 import axios from 'axios';
 export default function SideBar() {
   const logOut =async ()=>{
-
+    const response = await axios.get(`http://127.0.0.1:5000/logout/${getCookie('id')}`);
     deleteCookie('token');
     deleteCookie('admin');
     deleteCookie('name');
@@ -14,8 +14,9 @@ export default function SideBar() {
     deleteCookie('email');
     deleteCookie('adress')
     deleteCookie('tel')
+    deleteCookie('image')
     router.push('/')
-    const response = await axios.get(`http://127.0.0.1:5000/logout/${getCookie('id')}`);
+   
 }
   const router = useRouter();
 

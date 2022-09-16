@@ -39,6 +39,7 @@ export default function AuthModal() {
                     setCookie('name',res.data.name);
                     setCookie('adress',res.data.adresse);
                     setCookie('tel',res.data.tel);
+                    setCookie('image',res.data.image);
                     if(res.data.admin){
                         setCookie('admin',res.data.admin);
                     }
