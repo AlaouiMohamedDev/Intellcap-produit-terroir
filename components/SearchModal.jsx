@@ -35,17 +35,20 @@ export default function SearchModal({categories}) {
                     <div className="grid grid-cols-2 gap-3  uppercase">
                         {
                             categories.map(category =>{
-                                return (
-                                    <div key={category.id} onClick = {() => {
-                                        setCookie('cat',category.id)
-                                        deleteCookie('coop')
-                                        deleteCookie('search')
-                                        router.push(`/products`)
-                                    }} className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
-                                        <img src={category.image} alt="" className="w-10" />
-                                        <span className="text-xs group-hover:text-main duration-500">{category.name}</span>
-                                    </div>
-                                )
+                                if(category.deletedAt == null)
+                                {
+                                    return (
+                                        <div key={category.id} onClick = {() => {
+                                            setCookie('cat',category.id)
+                                            deleteCookie('coop')
+                                            deleteCookie('search')
+                                            router.push(`/products`)
+                                        }} className="flex flex-col group items-center space-y-3 text-center border border-gray-500/50 hover:border-main py-4 px-4">
+                                            <img src={category.image} alt="" className="w-10" />
+                                            <span className="text-xs group-hover:text-main duration-500">{category.name}</span>
+                                        </div>
+                                    )
+                                }
                             })
                         }
                     </div>

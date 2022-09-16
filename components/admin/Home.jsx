@@ -37,10 +37,16 @@ coops.forEach(u=>{
 })
 
 var cmdCount =0
-var totalVente =0
+var totalVente = 0
+console.log("🚀 ~ file: Home.jsx ~ line 41 ~ Home ~ totalVente", totalVente)
 
+const now= new Date()
 commandes.forEach(u=>{
-    totalVente += u.prixT
+    var dc = new Date(u.date)
+    if(dc.getMonth() == now.getMonth())
+    {
+        totalVente += u.prixT
+    }
     cmdCount ++
 })
 

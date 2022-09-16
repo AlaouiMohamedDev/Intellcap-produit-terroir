@@ -292,20 +292,23 @@ const Edit = () =>{
                                     return val;
                                 }
                             }).map((category)=>{
-                                return (
-                                    <tr key={category.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
-                                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                            <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src={category.image} />
-                                            <div className="pl-3">
-                                                <div className="text-md">{category.name}</div>
-                                            </div>  
-                                        </th>
-                                        <td className="py-4 px-6 text-red-500 space-x-10">
-                                                <a onClick={()=>ModalEdit(category)} href="#" className="font-medium  text-custGreen hover:underline">Modifier</a>
-                                                <a onClick={()=>Delete(category)} className="font-medium  text-red-500  hover:underline">Supprimer</a>
-                                        </td>
-                                    </tr>
-                                )
+                                if(category.deletedAt == null)
+                                {
+                                    return (
+                                        <tr key={category.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                <img className="w-12 h-12 rounded-lg bg-dashBlack flex items-center p-1" src={category.image} />
+                                                <div className="pl-3">
+                                                    <div className="text-md">{category.name}</div>
+                                                </div>  
+                                            </th>
+                                            <td className="py-4 px-6 text-red-500 space-x-10">
+                                                    <a onClick={()=>ModalEdit(category)} href="#" className="font-medium  text-custGreen hover:underline">Modifier</a>
+                                                    <a onClick={()=>Delete(category)} className="font-medium  text-red-500  hover:underline">Supprimer</a>
+                                            </td>
+                                        </tr>
+                                    )
+                                }
                             })
                         }
                         
@@ -341,7 +344,7 @@ const Edit = () =>{
 
                                     <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
 
-                                    <span className="pt-5 ">{imageName}</span>
+                                    <span className="pt-5 break-all">{imageName}</span>
                                 </div>
 
                                 <input name="image" onChange={addHandlerImage}  id="dropzone-fil" type="file" class="bg-red-500 opacity-0 absolute h-full w-full fileInput" />

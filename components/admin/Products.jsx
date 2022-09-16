@@ -390,42 +390,45 @@ const AddProduct=async ()=>{
                                     return val;
                                 }
                             }).map((product)=>{
-                                var catName =""
-                                categories.forEach((cat)=>{
-                                    if(cat.id == product.category){
-                                        catName = cat.name
-                                    }
-                                })
-                                var coopName =""
-                                cooperatives.forEach((coop)=>{
-                                    if(coop.id == product.cooperative){
-                                        coopName = coop.name
-                                    }
-                                })
-                                return(
-                                    <tr key={product.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
-                                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                            <img className="w-12 h-12 rounded-lg"  src={product.image}/>
-                                            <div className="pl-3">
-                                                <div className="text-md">{product.nom}</div>
-                                                <div className="font-normal text-gray-500">{coopName}</div>
-                                            </div>  
-                                        </th>
-                                        <td className="py-4 px-6">
-                                            {catName}
-                                        </td>
-                                        <td className="py-4 px-6">
-                                            {product.qte}
-                                        </td>
-                                        <td className="py-4 px-6">
-                                            {product.prix} MAD
-                                        </td>
-                                        <td className="py-4 px-6 text-red-500 space-x-10">
-                                                <a onClick={()=>ModalEdit(product)} href="#" className="font-medium  text-custGreen hover:underline">Modifier</a>
-                                                <a onClick={()=>Delete(product)}  className="font-medium  text-red-500  hover:underline">Supprimer</a>
-                                        </td>
-                                    </tr>
-                                )
+                                if(product.deleteAt == null)
+                                {
+                                    var catName =""
+                                    categories.forEach((cat)=>{
+                                        if(cat.id == product.category){
+                                            catName = cat.name
+                                        }
+                                    })
+                                    var coopName =""
+                                    cooperatives.forEach((coop)=>{
+                                        if(coop.id == product.cooperative){
+                                            coopName = coop.name
+                                        }
+                                    })
+                                    return(
+                                        <tr key={product.id} className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                <img className="w-12 h-12 rounded-lg"  src={product.image}/>
+                                                <div className="pl-3">
+                                                    <div className="text-md">{product.nom}</div>
+                                                    <div className="font-normal text-gray-500">{coopName}</div>
+                                                </div>  
+                                            </th>
+                                            <td className="py-4 px-6">
+                                                {catName}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                {product.qte}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                {product.prix} MAD
+                                            </td>
+                                            <td className="py-4 px-6 text-red-500 space-x-10">
+                                                    <a onClick={()=>ModalEdit(product)} href="#" className="font-medium  text-custGreen hover:underline">Modifier</a>
+                                                    <a onClick={()=>Delete(product)}  className="font-medium  text-red-500  hover:underline">Supprimer</a>
+                                            </td>
+                                        </tr>
+                                    )
+                                }
                                 
                             })
                             :
@@ -501,7 +504,7 @@ const AddProduct=async ()=>{
 
                                     <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
 
-                                    <span className="pt-5 ">{imageName}</span>
+                                    <span className="pt-5 break-all">{imageName}</span>
 
                                 </div>
 

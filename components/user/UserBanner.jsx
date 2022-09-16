@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
-import { getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
+import axios from 'axios';
 
 export default function UserBanner(props) {
     
     const router = useRouter();
+    const logOut =async ()=>{
+        const response =await axios.get(`http://127.0.0.1:5000/logout/${getCookie('id')}`);
+        deleteCookie('token');
+        deleteCookie('admin');
+        deleteCookie('name');
+        deleteCookie('id');
+        deleteCookie('public_id');
+        deleteCookie('name');
+        deleteCookie('email');
+        deleteCookie('adress')
+        deleteCookie('tel')
+
+        router.push("/")
+        //document.location.replace('http://localhost:3000/')
+    }
     
     const [name,setName] =useState("Guest")
     useEffect(() =>{
@@ -48,7 +64,7 @@ export default function UserBanner(props) {
                         {
                              name!="Guest"
                              &&
-                        <a className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 space-x-2 items-center w-full xl:w-auto">
+                        <a onClick={logOut} className="text-center bg-white py-2 px-4 cursor-pointer rounded hover:bg-main hover:text-white duration-300 space-x-2 items-center w-full xl:w-auto">
                             <span>Se déconnecter</span>
                             <i className='bx bxs-lock'></i>
                         </a>

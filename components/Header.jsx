@@ -131,18 +131,21 @@ export default function Header({categories}) {
                     <div onMouseLeave={CatLeave}  className="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-rows-4 grid-flow-col gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
                        {
                        categories.map(category=>{
-                        return(
-
-                            <div key={category.id} onClick = {() => {
-                                setCookie('cat',category.id)
-                                deleteCookie('coop')
-                                deleteCookie('search')
-                                router.push(`/products`)
-                            }} className="flex items-center space-x-3 cursor-pointer ">
-                                    <img src={category.image} alt="" className="w-8" />
-                                    <span className="text-sm hover:text-main duration-500">{category.name}</span>
-                            </div>
-                        )
+                        if(category.deletedAt == null)
+                        {
+                            return(
+    
+                                <div key={category.id} onClick = {() => {
+                                    setCookie('cat',category.id)
+                                    deleteCookie('coop')
+                                    deleteCookie('search')
+                                    router.push(`/products`)
+                                }} className="flex items-center space-x-3 cursor-pointer ">
+                                        <img src={category.image} alt="" className="w-8" />
+                                        <span className="text-sm hover:text-main duration-500">{category.name}</span>
+                                </div>
+                            )
+                        }
                         })
                        }
                     </div>

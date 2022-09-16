@@ -19,13 +19,7 @@ var date =d.toLocaleDateString("en-US", options).replace(/,/g,' ');
 //  const cooperatives= useSelector(selectAllCooperatives)
 
 
-const [coops,setCoops]  = useState(cooperatives)
-
-
-const c= useSelector(selectAllCooperatives)
-useEffect(()=>{
-  setCoops(c)
-},[c])
+//const [coops,setCoops]  = useState(cooperatives)
 
 
 
@@ -59,7 +53,7 @@ const addHandlInputs=(e)=> {
 }
 
 const [search,setSearch] = useState([])
-
+const [search1,setSearch1] = useState([])
 //image
 const [imageName, setImageName] = useState(null);
 const [image, setImage] = useState(null); // For the input image
@@ -231,6 +225,7 @@ const Edit = () =>{
                                 document.querySelector('.btn-edit').classList.add('hidden')
                                 document.querySelector('.btn-edit').classList.remove('inline')
                                 swal.fire('Modified!',res.data.message,'success')
+                                ModalP()
                                 router.push('')
                             }
                         })
@@ -238,6 +233,22 @@ const Edit = () =>{
         }
 })
 }     
+
+const [coops,setCoops] = useState([])
+const [deletedCoops,setDeletedCoops] = useState([])
+
+useEffect(() => {
+    setCoops({})
+    setDeletedCoops({})
+},[])
+
+const c= useSelector(selectAllCooperatives)
+
+useEffect(() => {
+    setCoops(c.filter(val=>{if(val.deletedAt == null)return val}))
+    setDeletedCoops(c.filter(val=>{if(val.deletedAt != null)return val}))
+},[c])
+
 const [name,setName] = useState(null)
 
 useEffect(() =>{
@@ -254,6 +265,25 @@ const currentElements = coops.slice(indexOfFirstElement,indexOfLastElement)
 const paginate = pageNumber => setCurrentPage(pageNumber)
 
 
+const [currentPage1,setCurrentPage1] = useState(1)
+const [elementPerPage1,seEelementPerPage1] = useState(3)
+
+const indexOfLastElement1 = currentPage1 * elementPerPage1
+const indexOfFirstElement1 = indexOfLastElement1 - elementPerPage1
+const currentElements1 = deletedCoops.slice(indexOfFirstElement1,indexOfLastElement1)
+
+const paginate1 = pageNumber1 => setCurrentPage1(pageNumber1)
+
+
+const restore = (coop) => {
+    console.log("🚀 ~ file: Cooperative.jsx ~ line 279 ~ restore ~ coop", coop)
+    axios.put(`http://127.0.0.1:5000/restoreCooperative/${coop.id}`).then(res => {
+        if(res.data.status === 200){
+            toast.success(res.data.message,{ position: "bottom-left" })
+            router.push('')
+        }
+    })
+}
   return (
     <>
     
@@ -296,7 +326,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                             }} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher cooperative" />
                     </div>
                 </div>
-                <table className="w-full text-sm text-left  text-gray-400">
+                <table className="w-full text-sm text-left  text-gray-400 rounded">
                     <thead className="text-xs  uppercase bg-dashBlack text-gray-400">
                         <tr>
                             <th scope="col" className="py-3 px-6">
@@ -314,7 +344,9 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                         </tr>
                     </thead>
                     <tbody>
-                        {
+                        {   
+                            (currentElements.length != 0)
+                            ?
                             currentElements.filter((val)=>{
                                 if(search=="")
                                 {
@@ -324,41 +356,138 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                                     return val;
                                 }
                             }).map((coop)=>{
-                                var count=0
-                                products.forEach(product=>{
-                                    if(product.cooperative == coop.id)
-                                    {
-                                        count = count +1
-                                    }
-                                })
-                                return(
-                                    <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
-                                        <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
-                                            <img className="w-10 h-10 rounded-full" src={coop.image}/>
-                                            <div className="pl-3">
-                                                <div className="text-md">{coop.name}</div>
-                                                <div className="font-normal text-gray-500">{coop.email}</div>
-                                            </div>  
-                                        </th>
-                                        <td className="py-4 px-6">
-                                            {coop.tel}
-                                        </td>
-                                        <td className="py-4 px-6">
-                                            {count}
-                                        </td>
-                                        <td className="py-4 px-6 text-red-500 space-x-10">
-                                            <a onClick={()=>ModalEdit(coop)} className="font-medium  text-custGreen hover:underline">Modifier</a>
-                                            <a onClick={()=>Delete(coop)}  className="font-medium  text-red-500  hover:underline">Supprimer</a>
-                                        </td>
-                                    </tr> 
-                                )
+                                    var count=0
+                                    products.forEach(product=>{
+                                        if(product.cooperative == coop.id)
+                                        {
+                                            count = count +1
+                                        }
+                                    })
+                                    return(
+                                        <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                <img className="w-10 h-10 rounded-full" src={coop.image}/>
+                                                <div className="pl-3">
+                                                    <div className="text-md">{coop.name}</div>
+                                                    <div className="font-normal text-gray-500">{coop.email}</div>
+                                                </div>  
+                                            </th>
+                                            <td className="py-4 px-6">
+                                                {coop.tel}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                {count}
+                                            </td>
+                                            <td className="py-4 px-6 text-red-500 space-x-10">
+                                                <a onClick={()=>ModalEdit(coop)} className="font-medium  text-custGreen hover:underline">Modifier</a>
+                                                <a onClick={()=>Delete(coop)}  className="font-medium  text-red-500  hover:underline">Supprimer</a>
+                                            </td>
+                                        </tr> 
+                                    )
                             })
+                            :
+                            <tr className="bg-custGreen/20 text-custGreen">
+                                <td colspan="4" className="py-4 px-6 w-full text-center">Aucune cooperatives</td>
+                            </tr>
                         }
                         
                     </tbody>
                 </table>
-               <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={cooperatives.length}/>
+                {
+                    currentElements.length != 0
+                    &&
+                    <Pagination className="my-10" paginate={paginate} elementPerPage={elementPerPage} totalElement={cooperatives.length}/>
+                }
             </div>
+
+            <div className="overflow-x-auto relative sm:rounded-lg py-5">
+                <div className="flex justify-between flex-col space-y-3 md:space-y-0 md:flex-row items-center py-10 bg-gray-9">
+                <h1 className="text-xl">Liste des coopératives Supprimer</h1>
+                    <div className="relative ">
+                        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <i className='w-5 y-5 bx bx-search'></i>
+                        </div>
+                        <input value={search1} onChange={(e)=>{
+                            e.persist();
+                            setSearch1(e.target.value)
+                            }} type="text" id="table-search-users" className="block p-2 pl-10 w-80 text-sm rounded-lg outline-none   bg-dashBlack  placeholder-gray-500 " placeholder="Chercher cooperative" />
+                    </div>
+                </div>
+                <table className="w-full text-sm text-left  text-gray-400 rounded">
+                    <thead className="text-xs  uppercase bg-dashBlack text-gray-400">
+                        <tr>
+                            <th scope="col" className="py-3 px-6">
+                                Nom
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Téléphone
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Nombre des produits
+                            </th>
+                            <th scope="col" className="py-3 px-6">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {   
+                            (currentElements1.length != 0)
+                            ?
+                            currentElements1.filter((val)=>{
+                                if(search1=="")
+                                {
+                                    return val
+                                }
+                                else if(val.name.toLowerCase().includes(search1.toLowerCase())){
+                                    return val;
+                                }
+                            }).map((coop)=>{
+                                    var count=0
+                                    products.forEach(product=>{
+                                        if(product.cooperative == coop.id)
+                                        {
+                                            count = count +1
+                                        }
+                                    })
+                                    return(
+                                        <tr className=" border-b  border-gray-800  hover:bg-dashBlack">
+                                            <th scope="row" className="flex items-center py-4 px-6 whitespace-nowrap text-gray-300">
+                                                <img className="w-10 h-10 rounded-full" src={coop.image}/>
+                                                <div className="pl-3">
+                                                    <div className="text-md">{coop.name}</div>
+                                                    <div className="font-normal text-gray-500">{coop.email}</div>
+                                                </div>  
+                                            </th>
+                                            <td className="py-4 px-6">
+                                                {coop.tel}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                {count}
+                                            </td>
+                                            <td className="py-4 px-6">
+                                                <a onClick={()=>restore(coop)} className="cursor-pointer py-2 px-3 bg-custGreen text-white rounded text-xs">
+                                                    Restaurer
+                                                </a>
+                                            </td>
+                                        </tr> 
+                                    )
+                            })
+                            :
+                            <tr className="bg-custGreen/20 text-custGreen">
+                                <td colspan="4" className="py-4 px-6 w-full text-center">Aucune cooperatives</td>
+                            </tr>
+                        }
+                        
+                    </tbody>
+                </table>
+                {
+                    currentElements1.length != 0
+                    &&
+                    <Pagination className="my-10" paginate={paginate1} elementPerPage={elementPerPage1} totalElement={deletedCoops.length}/>
+                }
+            </div>
+
         </div>
         {/* EditModal */}
         <div className="fixed top-0 hidden fade editModal items-center justify-center h-screen z-100 w-screen left-0">
@@ -398,7 +527,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
 
                                 <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                                <span className="pt-5 text-sm">{imageName}</span>
+                                <span className="pt-5 text-sm break-all">{imageName}</span>
                             </div>
 
                             <input onChange={addHandlerImage} id="dropzone-fil" type="file" className="absolute h-full w-full opacity-0" />

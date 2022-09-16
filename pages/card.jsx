@@ -124,7 +124,7 @@ export default function card({cats}) {
                         if(res.data.status === 200){
                             localStorage.clear()
                             toast.success(res.data.message,{ position: "bottom-left" })
-                            router.push('/commande')
+                            document.location.replace('http://localhost:3000/commande')
                         }
                         else{
                             toast.error("Erreur :(",{ position: "bottom-left" })

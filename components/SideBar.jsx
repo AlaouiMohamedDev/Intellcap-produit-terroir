@@ -98,19 +98,22 @@ export default function Sidebar({categories}) {
                         <nav  className="hidden flex-col transition-all duration-500 text-xs text-left pl-10 py-5 space-y-3 list">
                             {
                             categories.map(cat=>{
-                                return(
-
-                                    <div key={cat.id}  onClick = {() => {
-                                        closeSidebar()
-                                        setCookie('cat',category.id)
-                                        deleteCookie('coop')
-                                        deleteCookie('search')
-                                        router.push(`/products`)
-                                    }} className="flex items-center space-x-3">
-                                        <img src={cat.image} alt="" className="w-5" />
-                                        <a className="hover:text-main transition-all duration-500 cursor-pointer">{cat.name}</a>
-                                    </div>
-                                )
+                                if(cat.deletedAt == null)
+                                {
+                                    return(
+    
+                                        <div key={cat.id}  onClick = {() => {
+                                            closeSidebar()
+                                            setCookie('cat',category.id)
+                                            deleteCookie('coop')
+                                            deleteCookie('search')
+                                            router.push(`/products`)
+                                        }} className="flex items-center space-x-3">
+                                            <img src={cat.image} alt="" className="w-5" />
+                                            <a className="hover:text-main transition-all duration-500 cursor-pointer">{cat.name}</a>
+                                        </div>
+                                    )
+                                }
                             })
                             
                             }
