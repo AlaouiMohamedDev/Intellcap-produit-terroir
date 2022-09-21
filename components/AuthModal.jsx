@@ -45,7 +45,7 @@ export default function AuthModal() {
                     }
                     swal.fire("Bienvenue","","success");
                     ModalAuth()
-                    router.push("")
+                    document.location.reload()
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
-import { deleteCookie, getCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -37,7 +37,11 @@ export default function UserBanner(props) {
 
     const [image, setImage] = useState(null);
 
-    const [createObjectURL, setCreateObjectURL] = useState(getCookie('image') == null ? "/user.jpg" : getCookie('image'));
+    const [createObjectURL, setCreateObjectURL] = useState("/user.jpg" );
+
+    useEffect(() => {
+        setCreateObjectURL(getCookie('image'))
+    },[getCookie('image')])
   
     const uploadToClient = async (event) => {
       if (event.target.files && event.target.files[0]) {
@@ -59,6 +63,7 @@ export default function UserBanner(props) {
                           
             if(res.data.status === 200){
                 toast.success(res.data.message,{ position: "bottom-left" })
+                setCookie('image',response.secure_url)
                 router.push('')
             }
             else
@@ -79,7 +84,7 @@ export default function UserBanner(props) {
                 <div className="rounded-full cursor-pointer group w-40 h-40 overflow-hidden relative flex justify-center items-center border border-white p-2 z-20">
                     <img  src={createObjectURL}   alt="" className="object-cover rounded-full" />
                     <input type='file' name="myImage" onChange={uploadToClient} className="opacity-0 cursor-pointer absolute w-full h-full top-0 left-0 z-100" />
-                    <i class='bx bxs-camera text-lg text-gray-700 hidden group-hover:flex absolute z-50 '></i>
+                    <i className='bx bxs-camera text-lg text-gray-700 hidden group-hover:flex absolute z-50 '></i>
                 </div>
                 <div className="flex flex-col justify-evenly z-20 space-y-3 xl:space-y-0 items-center xl:items-start">
                     <span className="text-xl font-semibold text-white">{name}</span>

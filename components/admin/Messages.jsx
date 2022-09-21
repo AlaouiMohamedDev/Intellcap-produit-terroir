@@ -22,8 +22,9 @@ const messages = useSelector(selectAllMessages)
 const [name,setName] = useState(null)
 
 useEffect(() =>{
- setName(localStorage.getItem('name'))
+    setName(getCookie('name'))
 },[])
+
 
 const [search,setSearch] = useState([])
 const handler =(e)=>{
@@ -117,7 +118,8 @@ const UpdateMessage =(msg) => {
                     </thead>
                     <tbody>
                         {
-                           
+                           messages.length!= 0
+                           ?
                             messages.filter((val)=>{
 
                                     if(search==""){
@@ -157,6 +159,10 @@ const UpdateMessage =(msg) => {
                                     </tr>
                                 )
                             })
+                            :
+                            <tr className="bg-custGreen/20 text-custGreen">
+                                <td colSpan="5" className="py-4 px-6 w-full text-center">Aucun Messages</td>
+                            </tr>
                         }
                         
                      

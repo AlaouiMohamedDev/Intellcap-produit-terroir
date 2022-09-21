@@ -97,7 +97,7 @@ const [total,setTotal] = useState(0)
                         <span>Votre panier est vide</span>
                         <div onClick={() => router.push('/products')} className="flex items-center space-x-2 hover:underline text-custGreen cursor-pointer">
                             <span>ajouter des produit</span>
-                            <i class='bx bx-add-to-queue'></i>
+                            <i className='bx bx-add-to-queue'></i>
                         </div>
                     </div>
                 }

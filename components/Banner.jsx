@@ -22,10 +22,13 @@ export default function Banner() {
         slides[slideIndex-1].classList.add('flex')
     }
     
+    useEffect(() =>{
+        showSlides(0);
+        AOS.init();
+      },[])
 
    useEffect(() =>{
         showSlides(slideIndex);
-        AOS.init();
       },[slideIndex])
 
     
@@ -37,7 +40,7 @@ export default function Banner() {
 
 
     setInterval(() =>{
-        if(i==3){i==0;}
+        if(i==3){i=0;}
         try{
             currentSlide(i)
         }
@@ -45,7 +48,7 @@ export default function Banner() {
             
         }
         i=i+1;
-       },6000);
+       },3000);
 
 
 

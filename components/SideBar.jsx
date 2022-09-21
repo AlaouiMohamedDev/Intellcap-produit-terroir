@@ -19,6 +19,7 @@ export default function Sidebar({categories}) {
 //     },[cats])
 
     const logOut =async ()=>{
+        const response =await axios.get(`http://127.0.0.1:5000/logout/${user.id}`);
         deleteCookie('token');
         deleteCookie('admin');
         deleteCookie('name');
@@ -29,8 +30,7 @@ export default function Sidebar({categories}) {
         deleteCookie('adress')
         deleteCookie('tel')
         deleteCookie('image')
-        const response =await axios.get(`http://127.0.0.1:5000/logout/${user.id}`);
-        router.push("/")
+        document.location.reload()
         //document.location.replace('http://localhost:3000/')
     }
     //const {user}=useContext(DataContext)
@@ -39,7 +39,9 @@ export default function Sidebar({categories}) {
     
  
     
-
+    useEffect(() =>{
+        
+      },[user])
 
     useEffect(() =>{
         AOS.init();
@@ -84,13 +86,14 @@ export default function Sidebar({categories}) {
             <div onClick={closeSidebar} className="sidebar1 hidden w-full h-screen fixed top-0 z-100 bg-gray-500 opacity-60  transform duration-100">
 
             </div>
-           <div className="sidebar2 flex flex-col w-2/3 h-screen top-0 fixed bg-white z-100  -left-full transform duration-500 ">
+           <div className="sidebar2 text-sm flex flex-col w-2/3 h-screen top-0 fixed bg-white z-100  -left-full transform duration-500 ">
                 <div className=" flex items-center justify-between px-2 py-5 text-sm">
                     <img src="/logo-1.png" alt="Codata logo" className="h-14 "/>
                     <i onClick={closeSidebar} className='bx bx-x  text-2xl font-bold rounded cursor-pointer'></i>
                 </div>
                 <div className="flex flex-col px-5 text-gray-700  text-left font-semibold">
                     <span onClick = {() => router.push("/")} className="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
+                    <span onClick = {() => router.push("/products")} className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">SHOP</span>
                     <div className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">
                         <div onClick={toggleList} className=" flex items-center justify-between">
                             <span >CATÉGORIES DE PRODUITS</span>
@@ -105,7 +108,7 @@ export default function Sidebar({categories}) {
     
                                         <div key={cat.id}  onClick = {() => {
                                             closeSidebar()
-                                            setCookie('cat',category.id)
+                                            setCookie('cat',cat.id)
                                             deleteCookie('coop')
                                             deleteCookie('search')
                                             router.push(`/products`)
@@ -132,7 +135,7 @@ export default function Sidebar({categories}) {
                     {
                         (user != null)
                         ?
-                        <div className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
+                        <div onClick = {() => router.push("/profil")} className="text-gray-500 flex flex-col hover:text-main duration-300 items-center space-y-2 border border-gray-300/50 py-2 px-2">
                             <i className='bx bx-user cursor-pointer text-main'></i>
                             <span className="text-xs">{user.name}</span>
                         </div>

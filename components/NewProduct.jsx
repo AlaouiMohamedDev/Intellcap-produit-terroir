@@ -20,13 +20,7 @@ export default function NewProduct({cooperatives}) {
     useEffect(() => {
         setProducts([...p].reverse().slice(0,8).filter(val=>{if(val.deletedAt == null)return val}))
     },[p])
-    const[modal,setModal] = useState({
-        id:'',
-        name:"",
-        desc:"",
-        price:'',
-        image:''
-    })
+    const[modal,setModal] = useState([])
 
     
     const dispatch = useDispatch();
@@ -39,7 +33,7 @@ export default function NewProduct({cooperatives}) {
         dispatch(addTofav(product));
     };
     const ModalP = (pro) => {
-        setModal({...modal,id:pro.id,nom:pro.nom,desc:pro.description,prix:pro.prix,image:pro.image,qte:pro.qte})
+        setModal(pro)
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
@@ -122,7 +116,7 @@ export default function NewProduct({cooperatives}) {
             </div>
             :
             <div className="bg-custGreen rounded py-5 my-10 w-full flex items-center justify-center space-x-2 text-white">
-                <i class='bx bxs-sad'></i>
+                <i className='bx bxs-sad'></i>
                 <span>Aucun produit pour le momment</span>
             </div>
         }

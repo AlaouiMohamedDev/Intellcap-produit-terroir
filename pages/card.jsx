@@ -248,7 +248,7 @@ export default function card({cats}) {
                                 className="text-blue-400 text-xs hover:text-blue-500 cursor-pointer">Coupon/Certificat-cadeau</h5>
                                 <div className="items-center w-full space-x-2 hidden cuppon">
                                     <input type="text" className="outline-none border  border-black/60 rounded w-2/3 py-2 px-2 text-xs" />
-                                    <span class="text-center text-black/60 border border-black/40 rounded text-xs py-2 w-1/3">Apply</span>
+                                    <span className="text-center text-black/60 border border-black/40 rounded text-xs py-2 w-1/3">Apply</span>
                                 </div>
                             </div>
                             <div className="flex justify-between items-center px-4 py-4">

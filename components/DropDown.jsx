@@ -18,7 +18,7 @@ export default function DropDown(props) {
     deleteCookie('image')
     const response =await axios.get(`http://127.0.0.1:5000/logout/${props.user.id}`);
     console.log("🚀 ~ file: DropDown.jsx ~ line 15 ~ logOut ~ response", response)
-    router.push("/")
+    document.location.reload()
     //document.location.replace('http://localhost:3000/')
 }
   return (

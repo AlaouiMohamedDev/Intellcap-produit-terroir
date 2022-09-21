@@ -147,14 +147,9 @@ const handleAddToCart = (product) => {
 // const productsPriceAccending= [...products].sort((a,b)=> a.prix - b.prix)
 
 // console.log("🚀 ~ file: Section2.jsx ~ line 57 ~ Section2 ~ productsPriceAccending", productsPriceAccending)
-    const[modal,setModal] = useState({
-        name:"",
-        desc:"",
-        price:'',
-        image:''
-    })
+    const[modal,setModal] = useState([])
     const ModalP = (pro) => {
-        setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image,qte:pro.qte})
+        setModal(pro)
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
@@ -199,7 +194,7 @@ const handleAddToCart = (product) => {
                                                     &&
                                                     <div className="bg-white/50 w-full h-full absolute z-40 flex items-center justify-center">
                                                         <div className="flex items-center space-x-2 text-gray-600 font-bold text-sm -rotate-45">
-                                                            <i class='text-lg bx bx-block'></i>
+                                                            <i className='text-lg bx bx-block'></i>
                                                             <span>EN RUPTURE DE STOCK</span>
                                                         </div>
                                                     </div>
@@ -249,7 +244,7 @@ const handleAddToCart = (product) => {
                     </div>
                     :
                     <div className="bg-custGreen rounded py-5 my-10 w-full flex items-center justify-center space-x-2 text-white">
-                            <i class='bx bxs-sad'></i>
+                            <i className='bx bxs-sad'></i>
                             <span>Aucun produit pour le momment</span>
                     </div>
                 }

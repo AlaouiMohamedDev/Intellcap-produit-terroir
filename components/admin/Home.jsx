@@ -88,12 +88,12 @@ useEffect(() =>{
                         <span>+16.24 %</span>
                     </div>
                 </div>
-                <div class="flex justify-between items-end">
-                    <div class="flex flex-col space-y-6 w-full">
+                <div className="flex justify-between items-end">
+                    <div className="flex flex-col space-y-6 w-full">
                         <span className="text-lg">{totalVente} MAD</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
-                    <i class='flex items-center bx bx-dollar-circle text-3xl text-custGreen bg-custGreen/20 w-max h-max rounded py-2 px-3'></i>
+                    <i className='flex items-center bx bx-dollar-circle text-3xl text-custGreen bg-custGreen/20 w-max h-max rounded py-2 px-3'></i>
                 </div>
             </div>
             <div className="bg-dashBlack flex flex-col space-y-6 py-3 px-3 rounded-md hover:-translate-y-2 duration-500">
@@ -104,12 +104,12 @@ useEffect(() =>{
                         <span>-10.24 %</span>
                     </div>
                 </div>
-                <div class="flex justify-between items-end">
-                    <div class="flex flex-col space-y-6 w-full">
+                <div className="flex justify-between items-end">
+                    <div className="flex flex-col space-y-6 w-full">
                         <span className="text-lg">{cmdCount} cmd</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
-                    <i class='flex items-center bx bx-shopping-bag text-3xl text-blue-500 bg-blue-500/20 w-max h-max rounded py-2 px-3'></i>
+                    <i className='flex items-center bx bx-shopping-bag text-3xl text-blue-500 bg-blue-500/20 w-max h-max rounded py-2 px-3'></i>
                 </div>
             </div>
             <div className="bg-dashBlack flex flex-col space-y-6 py-3 px-3 rounded-md hover:-translate-y-2 duration-500">
@@ -120,12 +120,12 @@ useEffect(() =>{
                         <span>+22.24 %</span>
                     </div>
                 </div>
-                <div class="flex justify-between items-end">
-                    <div class="flex flex-col space-y-6 w-full">
+                <div className="flex justify-between items-end">
+                    <div className="flex flex-col space-y-6 w-full">
                         <span className="text-lg">{usersCount} client</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
-                    <i class='flex items-center bx bx-user text-3xl text-orange-500 bg-orange-500/20 w-max h-max rounded py-2 px-3'></i>
+                    <i className='flex items-center bx bx-user text-3xl text-orange-500 bg-orange-500/20 w-max h-max rounded py-2 px-3'></i>
                 </div>
             </div>
             <div className="bg-dashBlack flex flex-col space-y-6 py-3 px-3 rounded-md hover:-translate-y-2 duration-500">
@@ -136,18 +136,18 @@ useEffect(() =>{
                         <span>+10.24 %</span>
                     </div>
                 </div>
-                <div class="flex justify-between items-end">
-                    <div class="flex flex-col space-y-6 w-full">
+                <div className="flex justify-between items-end">
+                    <div className="flex flex-col space-y-6 w-full">
                         <span className="text-lg">{coopCount} coop</span>
                         <span className="underline underline-offset-1 text-xs">Plus de détails</span>
                     </div>
-                    <i class='flex items-center bx bxs-leaf text-3xl text-lime-500 bg-lime-500/20 w-max h-max rounded py-2 px-3'></i>
+                    <i className='flex items-center bx bxs-leaf text-3xl text-lime-500 bg-lime-500/20 w-max h-max rounded py-2 px-3'></i>
                 </div>
             </div>
         </div>
         <div className="grid gri-cols-1 lg:grid-cols-2 gap-5">
             <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full h-max">
-                <div class="border-b border-gray-700 flex w-full">
+                <div className="border-b border-gray-700 flex w-full">
                     <div className="py-4 px-3 flex items-center justify-between text-sm w-full">
                         <span>Produits les plus vendus</span>
                         <span>Total : <span className="text-gray-500">{topProducts.length<5 ?topProducts.length:5}</span></span>
@@ -161,23 +161,23 @@ useEffect(() =>{
                                     <img src={prod.image} className="w-12 h-12 rounded" />
                                     <div className="flex flex-col space-y-2">
                                         <span>{prod.nom}</span>
-                                        <span class="text-[10px] text-gray-500">{prod.created}</span>
+                                        <span className="text-[10px] text-gray-500">{prod.created}</span>
                                     </div>
                                     <div className="flex flex-col space-y-2">
                                         <span>{prod.prix} MAD</span>
-                                        <span class="text-[10px] text-gray-500">Prix</span>
+                                        <span className="text-[10px] text-gray-500">Prix</span>
                                     </div>
                                     <div className="flex flex-col space-y-2">
                                         <span>{prod.qte} cmds</span>
-                                        <span class="text-[10px] text-gray-500">Commande</span>
+                                        <span className="text-[10px] text-gray-500">Commande</span>
                                     </div>
                                     <div className="flex flex-col space-y-2">
                                         <span>{prod.stock}</span>
-                                        <span class="text-[10px] text-gray-500">Stock</span>
+                                        <span className="text-[10px] text-gray-500">Stock</span>
                                     </div>
                                     <div className="flex flex-col space-y-2">
                                         <span>{prod.prix * prod.qte} MAD </span>
-                                        <span class="text-[10px] text-gray-500">Total</span>
+                                        <span className="text-[10px] text-gray-500">Total</span>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@ useEffect(() =>{
                 
             </div>
             <div className="bg-dashBlack flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full h-max">
-                <div class="border-b border-gray-700 ">
+                <div className="border-b border-gray-700 ">
                     <div className="py-4 px-3 flex items-center justify-between text-sm">
                         <span>Meilleures ventes</span>
                         <span>Total : <span className="text-gray-500">{countCoop}</span></span>
@@ -204,22 +204,22 @@ useEffect(() =>{
                                         <img src={i.coopImage} className="w-12 h-12 rounded-full object-cover" />
                                         <div className="flex flex-col space-y-2">
                                             <span>{i.coopName}</span>
-                                            <span class="text-[10px] text-gray-500">{i.coopJoined}</span>
+                                            <span className="text-[10px] text-gray-500">{i.coopJoined}</span>
                                         </div>
                                         <div className="flex flex-col space-y-2">
                                             <span>{i.nom}</span>
-                                            <span class="text-[10px] text-gray-500">Produit</span>
+                                            <span className="text-[10px] text-gray-500">Produit</span>
                                         </div>
                                         <div className="flex flex-col space-y-2">
                                             <span>{i.countProd}</span>
-                                            <span class="text-[10px] text-gray-500">Total produit</span>
+                                            <span className="text-[10px] text-gray-500">Total produit</span>
                                         </div>
                                         <div className="flex flex-col space-y-2">
-                                            <div classNme="flex items-center">
+                                            <div className="flex items-center">
                                                 <span>20%</span>
-                                                <i class='bx bx-bar-chart text-custGreen text-md '></i>
+                                                <i className='bx bx-bar-chart text-custGreen text-md '></i>
                                             </div>
-                                            <span class="text-[10px] text-gray-500">vente</span>
+                                            <span className="text-[10px] text-gray-500">vente</span>
                                         </div>
                                     </div>
                                 </div>

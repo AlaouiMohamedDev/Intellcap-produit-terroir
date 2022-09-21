@@ -49,7 +49,7 @@ const ModalP = () => {
                             <h1 className="text-xl">{product.nom}</h1>
                             <span className="text-md text-gray-600">{product.prix} DHs</span>
                             <p className="text-sm font-sans text-gray-600 text-justify">
-                            {product.desc}
+                            {product.description}
                             </p>
                         </div>
                         <div className="flex justify-between items-center ">

@@ -9,10 +9,12 @@ import Footer from '../components/Footer'
 import ProductModal from '../components/ProductModal'
 import {selectCooperativeById} from '../app/cooperatives/cooperativesSlice'
 import { selectAllProducts } from '../app/products/productsSlice';
-import { useSelector } from 'react-redux'
 import Cooperatives from './cooperatives'
 import { getCookie } from 'cookies-next'
 import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from "../app/cartSlices";
+import { addTofav } from '../app/favSlices';
 
 export async function getServerSideProps(context) {
   
@@ -36,12 +38,7 @@ export async function getServerSideProps(context) {
 export default  function coopProduct({categories,products,cooperatives}) {
 
 
-      const[modal,setModal] = useState({
-        name:"",
-        desc:"",
-        price:'',
-        image:''
-    }) 
+      const[modal,setModal] = useState([]) 
     const [prod,setProd] = useState(0)
     
     const [cooperative,setCooperative] = useState([])
@@ -70,11 +67,20 @@ export default  function coopProduct({categories,products,cooperatives}) {
     },[])
 
     const ModalP = (pro) => {
-        setModal({...modal,name:pro.nom,desc:pro.description,price:pro.prix,image:pro.image,qte:pro.qte})
+        setModal(pro)
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
     }
+
+const dispatch = useDispatch();
+
+const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+  const handleAddToFav = (product) => {
+    dispatch(addTofav(product));
+};
     
   return (
     <div className="font-poppins overflow-y-auto scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-main">

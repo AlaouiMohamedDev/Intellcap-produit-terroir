@@ -116,6 +116,8 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
             </thead>
             <tbody>
             {
+                        currentElements.length !=0
+                        ?
                         currentElements.map(c=>{
                             return (
                             <>
@@ -203,6 +205,10 @@ const paginate = pageNumber => setCurrentPage(pageNumber)
                             </>
                             )
                         })
+                        :
+                    <tr className="bg-custGreen/20 text-custGreen">
+                        <td colspan="4" className="py-4 px-6 w-full text-center">Aucune commande</td>
+                    </tr>
                     }
             </tbody>
         </table>

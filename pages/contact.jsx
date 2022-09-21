@@ -77,7 +77,7 @@ const HandlerInput =(e) =>{
         <Cart />
         <SearchModal categories={categories}/>
         <div className="alert-animation right-5 duration-200 message fixed justify-center items-center  bg-custGreen space-x-2 text-gray-100 text-sm py-3 px-5 hidden top-20 z-100">
-            <i class='bx bxs-check-circle text-md'></i>
+            <i className='bx bxs-check-circle text-md'></i>
             <span>Message envoyé</span>
         </div>
         <div className="bg-about space-y-4 bg-cover bg-center w-full flex flex-col items-center justify-center text-white relative h-1/3">
@@ -116,7 +116,7 @@ const HandlerInput =(e) =>{
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pb-10 px-10">
             <form action="" className="space-y-4">
-                <div class="flex justify-between items-center lg:w-[94%]">
+                <div className="flex justify-between items-center lg:w-[94%]">
                     <p className="font-bold text-lg ">Contactez-nous</p>
                     {
                         (inputs.error_list.error)
@@ -128,7 +128,7 @@ const HandlerInput =(e) =>{
                                 inputs.error_list.messageErr
                             }
                             </span>
-                            <i class='text-md bx bxs-help-circle'></i>
+                            <i className='text-md bx bxs-help-circle'></i>
                         </div>
                     }
                 </div>

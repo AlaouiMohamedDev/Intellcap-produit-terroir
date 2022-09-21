@@ -6,6 +6,7 @@ import { selectAllCommandes } from '../../app/commandes/commandesSlices';
 import Pagination from '../Pagination';
 import { selectAllUsers } from '../../app/users/usersSlice';
 import axios from 'axios';
+import { getCookie } from 'cookies-next';
 
 export default function Commands({details,products}) {
 //Setting date
@@ -77,7 +78,7 @@ const ModalProd  = (id) => {
 const [name,setName] = useState(null)
 
 useEffect(() =>{
- setName(localStorage.getItem('name'))
+    setName(getCookie('name'))
 },[])
 
 const [search,setSearch] = useState("")

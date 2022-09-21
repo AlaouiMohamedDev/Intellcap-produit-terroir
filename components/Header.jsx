@@ -91,6 +91,12 @@ export default function Header({categories}) {
         search.classList.remove('hidden')
         search.classList.add('flex')
     }
+
+    const cats = () => {
+        const c= document.querySelector('.cat')
+        c.classList.toggle('hidden')
+        c.classList.toggle('grid')
+    }
   return (
     <div>
           {/* topbar */}
@@ -112,23 +118,26 @@ export default function Header({categories}) {
         <div className="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen select-none">
             <img src="/logo-1.png" className=" w-48 md:w-64" />
             <i className='bx bx-menu flex xl:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
-            <div className="text-sm space-x-7 items-center hidden xl:flex"> 
+            <div className="text-xs space-x-7 items-center hidden xl:flex"> 
                 <div className="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/")} className="hover:text-main duration-500" >ACCEUIL</a>
+                    <a onClick = {() => router.push("/")} className="hover:text-main duration-500 cursor-pointer" >ACCEUIL</a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div className="flex flex-col items-center group relative">
-                    <a onClick={() => {
-                        deleteCookie('coop')
-                        deleteCookie('search')
-                        deleteCookie('cat')
-                        router.push("/products")
-                        }} className="hover:text-main cursor-pointer duration-500 flex items-center space-x-2" onMouseOver={CatHover}>
-                        <span>CATÉGORIES DE PRODUITS</span>
+                    <a onClick = {() => 
+                        {
+                            deleteCookie('cat')
+                            router.push("/products")
+                        }} className="hover:text-main duration-500 cursor-pointer">SHOP </a>
+                    <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
+                </div>
+                <div className="flex flex-col items-center group relative">
+                    <a onClick={cats} className="hover:text-main cursor-pointer duration-500 flex items-center space-x-2" >
+                        <span>CATÉGORIES</span>
                         <i className='text-xs bx bxs-down-arrow'></i>
                     </a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
-                    <div onMouseLeave={CatLeave}  className="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-rows-4 grid-flow-col gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
+                    <div className="fade cat top-10 z-50 uppercase hidden duration-700  absolute  left-0  grid-cols-2 h-max gap-7 py-5 px-5 bg-white w-max shadow-md rounded">
                        {
                        categories.map(category=>{
                         if(category.deletedAt == null)
@@ -140,7 +149,7 @@ export default function Header({categories}) {
                                     deleteCookie('coop')
                                     deleteCookie('search')
                                     router.push(`/products`)
-                                }} className="flex items-center space-x-3 cursor-pointer ">
+                                }} className="flex items-center w-full space-x-3 cursor-pointer ">
                                         <img src={category.image} alt="" className="w-8" />
                                         <span className="text-sm hover:text-main duration-500">{category.name}</span>
                                 </div>
@@ -151,15 +160,15 @@ export default function Header({categories}) {
                     </div>
                 </div>
                 <div className="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/cooperatives")} className="hover:text-main duration-500">COOPÉRATIVES</a>
+                    <a onClick = {() => router.push("/cooperatives")} className="hover:text-main duration-500 cursor-pointer">COOPÉRATIVES</a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div className="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/aboutUs")} className="hover:text-main duration-500" >A PROPOS</a>
+                    <a onClick = {() => router.push("/aboutUs")} className="hover:text-main duration-500 cursor-pointer" >A PROPOS</a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>
                 <div className="flex flex-col items-center group relative">
-                    <a onClick = {() => router.push("/contact")} className="hover:text-main duration-500">CONTACTEZ NOUS</a>
+                    <a onClick = {() => router.push("/contact")} className="hover:text-main duration-500 cursor-pointer">CONTACTEZ NOUS</a>
                     <span className="h-0.5 bg-main w-0 absolute -bottom-2 rounded transition-all duration-500 group-hover:w-full"></span>
                 </div>   
             </div>

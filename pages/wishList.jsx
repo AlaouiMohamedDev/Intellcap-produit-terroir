@@ -9,6 +9,7 @@ import Footer from '../components/Footer'
 import ProductModal from '../components/ProductModal'
 import UserBanner from '../components/user/UserBanner'
 import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 import {
     addToCart,
   } from "../app/cartSlices";
@@ -19,6 +20,7 @@ import {
 
 
 export async function getServerSideProps(context) {
+
 
     const response = await fetch('http://127.0.0.1:5000/categories');
     const data = await response.json();
@@ -37,12 +39,14 @@ export async function getServerSideProps(context) {
 export default function aboutUs({cats,cooperatives}) {
 
     const categories = cats
-    const ModalP = () => {
+    const[modal,setModal] = useState([]) 
+    const ModalP = (pro) => {
+        setModal(pro)
         const ProductM = document.querySelector('.ProductM')
         ProductM.classList.remove('hidden')
         ProductM.classList.add('flex')
     }
-
+    const router =useRouter();
     const [fav,setFav] = useState([])
 
     const c = useSelector((state) => state.fav);
@@ -82,7 +86,7 @@ export default function aboutUs({cats,cooperatives}) {
         <Cart />
         <SearchModal categories={categories}/>
         <UserBanner name="wish"/>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-10 px-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-10 px-10">
             {
                 fav.favItems &&
                 fav.favItems.length !== 0
@@ -96,30 +100,30 @@ export default function aboutUs({cats,cooperatives}) {
                         }
                     })
                     return (
-                        <div key={item.id} class="flex flex-col space-y-5 group">
-                        <div class="h-[300px] w-full   relative overflow-hidden border-box">
-                            <img src={item.image} class="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
-                            <div class="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
-                                <a onClick ={()=> handleAddToCart(item)} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                        <div key={item.id} className="flex flex-col space-y-5 group">
+                        <div className="h-[300px] w-full   relative overflow-hidden border-box">
+                            <img src={item.image} className="w-full h-full object-cover absolute group-hover:scale-110 duration-500" />
+                            <div className="absolute bottom-5 hidden group-hover:grid grid-cols-2 gap-2 text-center px-5 space-x-3 w-full fade-up">
+                                <a onClick ={()=> handleAddToCart(item)} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                                     Ajoutez à la Cart
                                 </a>
-                                <a onClick={ModalP} class="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
+                                <a onClick={()=>ModalP(item)} className="bg-main text-white font-bold cursor-pointer hover:bg-white hover:text-black duration-300 text-xs py-3 px-2">
                                 Vue Rapide
                                 </a>
                             </div>
-                            <div class="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
-                                <a class="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
-                                <div onClick ={()=> handleRemoveFromFav(item)} class="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
-                                    <i class='bx bx-trash-alt text-md '></i>
+                            <div className="absolute hidden group-hover:flex items-center justify-between top-5 w-full px-5 fade-down">
+                                <a className="text-white text-xs bg-red-600 py-2 px-2 rounded">Nouveau</a>
+                                <div onClick ={()=> handleRemoveFromFav(item)} className="bg-black/75 hover:bg-red-600/75 duration-300 text-white inline-flex rounded-full p-3 cursor-pointer">
+                                    <i className='bx bx-trash-alt text-md '></i>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-col space-y-3 items-start">
-                            <h6 class="font-bold">{fav.nom}</h6>
-                            <h6 class="text-sm text-black/50">Produit par : <span class="text-main">Ahmed coopératives</span></h6>
-                            <div class="flex items-center justify-between w-full">
-                                <h6 class="text-main font-black">80 DHs</h6>
-                                <span class="text-xs text-black/40">100% naturelle</span>
+                        <div className="flex flex-col space-y-3 items-start">
+                            <h6 className="font-bold">{item.nom}</h6>
+                            <h6 className="text-sm text-black/50">Produit par : <span className="text-main">Ahmed coopératives</span></h6>
+                            <div className="flex items-center justify-between w-full">
+                                <h6 className="text-main font-black">{item.prix} DHs</h6>
+                                <span className="text-xs text-black/40">100% naturelle</span>
                             </div>
                         </div>
                         </div>
@@ -134,7 +138,7 @@ export default function aboutUs({cats,cooperatives}) {
                 </div>
             }
         </div>
-        <ProductModal />
+        <ProductModal  product={modal}/>
         <Footer /> 
     </div>
   )
