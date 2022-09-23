@@ -163,9 +163,9 @@ const handleAddToCart = (product) => {
                     <div className="flex items-center space-x-2">
                         <span>Filter par :</span>
                         <select onChange={selectHandler} className="bg-white w-[200px] select border hover:border-main duration-200 rounded outline-none py-1 px-2">
-                            <option value={0} disabled>Default</option>
-                            <option value={1}>Prix +</option>
-                            <option value={2}>Prix -</option>
+                            <option value={0} defaultChecked disabled>Default</option>
+                            <option value={1}>Prix élevé</option>
+                            <option value={2}>Prix bas</option>
                         </select>
                     </div>
                 </div>

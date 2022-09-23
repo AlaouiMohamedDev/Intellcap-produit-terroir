@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { useRouter } from 'next/router';
 
 export default function Banner() {
 
-
+    const router = useRouter();
     let slideIndex = 1;
     
     const  showSlides = (n) => {
@@ -48,7 +49,7 @@ export default function Banner() {
             
         }
         i=i+1;
-       },3000);
+       },5000);
 
 
 
@@ -66,8 +67,8 @@ export default function Banner() {
                 <div className="flex flex-col text-left items-start w-full space-y-5">
                     <h6 className="text-xs text-black bg-white  px-5 py-0 rounded opacity-70">Un savoir-faire ancestral </h6>
                     <h1 className="text-xl md:text-4xl text-white">Les trésors <br />du terroir marocain</h1>
-                    <a className="text-md flex items-center cursor-pointer bg-main text-white py-2 px-5 rounded">
-                        <span className="text-sm">découvrir</span>
+                    <a onClick={()=>router.push('/products')} className="text-md flex items-center cursor-pointer bg-main text-white py-2 px-5 rounded">
+                        <span className="text-sm" >découvrir</span>
                         <i className='bx bxs-chevron-right'></i>
                     </a>
                 </div>
@@ -76,7 +77,7 @@ export default function Banner() {
                 <div className="flex flex-col text-left md:text-right items-start pl-30 md:items-end w-full space-y-5">
                     <h6 className="text-xs flex text-black bg-white  px-5 py-0 rounded opacity-70">100% Produits Naturelles </h6>
                     <h1 className="text-lg md:text-4xl text-black md:w-2/3">Découvrez notre sélection de nouveaux<br/> produits de terroir</h1>
-                    <a className="text-md flex items-center cursor-pointer bg-main text-white py-2 px-5 rounded">
+                    <a  href="#new" className="text-md flex items-center cursor-pointer bg-main text-white py-2 px-5 rounded">
                         <i className='bx bxs-chevron-left'></i>
                         <span className="text-xs md:text-sm">TOUTES LES NOUVEAUTÉS</span>
                     </a>
@@ -86,7 +87,7 @@ export default function Banner() {
                 <div className="flex flex-col text-left items-start w-full space-y-5">
                     <h6 className="text-xs text-black bg-white  px-5 py-0 rounded opacity-70"> démocratie et solidarité</h6>
                     <h1 className="text-xl md:text-4xl text-black">RETROUVEZ TOUTES<br/> VOS COOPÉRATIVES PRÉFÉRÉES</h1>
-                    <a className="text-md flex items-center cursor-pointer bg-main text-white py-2 px-5 rounded">
+                    <a  onClick={()=>router.push('/cooperatives')} className="text-md flex items-center cursor-pointer bg-main text-white py-2 px-5 rounded">
                         <span className="text-sm">voir plus</span>
                         <i className='bx bxs-chevron-right'></i>
                     </a>

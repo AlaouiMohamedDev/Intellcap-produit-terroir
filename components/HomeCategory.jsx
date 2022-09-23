@@ -37,7 +37,7 @@ export default function HomeCategory({categories}) {
       <div className="hidden lg:flex flex-col items-center text-center space-y-6">
         <h1 className="text-3xl font-bold">TROUVEZ VOTRE PRODUIT PAR RUBRIQUE</h1>
         <p className="text-xs text-black/90 w-2/3">Retrouvez des produits du terroir certifiés et labellisés pour attester de leur qualité exceptionnelle.</p>
-        <a className="bg-main text-white py-2 px-5 rounded text-xs">Voir plus</a>
+        <a className="bg-main text-white py-2 px-5 rounded text-xs cursor-pointer"  onClick={()=>router.push('/products')}>Voir plus</a>
       </div>
       <div className="grid grid-cols-2 gap-3">
       {categories.slice(4,8).map(cat=>{

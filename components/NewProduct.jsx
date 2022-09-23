@@ -39,7 +39,7 @@ export default function NewProduct({cooperatives}) {
         ProductM.classList.add('flex')
     }
   return (
-    <div className="py-24 flex flex-col items-center justify-center  md:px-16 xl:px-24 bg-white">
+    <div className="py-24 flex flex-col items-center justify-center  md:px-16 xl:px-24 bg-white" id="new">
         <h1 className="text-2xl font-bold mb-4">Nouveau Produits</h1>
         <h6 className="text-md text-gray-400">100% Marocaine</h6>
         {

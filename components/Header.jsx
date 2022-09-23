@@ -116,7 +116,7 @@ export default function Header({categories}) {
 
         {/* Header */}  
         <div className="header duration-300 flex items-center justify-between py-5 px-10 bg-white w-screen select-none">
-            <img src="/logo-1.png" className=" w-48 md:w-64" />
+            <img onClick = {() => router.push("/")} src="/logo-1.png" className=" w-48 md:w-64 cursor-pointer" />
             <i className='bx bx-menu flex xl:hidden text-4xl cursor-pointer' onClick= {sidebar}></i>
             <div className="text-xs space-x-7 items-center hidden xl:flex"> 
                 <div className="flex flex-col items-center group relative">
